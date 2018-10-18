@@ -1,0 +1,100 @@
+body {
+    background: white url(img/background.jpg);
+	font-family: arial;
+	font-size: 15px;
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+header {	
+	height: 90px;
+	width: 100%;
+	text-align: center;
+	z-index: 1000;
+	position: relative;
+}
+.header_hintergrund {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: white url(img/wald.png);
+    background-position: top left;
+    z-index: 1;
+    overflow: visible;
+}
+.logo {
+	margin: auto;
+	display: block;
+	position: relative;
+	z-index: 5;
+}
+
+navi{
+	position: relative;
+    top: 175px;
+    left: 5px;
+	width: 15%;	
+	height: 300px;
+	float: left;
+	background: white;
+	
+	overflow-x: hidden;
+	overflow-y: visible;
+}
+
+inhalt{	
+	position: relative;
+    top: 100px;
+    text-align: center;
+	width: 85%;
+	float: right;
+	background: #fff url(img/background.jpg);
+	color: #fff;
+	
+	overflow-y: visible;
+}
+.pfeile{
+	position: relative;
+	width: 100%;
+	height: 20px;
+	color: #fff;
+	background: #000040;
+}
+#pfeil_zurück{
+	position: relative;
+	height: 100%;
+	width: 250px;
+	float: left;
+}
+#pfeil_vor{
+	position: relative;
+	height: 100%;
+	width: 250px;
+	float: right;
+}
+
+.kalender{
+	position: relative;
+	width: 95%;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+	color: #fff;
+	text-align: center;
+	background: gray;
+	margin-bottom: 10px;
+    border-width: 1px;
+    border-radius: 10px;
+}
+.kalender_background{
+	/*background: black url(img/Neptune.png);*/
+	background: black url(img/Star-Wars_Clone.jpg);
+	background-size: 100% 100%;
+}
+#wochenende{
+	background: #28f4ff4f;
+}
+
