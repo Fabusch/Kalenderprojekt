@@ -34,7 +34,7 @@ header {
 
 navi{
 	position: relative;
-    top: 170px;
+    top: 150px;
     left: 10px;
 	width: 14%;	
 	height: 870px;
@@ -43,14 +43,27 @@ navi{
 	
 	overflow-x: hidden;
 	overflow-y: visible;
-	
 }
-.rund{
+.kasten{
 	background: gray;
 	color: #fff;
 	margin-bottom: 10px;
     border-width: 1px;
     border-radius: 10px;
+}
+.kasten header{
+	position: relative;
+	top: 15px;
+	text-align: center;
+	height: 45px;
+}
+.kasten div{
+	position: relative;
+	left: 10px;
+}
+.kasten div a{
+	color: #E8E8E8;
+	text-decoration: none;
 }
 
 inhalt{	
@@ -62,7 +75,7 @@ inhalt{
 	background: #fff url(img/background.jpg);
 	color: #fff;
 	
-	overflow-y: visible;
+	overflow-x: visible;
 }
 .pfeile{
 	position: relative;

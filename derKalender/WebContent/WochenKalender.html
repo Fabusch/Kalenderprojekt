@@ -10,16 +10,27 @@
 			<header class= header_hintergrund>
 				<img src="img/schriftzug.png" alt="Logo" class="logo">
 			</header>
-			<navi class="rund">
-				<center><h1>Links</h1></center>
-				<section>
+			<navi>
+				<section class=kasten>
 					<header>
 						<h1>Home</h1>
 					</header>
-					<ul>							
-						<a href="/index.php?page=Kalender.php"><li>Alle Kalender</li></a>		
-						<a href="/index.php?page=Kalender/meiner.php"><li>mein Kalender</li></a>
-					</ul>
+					<hr>
+					<div>							
+						<a href="/index.php?page=Kalender.php">Alle Kalender</a><br>
+						<a href="/index.php?page=Kalender/meiner.php">mein Kalender</a><br>
+					</div>
+					<br>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Einstellung</h1>
+					</header>
+					<hr>
+					<div>
+						<a href="/index.php?page=Kalender.php">Monats Ansicht</a><br>
+					</div>
+					<br>
 				</section>
 			</navi>
 			<inhalt>
@@ -39,7 +50,7 @@
 					</div>					
 				</div>
 				<br>
-				<div class=rund id=kalender>
+				<div class=kasten id=kalender>
 					<br>
 					<table align="center" class=kalender_background>
 						<caption title="Januar 2018" style="font-size: 30px;">
