@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Woche Kalender</title>
+	</head>
+	<body>
+		<div>
+			<header class= header_hintergrund>
+				<img src="img/schriftzug.png" alt="Logo" class="logo">
+			</header>
+			<navi class="rund">
+				<center><h1>Links</h1></center>
+				<section>
+					<header>
+						<h1>Home</h1>
+					</header>
+					<ul>							
+						<a href="/index.php?page=Kalender.php"><li>Alle Kalender</li></a>		
+						<a href="/index.php?page=Kalender/meiner.php"><li>mein Kalender</li></a>
+					</ul>
+				</section>
+			</navi>
+			<inhalt>
+				<h1>Woche</h1>
+				<div class=pfeile>
+					<div id=pfeil_zurück>
+						<a>
+							<img src="img/icon/left.png" title="letzte Woche">
+							letzte Woche
+						</a>
+					</div>
+					<div id=pfeil_vor>
+						<a>
+							nächste Woche
+							<img src="img/icon/right.png" title="nächste Woche">
+						</a>
+					</div>					
+				</div>
+				<br>
+				<div class=rund id=kalender>
+					<br>
+					<table align="center" class=kalender_background>
+						<caption title="Januar 2018" style="font-size: 30px;">
+							<b>KW 1&nbsp; Januar&nbsp; 2018</b>
+						</caption>
+						<colgroup>
+							<col span="2" style="background-color: #00008b87;">
+							<col span="8" style="background-color: #0011805c;">
+							<col style="background-color: #00008b87;">
+						</colgroup>
+						<thead>
+							<tr style="background-color:#28f4ff4f;">
+								<th width=30, title="Tag"></th>
+								<th width=30, title="Wochentag"></th>
+								<th width=100, title="Person1"><b>Person1</b></th>
+								<th width=100, title="Person2"><b>Person2</b></th>
+								<th width=100, title="Person3"><b>Person3</b></th>
+								<th width=100, title="Person4"><b>Person4</b></th>
+								<th width=100, title="Person5"><b>Person5</b></th>
+								<th width=100, title="Person6"><b>Person6</b></th>
+								<th width=100, title="Person7"><b>Person7</b></th>
+								<th width=100, title="Person8"><b>Person8</b></th>
+								<th title="Wochennummer"><b>Woche</b></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="day_2018-01-01">1</td>
+								<td title="Montag"> Mo </td>
+								<td colspan="8">&nbsp;</td>
+								<td rowspan="7" title="Kalenderwoche 1">1</td>
+							</tr>
+							<tr>
+								<td id="day_2018-01-03">31</td>
+								<td title="Mittwoch"> Mi </td>
+								<td colspan="8">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<br>
+				</div>
+				<br>
+				<div class=pfeile>
+					<div id=pfeil_zurück>
+						<a>
+							<img src="img/icon/left.png" title="letzte Woche">
+							letzte Woche
+						</a>
+					</div>
+					<div id=pfeil_vor>
+						<a>
+							nächste Woche
+							<img src="img/icon/right.png" title="nächste Woche">
+						</a>
+					</div>					
+				</div>
+				<br>
+				<br>
+			</inhalt>
+		</div>
+	</body>
+</html>
