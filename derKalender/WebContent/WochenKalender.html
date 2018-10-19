@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="ISO-8859-1">
+		<meta charset="UTF-8">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<title>Wochen Kalender</title>
 	</head>
@@ -10,23 +10,22 @@
 			<header class= header_hintergrund>
 				<img src="img/schriftzug.png" alt="Logo" class="logo">
 			</header>
-			<navi>
-				<h1>Links</h1>
-				<section class="nav_section content_box primary-color-border">
-					<header class="gradient-background primary-color-background primary-color-border">
+			<navi class="rund">
+				<center><h1>Links</h1></center>
+				<section>
+					<header>
 						<h1>Home</h1>
 					</header>
 					<ul>							
 						<a href="/index.php?page=Kalender.php"><li>Alle Kalender</li></a>		
 						<a href="/index.php?page=Kalender/meiner.php"><li>mein Kalender</li></a>
-
 					</ul>
 				</section>
 			</navi>
 			<inhalt>
 				<h1>Woche</h1>
 				<div class=pfeile>
-					<div id=pfeil_zurück>
+					<div id=pfeil_zurÃ¼ck>
 						<a>
 							<img src="img/icon/left.png" title="letzte Woche">
 							letzte Woche
@@ -34,13 +33,13 @@
 					</div>
 					<div id=pfeil_vor>
 						<a>
-							nächste Woche
-							<img src="img/icon/right.png" title="nächste Woche">
+							nÃ¤chste Woche
+							<img src="img/icon/right.png" title="nÃ¤chste Woche">
 						</a>
 					</div>					
 				</div>
 				<br>
-				<div class=kalender>
+				<div class=rund id=kalender>
 					<br>
 					<table align="center" class=kalender_background>
 						<caption title="Januar 2018" style="font-size: 30px;">
@@ -234,7 +233,7 @@
 				</div>
 				<br>
 				<div class=pfeile>
-					<div id=pfeil_zurück>
+					<div id=pfeil_zurÃ¼ck>
 						<a>
 							<img src="img/icon/left.png" title="letzte Woche">
 							letzte Woche
@@ -242,11 +241,12 @@
 					</div>
 					<div id=pfeil_vor>
 						<a>
-							nächste Woche
-							<img src="img/icon/right.png" title="nächste Woche">
+							nÃ¤chste Woche
+							<img src="img/icon/right.png" title="nÃ¤chste Woche">
 						</a>
 					</div>					
 				</div>
+				<br>
 				<br>
 			</inhalt>
 		</div>

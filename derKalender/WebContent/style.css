@@ -34,15 +34,23 @@ header {
 
 navi{
 	position: relative;
-    top: 175px;
-    left: 5px;
-	width: 15%;	
-	height: 300px;
+    top: 170px;
+    left: 10px;
+	width: 14%;	
+	height: 870px;
 	float: left;
-	background: white;
+	text-align: left;
 	
 	overflow-x: hidden;
 	overflow-y: visible;
+	
+}
+.rund{
+	background: gray;
+	color: #fff;
+	margin-bottom: 10px;
+    border-width: 1px;
+    border-radius: 10px;
 }
 
 inhalt{	
@@ -76,18 +84,13 @@ inhalt{
 	float: right;
 }
 
-.kalender{
+#kalender{
 	position: relative;
 	width: 95%;
     top: 10px;
     left: 10px;
     right: 10px;
-	color: #fff;
 	text-align: center;
-	background: gray;
-	margin-bottom: 10px;
-    border-width: 1px;
-    border-radius: 10px;
 }
 .kalender_background{
 	/*background: black url(img/Neptune.png);*/
