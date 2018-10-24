@@ -34,7 +34,7 @@ header {
 
 nav{
 	position: relative;
-    top: 150px;
+    top: 110px;
     left: 10px;
 	width: 14%;	
 	height: 870px;
@@ -50,12 +50,13 @@ nav{
 	margin-bottom: 10px;
     border-width: 1px;
     border-radius: 10px;
+    padding: 10px;
+    padding-bottom:20px;
 }
 .kasten header{
 	position: relative;
-	top: 15px;
 	text-align: center;
-	height: 45px;
+	height: 20px;
 }
 .kasten div{
 	position: relative;
@@ -102,9 +103,7 @@ inhalt{
 #kalender{
 	position: relative;
 	width: 95%;
-    top: 10px;
-    left: 10px;
-    right: 10px;
+	margin: 10px;
 	text-align: center;
 }
 .kalender_background{
