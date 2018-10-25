@@ -73,7 +73,6 @@ inhalt{
     text-align: center;
 	width: 85%;
 	float: right;
-	background: #fff url(img/background.jpg);
 	color: #fff;
 	
 	overflow-x: visible;
@@ -113,5 +112,8 @@ inhalt{
 }
 .wochenende{
 	background: #28f4ff4f;
+}
+#bild{
+	background: green;
 }
 

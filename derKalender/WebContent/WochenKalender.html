@@ -4,6 +4,15 @@
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<title>Wochen Kalender</title>
+		<script>
+			function SetzeInhalt(id){
+				if(document.getElementById(id).innerHTML=="Neptune")
+					document.getElementById(id).innerHTML="Star-Wars Clone";
+				else
+					document.getElementById(id).innerHTML="Neptune";
+					document.body.style.background = document.getElementById(id).innerHTML;
+			}
+		</script>
 	</head>
 	<body>
 		<div>
@@ -28,6 +37,8 @@
 					<hr>
 					<div>
 						<a href="MonatsKalender.html">Monats Ansicht</a><br>
+						
+						<a onclick="SetzeInhalt('bild')" id="bild" >Neptune</a>
 					</div>
 				</section>
 			</nav>
