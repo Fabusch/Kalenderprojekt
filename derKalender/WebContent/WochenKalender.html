@@ -6,11 +6,14 @@
 		<title>Wochen Kalender</title>
 		<script>
 			function SetzeInhalt(id){
-				if(document.getElementById(id).innerHTML=="Neptune")
+				if(document.getElementById(id).innerHTML=="Neptune"){
 					document.getElementById(id).innerHTML="Star-Wars Clone";
-				else
+					document.getElementsByClassName('kalender_background').style.backgroundImage = "url('img/Neptune.png')";
+				}
+				else{
 					document.getElementById(id).innerHTML="Neptune";
-					document.body.style.background = document.getElementById(id).innerHTML;
+					document.getElementsByClassName('kalender_background').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+				}
 			}
 		</script>
 	</head>
@@ -38,7 +41,7 @@
 					<div>
 						<a href="MonatsKalender.html">Monats Ansicht</a><br>
 						
-						<a onclick="SetzeInhalt('bild')" id="bild" >Neptune</a>
+						<a onclick="SetzeInhalt('bild')" id="bild">Neptune</a>
 					</div>
 				</section>
 			</nav>
@@ -59,7 +62,7 @@
 					</div>					
 				</div>
 				<div class=kasten id=kalender>
-					<table align="center" class=kalender_background>
+					<table align="center" class='kalender_background'>
 						<caption title="Januar 2018" style="font-size: 30px;">
 							<b>Januar&nbsp;2018</b><br>
 							<b>KW&nbsp;1</b>
