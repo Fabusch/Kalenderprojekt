@@ -5,6 +5,18 @@
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<title>Monats Kalender</title>
 	</head>
+	<script>
+		function SetzeInhalt(id){
+			if(document.getElementById(id).innerHTML=="Neptune"){
+				document.getElementById(id).innerHTML="Star-Wars Clone";
+				document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Neptune.png')";
+			}
+			else{
+				document.getElementById(id).innerHTML="Neptune";
+				document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+			}
+		}
+	</script>
 	<body>
 		<div>
 			<header class= header_hintergrund>
@@ -28,6 +40,7 @@
 					<hr>
 					<div>
 						<a href="WochenKalender.html">Wochen Ansicht</a><br>
+						<a onclick="SetzeInhalt('bild')" id="bild">Neptune</a>
 					</div>
 				</section>
 			</nav>

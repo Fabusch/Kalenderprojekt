@@ -8,11 +8,11 @@
 			function SetzeInhalt(id){
 				if(document.getElementById(id).innerHTML=="Neptune"){
 					document.getElementById(id).innerHTML="Star-Wars Clone";
-					document.getElementsByClassName('kalender_background').style.backgroundImage = "url('img/Neptune.png')";
+					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Neptune.png')";
 				}
 				else{
 					document.getElementById(id).innerHTML="Neptune";
-					document.getElementsByClassName('kalender_background').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 				}
 			}
 		</script>
@@ -40,7 +40,6 @@
 					<hr>
 					<div>
 						<a href="MonatsKalender.html">Monats Ansicht</a><br>
-						
 						<a onclick="SetzeInhalt('bild')" id="bild">Neptune</a>
 					</div>
 				</section>
