@@ -7,11 +7,9 @@
 		<script>
 			function SetzeInhalt(id){
 				if(document.getElementById(id).innerHTML=="Neptune"){
-					document.getElementById(id).innerHTML="Star-Wars Clone";
 					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Neptune.png')";
 				}
-				else{
-					document.getElementById(id).innerHTML="Neptune";
+				else if(document.getElementById(id).innerHTML=="Star-Wars Clone"){
 					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 				}
 			}
@@ -35,12 +33,22 @@
 				</section>
 				<section class=kasten>
 					<header>
-						<h1>Einstellung</h1>
+						<h1>Ansicht</h1>
 					</header>
 					<hr>
 					<div>
 						<a href="MonatsKalender.html">Monats Ansicht</a><br>
-						<a onclick="SetzeInhalt('bild')" id="bild">Neptune</a>
+						<a href="JahresKalender.html">Jahres Ansicht</a><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Kalender Hintergrund</h1>
+					</header>
+					<hr>
+					<div>
+						<a onclick="SetzeInhalt('neptune')" id="neptune">Neptune</a><br>
+						<a onclick="SetzeInhalt('Star-Wars Clone')" id="Star-Wars Clone">Star-Wars Clone</a>
 					</div>
 				</section>
 			</nav>
