@@ -47,6 +47,7 @@ nav{
 .kasten{
 	background: gray;
 	color: #fff;
+	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
     border-radius: 10px;
@@ -71,10 +72,10 @@ inhalt{
 	position: relative;
     top: 100px;
     text-align: center;
-	width: 85%;
+	width: 84%;
 	float: right;
+	margin: 5px;
 	color: #fff;
-	
 	overflow-x: visible;
 }
 .pfeile{
@@ -102,15 +103,24 @@ inhalt{
 #kalender{
 	position: relative;
 	width: 95%;
-	margin: 10px;
+	margin-top: 10px;
 	text-align: center;
-}
-.kalender_background{
-	/*background: black url(img/Neptune.png);*/
 	background: black url(img/Star-Wars_Clone.jpg);
 	background-size: 100% 100%;
 }
+#kalender caption {
+	font-size: 30px;
+}
+/*#kalender thead {
+	background-color:#00008b87;
+}*/
 .wochenende{
 	background: #28f4ff4f;
+}
+.heute{
+	background: #de6a0c45;
+}
+.kw{
+	
 }
 

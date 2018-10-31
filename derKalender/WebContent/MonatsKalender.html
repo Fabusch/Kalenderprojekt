@@ -4,15 +4,125 @@
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<title>Monats Kalender</title>
-		<script>
-			function SetzeInhalt(id){
-				if(document.getElementById(id).innerHTML=="Neptune"){
-					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Neptune.png')";
-				}
-				else if(document.getElementById(id).innerHTML=="Star-Wars Clone"){
-					document.getElementsByClassName('kalender_background')[0].style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+		<script src="Kalender.js"> </script>
+		<script type="text/javascript">
+		var d = new Date();
+		var m = d.getMonth() + 1;
+		var y = d.getYear() + 1900;
+		Gruppenmitglieder =new Array("Person 1","Person 2","Person 3","Person 4","Person 5","Person 6","Person 7");
+		
+		function background(id){
+			if(document.getElementById(id).innerHTML=="Neptune"){
+				document.getElementsById('kalender').style.backgroundImage = "url('img/Neptune.png')";
+			}
+			else if(document.getElementById(id).innerHTML=="Star-Wars Clone"){
+				document.getElementsById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+			}
+		}
+		
+		function Kalender(){
+			var tabelle = document.getElementById('kalender');
+			var Kopf = m +"."+ y;	//Tabellenüberschrift
+			var caption = tabelle.createCaption();
+			caption.innerHTML = Kopf;
+			
+			var row = tabelle.insertRow(0);		//Tabellenkopf
+			var cell = row.insertCell(0);
+			cell.innerHTML = "Datum";
+			var cell = row.insertCell(1);
+			cell.innerHTML = "Wochentag";
+			for (var i = 0; i <= 6; i++) {
+				var cell = row.insertCell(i+2);
+				cell.innerHTML = Gruppenmitglieder[i];
+			}
+			for (var i = 0; i <= 32; i++) {
+				var zeile = tabelle.insertRow(1 + i);
+				for (var j = 0; j<= 7+2; j++) {
+					var cell = zeile.insertCell(j);
+					cell.innerHTML = ' ';
 				}
 			}
+			var cell = row.insertCell(2+7);
+			cell.innerHTML = "Kalenderwoche";
+		}
+		function MonatsKalender(Monat, Jahr) {
+			Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
+			Tag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
+			
+			var jetzt = new Date();		// aktuelles Datum
+			var DieserMonat = jetzt.getMonth() + 1;
+			var DiesesJahr = jetzt.getYear() + 1900;
+			var DieserTag = jetzt.getDate();
+			
+			var Zeit = new Date(Jahr, Monat - 1, 1);
+			var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
+			if (Start > 0) {
+				Start--;
+			} else {
+				Start = 6;}
+			//Stop
+			var ende = 31;
+			if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --ende; // April(4), Juni(6), September(9), November(11) 30 Tage
+			if (Monat == 2) {	//Februar
+				ende = ende - 3;
+				if (Jahr % 4 == 0) ende++;		//Schaltjahren
+				if (Jahr % 100 == 0) ende--;
+				if (Jahr % 400 == 0) ende++;
+			}
+			var tabelle = document.getElementById('kalender');
+
+			var Kopf = Monatsname[Monat-1] + " " + Jahr;	//Tabellenüberschrift
+			var caption = tabelle.createCaption();
+			caption.innerHTML = Kopf;
+			
+			var Tageszahl = 1;
+			for (var i = 0; i < ende; i++) {		//Zeilen
+				var zeile = tabelle.rows[i+1];
+				var rows = tabelle.getElementsByTagName("tr");
+				zeile.className = 'kalendertag';
+				zeile.cells[0].innerHTML = Tageszahl;
+				var wt= Tag[(Start+Tageszahl-1)%7];
+				zeile.cells[1].innerHTML = wt;
+				if (wt=="Samstag" || wt=="Sonntag") {
+					zeile.className = zeile.className +' wochenende';
+				}
+				if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag)) {
+					zeile.className = zeile.className + ' heute';
+				}
+				for (var j = 0; j <= 6; j++) {
+					zeile.cells[j+2].innerHTML = ' ';
+				}
+				if (wt=="Montag"){
+					var cell = zeile.cells[7+2].innerHTML;
+					cell.rowspan="7";
+					cell.className = cell.className +' wk';
+				}
+				Tageszahl++;
+			}
+			for (var i = Tageszahl; i <= 32; i++) {
+				for (var j = 0; j <= 8; j++) {
+					tabelle.rows[i].cells[j].innerHTML = ' ';
+				}
+			}
+		}
+		function Monat_wechsel(vor){
+			//tabellen inhalt löschen
+			if(vor){
+				m = m+1;
+				if(m==13){
+					m =1;
+					y =y+1;
+				}
+			}
+			else{
+				m = m-1;
+				if(m==0){
+					m =12;
+					y =y-1;
+				}
+			}
+			MonatsKalender(m, y);
+		}
 		</script>
 	</head>
 	<body>
@@ -56,433 +166,40 @@
 				<h1>Monat</h1>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a href="#">
+						<a onclick="Monat_wechsel(false)" href="#">
 							<img src="img/icon/left.png" title="letzte Monat">
 							letzte Monat
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a href="#">
+						<a onclick="Monat_wechsel(true)" href="#">
 							nächste Monat
 							<img src="img/icon/right.png" title="nächste Monat">
 						</a>
 					</div>					
 				</div>
-				<div class=kasten id=kalender>
-					<table align="center" class=kalender_background>
-						<caption title="Januar 2018" style="font-size: 30px;">
-							<b>Januar</b>
-						</caption>
+				<div class=kasten>
+					<table id=kalender align="center" >
 						<colgroup>
 							<col span="2" style="background-color: #00008b87;">
-							<col span="8" style="background-color: #00118045;">
+							<col span="7" style="background-color: #00118045;">
 							<col style="background-color: #00008b87;">
 						</colgroup>
-						<thead>
-							<tr style="background-color:#28f4ff4f;">
-								<th width=30, title="Tag"></th>
-								<th width=30, title="Wochentag"></th>
-								<th width=100><b>Person1</b></th>
-								<th width=100><b>Person2</b></th>
-								<th width=100><b>Person3</b></th>
-								<th width=100><b>Person4</b></th>
-								<th width=100><b>Person5</b></th>
-								<th width=100><b>Person6</b></th>
-								<th width=100><b>Person7</b></th>
-								<th width=100><b>Person8</b></th>
-								<th title="Kalenderwoche"><b>KW</b></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td id="day_2018-01-01">1</td>
-								<td title="Montag"> Mo </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td rowspan="7" title="Kalenderwoche 1">1</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-02">2</td>
-								<td title="Dienstag"> Di </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-03">3</td>
-								<td title="Mittwoch"> Mi </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-04">4</td>
-								<td title="Donnerstag"> Do </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-05">5</td>
-								<td title="Freitag"> Fr </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-06">6</td>
-								<td title="Samstag"> Sa </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-07">7</td>
-								<td title="Sonntag"> So </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-08">8</td>
-								<td title="Montag"> Mo </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td rowspan="7" title="Kalenderwoche 2">2</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-09">9</td>
-								<td title="Dienstag"> Di </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-10">10</td>
-								<td title="Mittwoch"> Mi </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-11">11</td>
-								<td title="Donnerstag"> Do </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-12">12</td>
-								<td title="Freitag"> Fr </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-13">13</td>
-								<td title="Samstag"> Sa </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-14">14</td>
-								<td title="Sonntag"> So </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-15">15</td>
-								<td title="Montag"> Mo </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td rowspan="7" title="Kalenderwoche 3">3</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-16">16</td>
-								<td  title="Dienstag"> Di </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-17">17</td>
-								<td title="Mittwoch"> Mi </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-18">18</td>
-								<td title="Donnerstag"> Do </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-19">19</td>
-								<td title="Freitag"> Fr </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-20">20</td>
-								<td title="Samstag"> Sa </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-21">21</td>
-								<td title="Sonntag"> So </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-22">22</td>
-								<td title="Montag"> Mo </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td rowspan="7" title="Kalenderwoche 4">4</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-23">23</td>
-								<td title="Dienstag"> Di </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-24">24</td>
-								<td title="Mittwoch"> Mi </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-25">25</td>
-								<td title="Donnerstag"> Do </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-26">26</td>
-								<td title="Freitag"> Fr </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-27">27</td>
-								<td title="Samstag"> Sa </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr class=wochenende>
-								<td id="day_2018-01-28">28</td>
-								<td title="Sonntag"> So </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-29">29</td>
-								<td title="Montag"> Mo </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td rowspan="7" title="Kalenderwoche 5">5</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-30">30</td>
-								<td title="Dienstag"> Di </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td id="day_2018-01-31">31</td>
-								<td title="Mittwoch"> Mi </td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-						</tbody>
 					</table>
+					<script type="text/javascript">
+						Kalender();
+						MonatsKalender(m, j);
+					</script>
 				</div>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a href="#">
+						<a onclick="Monat_wechsel(false)" href="#">
 							<img src="img/icon/left.png" title="letzte Monat">
 							letzte Monat
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a href="#">
+						<a onclick="Monat_wechsel(true)" href="#">
 							nächste Monat
 							<img src="img/icon/right.png" title="nächste Monat">
 						</a>
