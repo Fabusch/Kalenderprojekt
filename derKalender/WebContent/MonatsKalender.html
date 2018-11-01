@@ -9,46 +9,20 @@
 		var d = new Date();
 		var m = d.getMonth() + 1;
 		var y = d.getYear() + 1900;
+		
+		Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
+		Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
 		Gruppenmitglieder =new Array("Person 1","Person 2","Person 3","Person 4","Person 5","Person 6","Person 7");
 		
 		function background(id){
 			if(document.getElementById(id).innerHTML=="Neptune"){
-				document.getElementsById('kalender').style.backgroundImage = "url('img/Neptune.png')";
+				document.getElementById('kalender').style.backgroundImage = "url('img/Neptune.png')";
 			}
 			else if(document.getElementById(id).innerHTML=="Star-Wars Clone"){
-				document.getElementsById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
+				document.getElementById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 			}
-		}
-		
-		function Kalender(){
-			var tabelle = document.getElementById('kalender');
-			var Kopf = m +"."+ y;	//Tabellenüberschrift
-			var caption = tabelle.createCaption();
-			caption.innerHTML = Kopf;
-			
-			var row = tabelle.insertRow(0);		//Tabellenkopf
-			var cell = row.insertCell(0);
-			cell.innerHTML = "Datum";
-			var cell = row.insertCell(1);
-			cell.innerHTML = "Wochentag";
-			for (var i = 0; i <= 6; i++) {
-				var cell = row.insertCell(i+2);
-				cell.innerHTML = Gruppenmitglieder[i];
-			}
-			for (var i = 0; i <= 32; i++) {
-				var zeile = tabelle.insertRow(1 + i);
-				for (var j = 0; j<= 7+2; j++) {
-					var cell = zeile.insertCell(j);
-					cell.innerHTML = ' ';
-				}
-			}
-			var cell = row.insertCell(2+7);
-			cell.innerHTML = "Kalenderwoche";
 		}
 		function MonatsKalender(Monat, Jahr) {
-			Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
-			Tag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
-			
 			var jetzt = new Date();		// aktuelles Datum
 			var DieserMonat = jetzt.getMonth() + 1;
 			var DiesesJahr = jetzt.getYear() + 1900;
@@ -63,46 +37,79 @@
 			//Stop
 			var ende = 31;
 			if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --ende; // April(4), Juni(6), September(9), November(11) 30 Tage
-			if (Monat == 2) {	//Februar
+			if (Monat == 2) {	//Februar(2)
 				ende = ende - 3;
 				if (Jahr % 4 == 0) ende++;		//Schaltjahren
 				if (Jahr % 100 == 0) ende--;
 				if (Jahr % 400 == 0) ende++;
 			}
+			
 			var tabelle = document.getElementById('kalender');
-
+			
+			if(tabelle.rows.length >0){		//Tabellen inhalt löschen
+				for(var i = 0; 0 != tabelle.rows.length; i++){
+					tabelle.deleteRow(0);
+				}
+			}
 			var Kopf = Monatsname[Monat-1] + " " + Jahr;	//Tabellenüberschrift
 			var caption = tabelle.createCaption();
 			caption.innerHTML = Kopf;
 			
+			var zeile = tabelle.insertRow(0);		//Tabellenkopf
+			zeile.className = 'thead';
+			var cell = zeile.insertCell(0);
+			cell.innerHTML = "Datum";
+			var cell = zeile.insertCell(1);
+			cell.innerHTML = "Wochentag";
+			for (var i = 0; i <= Gruppenmitglieder.length-1; i++) {
+				var cell = zeile.insertCell(i+2);
+				cell.innerHTML = Gruppenmitglieder[i];
+			}
+			var cell = zeile.insertCell(2+ Gruppenmitglieder.length);
+			cell.innerHTML = "KW";
+			
 			var Tageszahl = 1;
-			for (var i = 0; i < ende; i++) {		//Zeilen
-				var zeile = tabelle.rows[i+1];
-				var rows = tabelle.getElementsByTagName("tr");
-				zeile.className = 'kalendertag';
-				zeile.cells[0].innerHTML = Tageszahl;
-				var wt= Tag[(Start+Tageszahl-1)%7];
-				zeile.cells[1].innerHTML = wt;
+			for (var i = 0; i < ende; i++) {		//Tabellenbody
+				var zeile = tabelle.insertRow(i+1);
+				
+				zeile.className = 'kalendertag';	
+				cells = zeile.insertCell(0);
+				cells.innerHTML = Tageszahl;	//Datum
+				
+				cells = zeile.insertCell(1);
+				var wt= Wochentag[(Start+Tageszahl-1)%7];		//Wochentag
+				cells.innerHTML = wt;
+				
 				if (wt=="Samstag" || wt=="Sonntag") {
 					zeile.className = zeile.className +' wochenende';
 				}
 				if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag)) {
 					zeile.className = zeile.className + ' heute';
 				}
-				for (var j = 0; j <= 6; j++) {
-					zeile.cells[j+2].innerHTML = ' ';
+				for (var j = 0; j <= Gruppenmitglieder.length -1; j++) {		//Zellen der Gruppenmitglieder
+					cells = zeile.insertCell(j+2);
+					cells.innerHTML = ' ';
 				}
-				if (wt=="Montag"){
-					var cell = zeile.cells[7+2].innerHTML;
-					cell.rowspan="7";
-					cell.className = cell.className +' wk';
+				if (wt=="Montag"||Tageszahl==1){							//Kalender Woche
+					var date = new Date(y,m-1,Tageszahl);		//der Tag
+					var currentThursday = new Date(date.getTime() +(3-((date.getDay()+6) % 7)) * 86400000);
+					var yearOfThursday = currentThursday.getFullYear();
+					var firstThursday = new Date(new Date(yearOfThursday,0,4).getTime() +(3-((new Date(yearOfThursday,0,4).getDay()+6) % 7)) * 86400000);
+					
+					cells = zeile.insertCell(Gruppenmitglieder.length +2);
+					cells.className = 'kw';
+					
+					var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
+					cells.innerHTML = kW;
+					
+					if(wt=="Montag"){		//!!!
+						cells.colSpan =7;		//länge der Zelle 
+					}
+					else{
+						//cells.colSpan=		7- Wochentag.position_von(wt);
+					}
 				}
 				Tageszahl++;
-			}
-			for (var i = Tageszahl; i <= 32; i++) {
-				for (var j = 0; j <= 8; j++) {
-					tabelle.rows[i].cells[j].innerHTML = ' ';
-				}
 			}
 		}
 		function Monat_wechsel(vor){
@@ -157,13 +164,12 @@
 					</header>
 					<hr>
 					<div>
-						<a onclick="SetzeInhalt('neptune')" id="neptune">Neptune</a><br>
-						<a onclick="SetzeInhalt('Star-Wars Clone')" id="Star-Wars Clone">Star-Wars Clone</a>
+						<a onclick="background('neptune')" id="neptune">Neptune</a><br>
+						<a onclick="background('Star-Wars Clone')" id="Star-Wars Clone">Star-Wars Clone</a>
 					</div>
 				</section>
 			</nav>
 			<inhalt>
-				<h1>Monat</h1>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
 						<a onclick="Monat_wechsel(false)" href="#">
@@ -187,7 +193,6 @@
 						</colgroup>
 					</table>
 					<script type="text/javascript">
-						Kalender();
 						MonatsKalender(m, j);
 					</script>
 				</div>

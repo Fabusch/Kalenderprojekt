@@ -111,16 +111,17 @@ inhalt{
 #kalender caption {
 	font-size: 30px;
 }
-/*#kalender thead {
+.thead {
 	background-color:#00008b87;
-}*/
+}
 .wochenende{
 	background: #28f4ff4f;
 }
 .heute{
 	background: #de6a0c45;
 }
-.kw{
-	
-}
+
+.nacht{}
+.morgen{}
+.mittag{}
 
