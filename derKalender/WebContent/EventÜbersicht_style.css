@@ -5,13 +5,13 @@ body {
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	color: blue;
+	color: orange;
 }
 .tg  {
-	padding:10px 5px;
+	padding:15px 5px;
 	border-collapse:collapse;
 	border-spacing:6;
-	color {: red;}
+	
 }
 .tg td{
 	padding:10px 5px;
@@ -47,3 +47,14 @@ body {
 	border-style: solid;
 	border-width: 1px;
 }
+nav{
+	position: relative;
+    top: 110px;
+    left: 10px;
+	width: 14%;	
+	height: 870px;
+	float: left;
+	text-align: left;
+	
+	overflow-x: hidden;
+	overflow-y: visible;
