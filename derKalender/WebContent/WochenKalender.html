@@ -47,7 +47,7 @@
 
 			var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
 			
-			var Zeit = new Date(Jahr, Monat - 1, Tag);
+			var Zeit = new Date(Jahr, Monat  -1, Tag);
 			var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
 			if (Start > 0) {
 				Start--;
@@ -76,9 +76,9 @@
 			var zeile = tabelle.insertRow(0);		//Tabellenkopf
 			var cells = zeile.insertCell(0);
 			cells.innerHTML = "Zeit";
-			for (var i = 0; i <= Wochentag.length-1; i++) {
+			for (var i = 0; i <= Wochentag.length-1; i++) {		//Wochentag
 				var cells = zeile.insertCell(i+1);
-				if(Tag > Monatsende(Monat, Jahr)){
+				if(Tag > Monatsende(Monat, Jahr)){			
 					Tag = 1;
 					Monat++;
 					if(Monat >=13){
@@ -86,36 +86,38 @@
 						Jahr++;
 					}
 				}
-				var titel= Tag+"."+Monat+"."+Jahr;
+				var titel = Tag+"."+Monat+"."+Jahr;
 				cells.title = titel;
 				cells.innerHTML = Wochentag[i];
 				Tag++;
 			}
-			
 			for (var i = 0; i <= 23; i++) {		//Tabellenbody
+				
 				var zeile = tabelle.insertRow(i+1);
 				
-				zeile.className = 'kalendertag';	
 				cells = zeile.insertCell(0);
-				cells.innerHTML = Tageszahl;	//Datum
-				
-				cells = zeile.insertCell(1);
-				var wt= Wochentag[(Start+Tageszahl-1)%7];		//Wochentag
-				cells.innerHTML = wt;
-				
-				if (wt=="Samstag" || wt=="Sonntag") {
-					zeile.className = zeile.className +' wochenende';
+				if(i<=9){
+					cells.innerHTML = "0"+i+":00";
 				}
-				if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag)) {
-					zeile.className = zeile.className + ' heute';
-				}
-				for (var j = 0; j <= Gruppenmitglieder.length -1; j++) {		//Zellen der Gruppenmitglieder
-					cells = zeile.insertCell(j+2);
+				cells.innerHTML = i+":00";	
+				
+				for (var j = 0; j <= 6; j++) {		//Zellen der Tage
+					cells = zeile.insertCell(j+1);
 					cells.innerHTML = ' ';
+					var day = tabelle.rows[0].cells[j].title;
+					cells.className = cells.className + day;
+					if(i>=4 && i<=11){
+						cells.className = cells.className +' morgen';
+					}
+					else if(i>=11 && i<=19){
+						cells.className = cells.className +' mittag';
+					}
+					else
+						cells.className = cells.className +' nacht';
+					if (j>=5) {
+						cells.className = cells.className +' wochenende';
+					}
 				}
-				if (wt=="Montag"||Tageszahl==1){							//Kalender Woche
-				}
-				Tageszahl++;
 			}
 		}
 		</script>
@@ -152,8 +154,8 @@
 					</header>
 					<hr>
 					<div>
-						<a onclick="background('neptune')" id="neptune">Neptune</a><br>
-						<a onclick="background('Star-Wars Clone')" id="Star-Wars Clone">Star-Wars Clone</a>
+						<a onclick="background('neptune')" id="neptune"  href="#">Neptune</a><br>
+						<a onclick="background('Star-Wars Clone')" id="Star-Wars Clone"  href="#">Star-Wars Clone</a>
 					</div>
 				</section>
 			</nav>

@@ -117,6 +117,7 @@ inhalt{
 .wochenende{
 	background: #28f4ff4f;
 }
+}
 .heute{
 	background: #de6a0c45;
 }
@@ -125,9 +126,18 @@ inhalt{
 	background-color: #00118045;
 }
 .morgen{ 
-	background-color:#009b0a54;
+	background-color:#8c9b0054;
 }
 .mittag{
 	background-color: #de6a0c45;
 }
 
+.nacht.wochenende {
+	background: #006d8045
+}
+.morgen.wochenende{ 
+	background-color:#2f9b0054;
+}
+.mittag.wochenende{
+	background-color: #de300c45;
+}
