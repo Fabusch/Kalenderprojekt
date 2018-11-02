@@ -1,12 +1,17 @@
-body { 
-	background-color:#0080c0209055;
-	font-family:Arial, sans-serif;
-	font-size:14px;
+body {
+    background: white url(img/background.jpg);
+	font-family: arial;
+	font-size: 15px;
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	color: blue;
 }
 .tg  {
 	padding:10px 5px;
 	border-collapse:collapse;
 	border-spacing:6;
+	color {: red;}
 }
 .tg td{
 	padding:10px 5px;
