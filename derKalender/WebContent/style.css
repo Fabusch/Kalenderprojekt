@@ -121,7 +121,13 @@ inhalt{
 	background: #de6a0c45;
 }
 
-.nacht{}
-.morgen{}
-.mittag{}
+.nacht{
+	background-color: #00118045;
+}
+.morgen{ 
+	background-color:#009b0a54;
+}
+.mittag{
+	background-color: #de6a0c45;
+}
 
