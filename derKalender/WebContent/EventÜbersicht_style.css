@@ -7,20 +7,25 @@ body {
 	margin-left: auto;
 	color: orange;
 }
-.tg  {
+.tg{
+	position: relative;
+	width: 80%;
+	float: right;
+	margin: 10px 5px;
 	padding:15px 5px;
+}
+.tg table  {
 	border-collapse:collapse;
-	border-spacing:6;
 	
 }
-.tg td{
+.tg table td{
 	padding:10px 5px;
 	border-style:solid;
 	border-width:1px;
 	overflow:hidden;
 	word-break:normal;
 }
-.tg th{
+.tg table th{
 	font-weight:normal;
 	padding:10px 5px;
 	border-style:solid;
@@ -32,7 +37,7 @@ body {
 .tgg {
 	border-collapse: collapse;
 	border-spacing: 6;
-	width: 350px;
+	width: 250px;
 	
 	font-family: Arial, sans-serif;
 	font-size: 14px;
@@ -49,12 +54,15 @@ body {
 }
 nav{
 	position: relative;
-    top: 110px;
+    top: 40px;
     left: 10px;
 	width: 14%;	
 	height: 870px;
 	float: left;
 	text-align: left;
+	padding: 10px;
+	margin: 5px;
 	
 	overflow-x: hidden;
-	overflow-y: visible;
+	overflow-y: hidden;
+}
