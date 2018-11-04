@@ -5,6 +5,7 @@ body {
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
+	color: white; 
 }
 
 header {	
@@ -107,6 +108,10 @@ inhalt{
 	text-align: center;
 	background: black url(img/Star-Wars_Clone.jpg);
 	background-size: 100% 100%;
+	
+	border-style:solid;
+	border-width:1px;
+
 }
 #kalender caption {
 	font-size: 30px;
@@ -118,10 +123,6 @@ inhalt{
 	background: #28f4ff4f;
 }
 }
-.heute{
-	background: #de6a0c45;
-}
-
 .nacht{
 	background-color: #00118045;
 }
@@ -140,4 +141,17 @@ inhalt{
 }
 .mittag.wochenende{
 	background-color: #de300c45;
+}
+
+.heute{
+	background-color: #de6a0c45;
+	border-color: #fffb00f5;
+	border-style:solid;
+	border-width:1px;
+}
+.heute td {
+	background-color: #de6a0c45;
+	border-color: #fffb00f5;
+	border-style:solid;
+	border-width:1px;
 }

@@ -34,6 +34,31 @@
 			}
 			return Monatsende;
 		}
+		function Wochen_wechsel(vor){
+			if(vor){
+				d += 7;
+				if(Monatsende( m, y)<d){
+					d -= Monatsende( m, y);
+					m += 1;
+					if(m==13){
+						m =1;
+						y =y+1;
+					}
+				}
+			}
+			else{
+				d -= 7;
+				if(d<=0){
+					m = m-1;
+					if(m==0){
+						m =12;
+						y =y-1;
+					}
+					d += Monatsende( m, y);
+				}
+			}
+			WochenKalender(d, m, y);
+		}
 		function WochenKalender(Tag, Monat, Jahr) {
 			var jetzt = new Date();		// aktuelles Datum
 			var DieserMonat = jetzt.getMonth() + 1;
@@ -47,8 +72,8 @@
 
 			var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
 			
-			var Zeit = new Date(Jahr, Monat  -1, Tag);
-			var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
+			var Zeit = new Date(Jahr, Monat-1, Tag);
+			var Start = Zeit.getDay();		//Wochentag
 			if (Start > 0) {
 				Start--;
 			} else {
@@ -88,6 +113,9 @@
 				}
 				var titel = Tag+"."+Monat+"."+Jahr;
 				cells.title = titel;
+				if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tag == DieserTag)) {
+					cells.className = cells.className + ' heute';
+				}
 				cells.innerHTML = Wochentag[i];
 				Tag++;
 			}
@@ -104,8 +132,11 @@
 				for (var j = 0; j <= 6; j++) {		//Zellen der Tage
 					cells = zeile.insertCell(j+1);
 					cells.innerHTML = ' ';
-					var day = tabelle.rows[0].cells[j].title;
+					var day = tabelle.rows[0].cells[j+1].title;
 					cells.className = cells.className + day;
+					if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tag-(7-j) == DieserTag)) {
+						cells.className = cells.className + ' heute';
+					}
 					if(i>=4 && i<=11){
 						cells.className = cells.className +' morgen';
 					}
