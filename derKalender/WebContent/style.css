@@ -116,12 +116,9 @@ inhalt{
 #kalender caption {
 	font-size: 30px;
 }
-.thead {
-	background-color:#00008b87;
-}
+
 .wochenende{
 	background: #28f4ff4f;
-}
 }
 .nacht{
 	background-color: #00118045;
