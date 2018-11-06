@@ -25,12 +25,16 @@
 
 			function Monatsende(Monat, Jahr){
 				var Monatsende = 31;
-				if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --Monatsende; // April(4), Juni(6), September(9), November(11) 30 Tage
+				if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) 
+					--Monatsende; // April(4), Juni(6), September(9), November(11) 30 Tage
 				if (Monat == 2) {	//Februar(2)
 					Monatsende = Monatsende - 3;
-					if (Jahr % 4 == 0) Monatsende++;		//Schaltjahren
-					if (Jahr % 100 == 0) Monatsende--;
-					if (Jahr % 400 == 0) Monatsende++;
+					if (Jahr % 4 == 0) 
+						Monatsende++;		//Schaltjahren
+					if (Jahr % 100 == 0) 
+						Monatsende--;
+					if (Jahr % 400 == 0) 
+						Monatsende++;
 				}
 				return Monatsende;
 			}
@@ -251,18 +255,24 @@
 				}
 			}
 			function Kalender(sicht, kalender){
-				switch (sicht)
-				case 1:
-					WochenKalender(d, m, y, kalender);
-					break;
-				case 2:
-					MonatsKalender(m, y, kalender);
-					break;
-				case 3:
-					//JahresKalender(y, kalender);
-					break;
-				default:
+				switch (sicht){
+					case 1:
+						WochenKalender(d, m, y, kalender);
+						break;
+					case 2:
+						MonatsKalender(m, y, kalender);
+						break;
+					case 3:
+						//JahresKalender(y, kalender);
+						break;
+					default:
+				}
 			}
+			function setAnsicht(sicht){
+				ansicht = sicht;
+				Kalender(ansicht, 'kalender');
+			}
+
 		</script>
 	</head>
 	<body>
@@ -287,8 +297,8 @@
 					</header>
 					<hr>
 					<div>
-						<a onclick="WochenKalender(d, m, y, 'kalender')">Wochen Ansicht</a><br>
-						<a onclick="MonatsKalender(m, y, 'kalender')">Monats Ansicht</a><br>
+						<a onclick=" setAnsicht(1)" href="#">Wochen Ansicht</a><br>
+						<a onclick=" setAnsicht(2)" href="#">Monats Ansicht</a><br>
 						<a href="JahresKalender.html">Jahres Ansicht</a><br>
 					</div>
 				</section>

@@ -1,8 +1,10 @@
-var tag = new Date();
+			var tag = new Date();
 			var d = tag.getDate();
 			var m = tag.getMonth() + 1;
 			var y = tag.getYear() + 1900;
-		
+			
+			var ansicht = 1;
+			
 			Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 			Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
 			Gruppenmitglieder =new Array("Person 1","Person 2","Person 3","Person 4","Person 5","Person 6","Person 7");
@@ -246,4 +248,23 @@ var tag = new Date();
 						}
 					}
 				}
+			}
+			
+			function Kalender(sicht, kalender){
+				switch (sicht){
+					case 1:
+						WochenKalender(d, m, y, kalender);
+						break;
+					case 2:
+						MonatsKalender(m, y, kalender);
+						break;
+					case 3:
+						//JahresKalender(y, kalender);
+						break;
+					default:
+				}
+			}
+			function setAnsicht(sicht){
+				ansicht = sicht;
+				Kalender(ansicht, 'kalender');
 			}
