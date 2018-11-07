@@ -116,6 +116,9 @@ inhalt{
 #kalender caption {
 	font-size: 30px;
 }
+#kalender tbody {
+	background-color: #28b2ff24;
+}
 
 .wochenende{
 	background: #28f4ff4f;
@@ -123,7 +126,7 @@ inhalt{
 .nacht{
 	background-color: #00118045;
 }
-.morgen{ 
+.morgen{
 	background-color:#8c9b0054;
 }
 .mittag{
@@ -133,7 +136,7 @@ inhalt{
 .nacht.wochenende {
 	background: #006d8045
 }
-.morgen.wochenende{ 
+.morgen.wochenende{
 	background-color:#2f9b0054;
 }
 .mittag.wochenende{
