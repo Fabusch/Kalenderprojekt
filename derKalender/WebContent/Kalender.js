@@ -15,7 +15,35 @@
 				else if(document.getElementById(id).innerHTML=="Star-Wars Clone")
 					document.getElementById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 			}
+			function Monatsende(Monat, Jahr){
+				var Monatsende = 31;
+				if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --Monatsende; // April(4), Juni(6), September(9), November(11) 30 Tage
+				if (Monat == 2) {	//Februar(2)
+					Monatsende = Monatsende - 3;
+					if (Jahr % 4 == 0) Monatsende++;		//Schaltjahren
+					if (Jahr % 100 == 0) Monatsende--;
+					if (Jahr % 400 == 0) Monatsende++;
+				}
+				return Monatsende;
+			}
+			function setAnsicht(sicht){
+				ansicht = sicht;
+				Kalender(ansicht, 'kalender');
+			}
 			
+			function Kalender(sicht, kalender){
+				switch (sicht){
+					case 1:
+						WochenKalender(d, m, y, kalender);
+						break;
+					case 2:
+						MonatsKalender(m, y, kalender);
+						break;
+					case 3:
+						//JahresKalender(y, kalender);
+						break;
+				}
+			}
 			function MonatsKalender(Monat, Jahr) {
 				var jetzt = new Date();		// aktuelles Datum
 				var DieserMonat = jetzt.getMonth() + 1;
@@ -104,64 +132,7 @@
 					}
 					Tageszahl++;
 				}
-			}	
-			
-			function Monat_wechsel(vor){
-				if(vor){
-					m += 1;
-					if(m==13){
-						m =1;
-						y += 1;
-					}
-				}
-				else{
-					m -= 1;
-					if(m==0){
-						m =12;
-						y -= 1;
-					}
-				}
-				MonatsKalender(m, y);
 			}
-			
-			function Monatsende(Monat, Jahr){
-				var Monatsende = 31;
-				if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --Monatsende; // April(4), Juni(6), September(9), November(11) 30 Tage
-				if (Monat == 2) {	//Februar(2)
-					Monatsende = Monatsende - 3;
-					if (Jahr % 4 == 0) Monatsende++;		//Schaltjahren
-					if (Jahr % 100 == 0) Monatsende--;
-					if (Jahr % 400 == 0) Monatsende++;
-				}
-				return Monatsende;
-			}
-			
-			function Wochen_wechsel(vor){
-				if(vor){
-					d += 7;
-					if(Monatsende( m, y)<d){
-						d -= Monatsende( m, y);
-						m += 1;
-						if(m==13){
-							m =1;
-							y =y+1;
-						}
-					}
-				}
-				else{
-					d -= 7;
-					if(d<=0){
-						m = m-1;
-						if(m==0){
-							m =12;
-							y =y-1;
-						}
-						d += Monatsende( m, y);
-					}
-				}
-				WochenKalender(d, m, y);
-			}
-			
 			function WochenKalender(Tag, Monat, Jahr) {
 				var jetzt = new Date();		// aktuelles Datum
 				var DieserMonat = jetzt.getMonth() + 1;
@@ -250,21 +221,57 @@
 				}
 			}
 			
-			function Kalender(sicht, kalender){
-				switch (sicht){
+			function wechsel(vor, kalender){
+				switch (ansicht){
 					case 1:
-						WochenKalender(d, m, y, kalender);
+						Wochen_wechsel(vor);
 						break;
 					case 2:
-						MonatsKalender(m, y, kalender);
+						Monats_wechsel(vor);
 						break;
 					case 3:
-						//JahresKalender(y, kalender);
+						//Jahres_wechsel(vor, kalender);
 						break;
-					default:
+				}
+				Kalender(ansicht, kalender);
+			}
+			function Monats_wechsel(vor){
+				if(vor){
+					m += 1;
+					if(m==13){
+						m =1;
+						y += 1;
+					}
+				}
+				else{
+					m -= 1;
+					if(m==0){
+						m =12;
+						y -= 1;
+					}
 				}
 			}
-			function setAnsicht(sicht){
-				ansicht = sicht;
-				Kalender(ansicht, 'kalender');
+			function Wochen_wechsel(vor){
+				if(vor){
+					d += 7;
+					if(Monatsende( m, y)<d){
+						d -= Monatsende( m, y);
+						m += 1;
+						if(m==13){
+							m =1;
+							y =y+1;
+						}
+					}
+				}
+				else{
+					d -= 7;
+					if(d<=0){
+						m = m-1;
+						if(m==0){
+							m =12;
+							y =y-1;
+						}
+						d += Monatsende( m, y);
+					}
+				}
 			}
