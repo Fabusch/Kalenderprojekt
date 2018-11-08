@@ -49,7 +49,8 @@ function MonatsKalender(Monat, Jahr) {
 	var DieserMonat = jetzt.getMonth() + 1;
 	var DiesesJahr = jetzt.getYear() + 1900;
 	var DieserTag = jetzt.getDate();
-				
+	var Wochentagab = new Array("Mo","Di","Mi","DO","Fr","Sa","So");	//abkürzungen für die Wochentage
+	
 	var Zeit = new Date(Jahr, Monat - 1, 1);
 	var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
 	if (Start > 0) {
@@ -100,7 +101,9 @@ function MonatsKalender(Monat, Jahr) {
 		
 		cells = zeile.insertCell(1);
 		var wt= Wochentag[(Start+Tageszahl-1)%7];		//Wochentag
-		cells.innerHTML = wt;
+		var wtab= Wochentagab[(Start+Tageszahl-1)%7];
+		cells.innerHTML = wtab;
+		cells.title = wt;
 		
 		if (wt=="Samstag" || wt=="Sonntag")		//wochenende hervorheben 
 			zeile.className = zeile.className +' wochenende';
@@ -121,15 +124,17 @@ function MonatsKalender(Monat, Jahr) {
 			var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
 			cells.innerHTML = kW;			//Kalender Woche
 			
-			cells.title =  y+ '.'+ m+'.'+ Tageszahl;	//Datum vom Montag als titel
+			cells.title = Tageszahl + '.'+ Monat+'.'+ y;	//Datum vom Montag als titel
 			cells.className = 'kw';
+			cells.addEventListener('click', function(){
+														var datum = this.title;
+														click_wechsel( 1, datum);
+													});
 			
-			if(wt=="Montag"){		//!!!
-				cells.colSpan = "7";		//länge der Zelle 
-			}
-			else{
-				//cells.colSpan=		7- Wochentag.position_von(wt);
-			}
+			if(wt=="Montag")
+				cells.rowSpan = 7;		//länge der Zelle
+			else
+				cells.rowSpan = 7 - Wochentag.indexOf(wt);	// länge bis Sonntag
 		}
 		Tageszahl++;
 	}
@@ -139,8 +144,6 @@ function WochenKalender(Tag, Monat, Jahr) {
 	var DieserMonat = jetzt.getMonth() + 1;
 	var DiesesJahr = jetzt.getYear() + 1900;
 	var DieserTag = jetzt.getDate();
-	
-	var Wochentagab = new Array("Mo","Di","Mi","DO","Fr","Sa","So");	//abkürzungen für die Wochentage
 	
 	var date = new Date(Jahr,Monat-1,Tag);		//der Tag
 	var currentThursday = new Date(date.getTime() +(3-((date.getDay()+6) % 7)) * 86400000);
@@ -171,7 +174,7 @@ function WochenKalender(Tag, Monat, Jahr) {
 			tabelle.deleteRow(0);
 		}
 	}
-	var Kopf = Monatsname[Monat-1] + " " + Jahr+ " \n "+ kW+".KW";	//Tabellenüberschrift
+	var Kopf = Monatsname[Monat-1] + " " + Jahr+ " \n "+ kW+".KW";	//Tabellenüberschrift		//!!!
 	var caption = tabelle.createCaption();
 	caption.innerHTML = Kopf;
 	
@@ -270,8 +273,7 @@ function Monats_wechsel(vor){
 			y -= 1;
 		}
 	}
-}
-			
+}			
 function Wochen_wechsel(vor){
 	if(vor){
 		d += 7;
@@ -295,4 +297,31 @@ function Wochen_wechsel(vor){
 			d += Monatsende( m, y);
 		}
 	}
+}
+
+function click_wechsel(sicht, datum){
+	ansicht = sicht;
+	if(datum[2]='.'){
+		d = parseInt(datum[0]+datum[1]);
+		if(datum[5]='.'){
+			m = parseInt(datum[3]+datum[4]);
+			y = parseInt(datum[6]+datum[7]+datum[8]+datum[9]);
+		}
+		else{
+			m = parseInt(datum[3]);
+			y = parseInt(datum[5]+datum[6]+datum[7]+datum[8]);
+		}
+	}
+	else{
+		d = parseInt(datum[0]);
+		if(datum[4]='.'){
+			m = parseInt(datum[2]+datum[3]);
+			y = parseInt(datum[5]+datum[6]+datum[7]+datum[8]);
+		}
+		else{
+			m = parseInt(datum[2]);
+			y = parseInt(datum[4]+datum[5]+datum[6]+datum[7]);
+		}
+	}
+	Kalender(sicht, 'kalender');
 }
