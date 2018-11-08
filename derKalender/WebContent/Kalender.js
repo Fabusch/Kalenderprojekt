@@ -302,25 +302,25 @@ function Wochen_wechsel(vor){
 function click_wechsel(sicht, datum){
 	ansicht = sicht;
 	if(datum[2]='.'){
-		d = parseInt(datum[0]+datum[1]);
+		d = datum[0]+datum[1];
 		if(datum[5]='.'){
-			m = parseInt(datum[3]+datum[4]);
-			y = parseInt(datum[6]+datum[7]+datum[8]+datum[9]);
+			m = datum[3]+datum[4];
+			y = datum[6]+datum[7]+datum[8]+datum[9];
 		}
 		else{
-			m = parseInt(datum[3]);
-			y = parseInt(datum[5]+datum[6]+datum[7]+datum[8]);
+			m = datum[3];
+			y = datum[5]+datum[6]+datum[7]+datum[8];
 		}
 	}
 	else{
-		d = parseInt(datum[0]);
+		d = datum[0];
 		if(datum[4]='.'){
-			m = parseInt(datum[2]+datum[3]);
-			y = parseInt(datum[5]+datum[6]+datum[7]+datum[8]);
+			m = datum[2]+datum[3];
+			y = datum[5]+datum[6]+datum[7]+datum[8];
 		}
 		else{
-			m = parseInt(datum[2]);
-			y = parseInt(datum[4]+datum[5]+datum[6]+datum[7]);
+			m = datum[2];
+			y = datum[4]+datum[5]+datum[6]+datum[7];
 		}
 	}
 	Kalender(sicht, 'kalender');
