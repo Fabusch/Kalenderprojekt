@@ -53,11 +53,13 @@ body {
 	border-width: 1px;
 }
 nav{
+	background: gray;
+	color: #fff;
 	position: relative;
     top: 40px;
     left: 10px;
 	width: 14%;	
-	height: 870px;
+	height: 200px;
 	float: left;
 	text-align: left;
 	padding: 10px;
