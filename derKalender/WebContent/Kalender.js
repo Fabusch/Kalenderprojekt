@@ -74,7 +74,15 @@ function MonatsKalender(Monat, Jahr) {
 			tabelle.deleteRow(0);
 		}
 	}
-	var Kopf = Monatsname[Monat-1] + " " + Jahr;	//Tabellenüberschrift
+	
+	var tJahr = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
+	var tMonat = document.getElementById('kOverHead').getElementsByTagName("a")[1];
+	tJahr.innerHTML = '';
+	tJahr.style.fontSize = "5px";
+	tMonat.innerHTML = y;
+	tMonat.style.fontSize = "30px";
+	
+	var Kopf = Monatsname[Monat-1];	//Tabellenüberschrift
 	var caption = tabelle.createCaption();
 	caption.innerHTML = Kopf;
 	
@@ -174,7 +182,14 @@ function WochenKalender(Tag, Monat, Jahr) {
 			tabelle.deleteRow(0);
 		}
 	}
-	var Kopf = Monatsname[Monat-1] + " " + Jahr+ " \n "+ kW+".KW";	//Tabellenüberschrift		//!!!
+	var tJahr = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
+	var tMonat = document.getElementById('kOverHead').getElementsByTagName("a")[1];
+	tJahr.innerHTML = y;
+	tJahr.style.fontSize = "30px";
+	tMonat.innerHTML = Monatsname[Monat-1];
+	tMonat.style.fontSize = "30px";
+	
+	var Kopf = kW+".KW";	//Tabellenüberschrift		//!!!
 	var caption = tabelle.createCaption();
 	caption.innerHTML = Kopf;
 	
