@@ -323,7 +323,7 @@ function click_wechsel(sicht, datum){
 			y = datum[4]+datum[5]+datum[6]+datum[7];
 		}
 	}
-	d = parseInt(d) ;
+	d = parseInt(d) ;		//String to Int
 	m = parseInt(m) ;
 	y = parseInt(y) ;
 	Kalender(sicht, 'kalender');
