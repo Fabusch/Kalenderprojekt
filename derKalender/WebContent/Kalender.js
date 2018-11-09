@@ -301,9 +301,9 @@ function Wochen_wechsel(vor){
 
 function click_wechsel(sicht, datum){
 	ansicht = sicht;
-	if(datum[2]='.'){
+	if(datum[2]=='.'){
 		d = datum[0]+datum[1];
-		if(datum[5]='.'){
+		if(datum[5]=='.'){
 			m = datum[3]+datum[4];
 			y = datum[6]+datum[7]+datum[8]+datum[9];
 		}
@@ -314,7 +314,7 @@ function click_wechsel(sicht, datum){
 	}
 	else{
 		d = datum[0];
-		if(datum[4]='.'){
+		if(datum[4]=='.'){
 			m = datum[2]+datum[3];
 			y = datum[5]+datum[6]+datum[7]+datum[8];
 		}
@@ -323,5 +323,8 @@ function click_wechsel(sicht, datum){
 			y = datum[4]+datum[5]+datum[6]+datum[7];
 		}
 	}
+	d = parseInt(d) ;
+	m = parseInt(m) ;
+	y = parseInt(y) ;
 	Kalender(sicht, 'kalender');
 }
