@@ -12,6 +12,5 @@ request.onupgradeneeded=function() {
 			1
 		}
 	}
-}/**
- * 
- */
+}
+ 
