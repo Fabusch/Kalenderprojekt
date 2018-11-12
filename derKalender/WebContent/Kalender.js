@@ -9,10 +9,10 @@ Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Jul
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
 Gruppenmitglieder =new Array("Person 1","Person 2","Person 3","Person 4","Person 5","Person 6","Person 7");
 			
-function background(id){
-	if(document.getElementById(id).innerHTML=="Neptune")
+function background(element){
+	if(element.innerHTML=="Neptune")
 		document.getElementById('kalender').style.backgroundImage = "url('img/Neptune.png')";
-	else if(document.getElementById(id).innerHTML=="Star-Wars Clone")
+	else if(element.innerHTML=="Star-Wars Clone")
 		document.getElementById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 }
 function Monatsende(Monat, Jahr){
@@ -49,7 +49,7 @@ function MonatsKalender(Monat, Jahr) {
 	var DieserMonat = jetzt.getMonth() + 1;
 	var DiesesJahr = jetzt.getYear() + 1900;
 	var DieserTag = jetzt.getDate();
-	var Wochentagab = new Array("Mo","Di","Mi","DO","Fr","Sa","So");	//abkürzungen für die Wochentage
+	var Wochentagab = new Array("Mo","Di","Mi","Do","Fr","Sa","So");	//abkürzungen für die Wochentage
 	
 	var Zeit = new Date(Jahr, Monat - 1, 1);
 	var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
@@ -134,10 +134,9 @@ function MonatsKalender(Monat, Jahr) {
 			
 			cells.title = Tageszahl + '.'+ Monat+'.'+ y;	//Datum vom Montag als titel
 			cells.className = 'kw';
-			cells.addEventListener('click', function(){
-														var datum = this.title;
-														click_wechsel( 1, datum);
-													});
+			cells.addEventListener('click', function(){	click_wechsel( 1, this.title);	});
+			cells.addEventListener('mouseover', function(){	link(this);	});
+			cells.addEventListener('mouseout', function(){	linkout(this);	});
 			
 			if(wt=="Montag")
 				cells.rowSpan = 7;		//länge der Zelle
@@ -342,4 +341,10 @@ function click_wechsel(sicht, datum){
 	m = parseInt(m) ;
 	y = parseInt(y) ;
 	Kalender(sicht, 'kalender');
+}
+function link(element){
+	element.style.color="#FFEB3B";
+}
+function linkout(element){
+	element.style.color="white";
 }
