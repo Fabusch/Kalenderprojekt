@@ -3,7 +3,7 @@ var d = tag.getDate();
 var m = tag.getMonth() + 1;
 var y = tag.getYear() + 1900;
 			
-var ansicht = 1;
+var ansicht = 2;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
@@ -115,9 +115,6 @@ function MonatsKalender(Monat, Jahr) {
 		
 		if (wt=="Samstag" || wt=="Sonntag")		//wochenende hervorheben 
 			zeile.className = zeile.className +' wochenende';
-		if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag))	//heute hervorheben 
-			zeile.className = zeile.className + ' heute';
-		
 		for (var j = 0; j <= Gruppenmitglieder.length -1; j++) {		//Zellen der Gruppenmitglieder
 			cells = zeile.insertCell(j+2);
 			cells.innerHTML = ' ';
@@ -128,21 +125,24 @@ function MonatsKalender(Monat, Jahr) {
 			var yearOfThursday = currentThursday.getFullYear();
 			var firstThursday = new Date(new Date(yearOfThursday,0,4).getTime() +(3-((new Date(yearOfThursday,0,4).getDay()+6) % 7)) * 86400000);
 			
-			cells = zeile.insertCell(Gruppenmitglieder.length +2);
+			cellskW = zeile.insertCell(Gruppenmitglieder.length +2);
 			var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
-			cells.innerHTML = kW;			//Kalender Woche
+			cellskW.innerHTML = kW;			//Kalender Woche
 			
-			cells.title = Tageszahl + '.'+ Monat+'.'+ y;	//Datum vom Montag als titel
-			cells.className = 'kw';
-			cells.addEventListener('click', function(){	click_wechsel( 1, this.title);	});
-			cells.addEventListener('mouseover', function(){	link(this);	});
-			cells.addEventListener('mouseout', function(){	linkout(this);	});
+			cellskW.title = Tageszahl + '.'+ Monat+'.'+ y;	//Datum vom Montag als titel
+			cellskW.className = 'kw';
+			cellskW.addEventListener('click', function(){	click_wechsel( 1, this.title);	});
+			cellskW.addEventListener('mouseover', function(){	link(this);	});
+			cellskW.addEventListener('mouseout', function(){	linkout(this);	});
 			
-			if(wt=="Montag")
-				cells.rowSpan = 7;		//länge der Zelle
-			else
-				cells.rowSpan = 7 - Wochentag.indexOf(wt);	// länge bis Sonntag
+			cellskW.rowSpan = 7 - Wochentag.indexOf(wt);	// länge der Zelle bis Sonntag
 		}
+		if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag)){	//heute hervorheben 
+			zeile.className = zeile.className + ' heute';			//makiert den Tag
+			cellskW.className= cellskW.className + ' heute';			//makiert die aktuelle Kalenderwoche
+		}
+		
+		
 		Tageszahl++;
 	}
 }
