@@ -47,13 +47,13 @@
 			<inhalt>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false, 'kalender')" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							<img src="img/icon/left.png">
 							zurück
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true, 'kalender')" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							vor
 							<img src="img/icon/right.png">
 						</a>
@@ -62,20 +62,22 @@
 				<div class=kasten id=kOverHead>
 					<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		<!--- Jahes/Monats link --->
 					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
-					<table id=kalender align="center"> </table>
-					<script type="text/javascript">
-						Kalender( ansicht, 'kalender');
-					</script>
+					<div id = kalender>
+						<table align="center" style="width: 100%;"> </table>
+						<script type="text/javascript">
+							Kalender();
+						</script>
+					</div>
 				</div>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false, 'kalender')" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							<img src="img/icon/left.png">
 							zurück
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true, 'kalender')" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							vor
 							<img src="img/icon/right.png">
 						</a>

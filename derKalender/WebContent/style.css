@@ -101,25 +101,35 @@ inhalt{
 	float: right;
 }
 
-#kOverHead{
+#kOverHead{	
 	margin-top: 10px;
+	font-size: 30px;
+}
+.abrund{
+	background: green;
+	padding: 5px;
+	width: 95%;
+	border-width: 1px;
+    border-radius: 10px;
 }
 
 #kalender{
 	position: relative;
+	padding: 5px;
 	width: 95%;
+	border-width: 1px;
+    border-radius: 10px;
 	text-align: center;
 	background: black url(img/Star-Wars_Clone.jpg);
 	background-size: 100% 100%;
-	
-	border-style:solid;
-	border-width:1px;
+}
 }
 #kalender caption {
 	font-size: 30px;
 }
 #kalender tbody {
 	background-color: #28b2ff24;
+	font-size: 15px;
 }
 
 .wochenende{

@@ -28,19 +28,19 @@ function Monatsende(Monat, Jahr){
 }
 function setAnsicht(sicht){
 	ansicht = sicht;
-	Kalender(ansicht, 'kalender');
+	Kalender();
 }
 			
-function Kalender(sicht, kalender){
-	switch (sicht){
+function Kalender(){
+	switch (ansicht){
 		case 1:
-			WochenKalender(d, m, y, kalender);
+			WochenKalender(d, m, y);
 			break;
 		case 2:
-			MonatsKalender(m, y, kalender);
+			MonatsKalender(m, y);
 			break;
 		case 3:
-			//JahresKalender(y, kalender);
+			//JahresKalender(y);
 			break;
 		}
 	}
@@ -68,7 +68,7 @@ function MonatsKalender(Monat, Jahr) {
 		if (Jahr % 400 == 0) ende++;
 	}
 	
-	var tabelle = document.getElementById('kalender');
+	var tabelle = document.getElementById('kalender').getElementsByTagName("table")[0];
 	if(tabelle.rows.length >0){		//Tabellen inhalt löschen
 		for(var i = 0; 0 != tabelle.rows.length; i++){
 			tabelle.deleteRow(0);
@@ -78,7 +78,7 @@ function MonatsKalender(Monat, Jahr) {
 	var tJahr = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
 	var tMonat = document.getElementById('kOverHead').getElementsByTagName("a")[1];
 	tJahr.innerHTML = '';
-	tJahr.style.fontSize = "5px";
+	tJahr.style.fontSize = "2px";
 	tMonat.innerHTML = y;
 	tMonat.style.fontSize = "30px";
 	
@@ -174,7 +174,7 @@ function WochenKalender(Tag, Monat, Jahr) {
 		}
 		Tag = Monatsende(Monat, Jahr)+Tag;
 	}
-	var tabelle = document.getElementById('kalender');
+	var tabelle = document.getElementById('kalender').getElementsByTagName("table")[0];
 	
 	if(tabelle.rows.length >0){		//Tabellen inhalt löschen
 		for(var i = 0; 0 != tabelle.rows.length; i++){
@@ -258,7 +258,7 @@ function WochenKalender(Tag, Monat, Jahr) {
 	}
 }
 
-function wechsel(vor, kalender){
+function wechsel(vor){
 	switch (ansicht){
 		case 1:
 			Wochen_wechsel(vor);
@@ -270,7 +270,7 @@ function wechsel(vor, kalender){
 			//Jahres_wechsel(vor, kalender);
 			break;
 	}
-	Kalender(ansicht, kalender);
+	Kalender(ansicht);
 }
 function Monats_wechsel(vor){
 	if(vor){
@@ -340,7 +340,7 @@ function click_wechsel(sicht, datum){
 	d = parseInt(d) ;		//String to Int
 	m = parseInt(m) ;
 	y = parseInt(y) ;
-	Kalender(sicht, 'kalender');
+	Kalender(sicht);
 }
 function link(element){
 	element.style.color="#FFEB3B";
