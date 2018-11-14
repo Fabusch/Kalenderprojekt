@@ -18,8 +18,8 @@
 					</header>
 					<hr>
 					<div>							
-						<a href="Eventübersicht.html">Event Übersicht</a><br>
-						<a href="index.html">mein Kalender</a><br>
+						<a href="Eventübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Event Übersicht</a><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
 					</div>
 				</section>
 				<section class=kasten>
@@ -28,9 +28,9 @@
 					</header>
 					<hr>
 					<div>
-						<a onclick=" setAnsicht(1)" href="#">Wochen Ansicht</a><br>
-						<a onclick=" setAnsicht(2)" href="#">Monats Ansicht</a><br>
-						<a href="JahresKalender.html">Jahres Ansicht</a><br>
+						<a onclick=" setAnsicht(1)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Wochen Ansicht</a><br>
+						<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Monats Ansicht</a><br>
+						<a href="JahresKalender.html" onmouseover="link(this)" onmouseout="linkout(this)">Jahres Ansicht</a><br>
 					</div>
 				</section>
 				<section class=kasten>
@@ -39,43 +39,47 @@
 					</header>
 					<hr>
 					<div>
-						<a onclick="background('neptune', 'kalender')" id="neptune" href="#">Neptune</a><br>
-						<a onclick="background('Star-Wars Clone', 'kalender')" id="Star-Wars Clone" href="#">Star-Wars Clone</a>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
 					</div>
 				</section>
 			</nav>
 			<inhalt>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false, 'kalender')" href="#">
-							<img src="img/icon/left.png" title="letzte Woche">
+						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+							<img src="img/icon/left.png">
 							zurück
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true, 'kalender')" href="#">
+						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							vor
-							<img src="img/icon/right.png" title="nächste Woche">
+							<img src="img/icon/right.png">
 						</a>
 					</div>						
 				</div>
-				<div class=kasten>
-					<table id=kalender align="center"> </table>
-					<script type="text/javascript">
-						Kalender( ansicht, 'kalender');
-					</script>
+				<div class=kasten id=kOverHead>
+					<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		<!--- Jahes/Monats link --->
+					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
+					<div id = kalender>
+						<table align="center" style="width: 100%;"> </table>
+						<script type="text/javascript">
+							Kalender();
+						</script>
+					</div>
 				</div>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false, 'kalender')" href="#">
-							<img src="img/icon/left.png" title="letzte Woche">
+						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
+							<img src="img/icon/left.png">
 							zurück
 						</a>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true, 'kalender')" href="#">
+						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
 							vor
-							<img src="img/icon/right.png" title="nächste Woche">
+							<img src="img/icon/right.png">
 						</a>
 					</div>					
 				</div>
