@@ -9,8 +9,9 @@ request.onupgradeneeded=function() {
 			keypath:'key',
 			autoIncrement:true });
 		
-			1
+			
 		}
-	}
 }
+}
+
  
