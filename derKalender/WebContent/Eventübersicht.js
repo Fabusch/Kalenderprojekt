@@ -7,11 +7,9 @@ request.onupgradeneeded=function() {
 	if(!db.objectStoreNames.contains('features')) {
 		store=db.createObjectStore('feautures', {
 			keypath:'key',
-			autoIncrement:true });
-		
-			
-		}
-}
-}
+			autoIncrement: true
+		});
+	}
+};
 
  
