@@ -1,25 +1,42 @@
+<!DOCTYPE html>
+
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" href="StyleErstellungG.css" type="text/css">
-	</head>
-	<body>
-		<div id="Hintergrund">
-		<h1>Gruppenerstellung</h1>
-		<div id="div1">
-			<img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." height="200" width="200"><br>
- 			<h2>Name: </h2>
-			<br>
-		</div>
-		<div id="div2">
-			<h2>Mitglieder</h2>
-			<ol>
-				<li>Mitglied </li><li>Mitglied </li><li>Mitglied </li><li>Mitglied </li><li>Mitglied </li>
-			</ol>
-			<br>
-		</div>
-		<div></div>
-		<div id="div3"> </div>
-		</div>
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <title>Gruppenerstellung</title>
+        <link rel="stylesheet" type="text/css" href="StyleErstellungG.css">
+    </head>
+    <body>
+        <div id="Hintergrund">
+            <h1>Gruppenerstellung</h1>
+            <div id="div1">
+                <img src="dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
+                <input type="file" name="image">
+                <form>
+                    <h2>Name: <input type="text" name="gruppenname" autofocus="true" required="on"></h2><br>
+                </form>
+            </div>
+            <div id="div2">
+                <h2>Mitglieder</h2>
+                <ol>
+                    <li>Mitglied</li>
+                    <li>Mitglied</li>
+                    <li>Mitglied</li>
+                    <li>Mitglied</li>
+                    <li>Mitglied</li>
+                </ol>
+                <form>
+                    <input type="submit" value="Hinzufügen"><br>
+                </form>
+            </div>
+            <div>
+
+            </div>
+            <div id="div3">
+                <form>
+                    <input type="submit" value="Gruppe erstellen">
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
