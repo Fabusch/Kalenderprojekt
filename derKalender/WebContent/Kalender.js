@@ -348,3 +348,5 @@ function link(element){
 function linkout(element){
 	element.style.color="white";
 }
+
+
