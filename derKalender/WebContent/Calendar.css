@@ -1,0 +1,38 @@
+table {
+	width: 350px;
+}
+
+table,
+td,
+caption {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 0.4em;
+	text-align: center;
+}
+caption
+{
+	background: #666;
+	color: #c4ced3;
+	font-weight: bold;
+}
+
+td.notinmonth{
+	background: #666;
+	color: ;
+	font-weight: bold;
+	}
+td.week{
+	background: #899093;
+	color: #c4ced3;
+	font-weight: bold;
+}
+td.holidayorweekend{
+	background: #ebf5d7;
+	color: #666;
+}
+td.today {
+	color: red;
+	font-weight: bold;
+	background: #ffebe6;
+}
