@@ -164,3 +164,49 @@ inhalt{
 	border-style:solid;
 	border-width:1px;
 }
+
+
+<!-- Tabellen der Jahres Ansicht -->
+
+.JA table {
+	margin: 5px;
+    width: 350px;
+}
+
+.JA table,
+.JA td,
+.JA caption {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 0.4em;
+	text-align: center;
+	background: black;
+}
+.JA caption
+{
+	background: #666;
+	color: #c4ced3;
+	font-weight: bold;
+}
+
+.JA td.notinmonth{
+	background: #666;
+	color: ;
+	font-weight: bold;
+	}
+.JA td.week{
+	background: #899093;
+	color: #c4ced3;
+	font-weight: bold;
+}
+.JA td.holidayorweekend{
+	background: #ebf5d7;
+	color: #666;
+}
+.JA td.today {
+	color: red;
+	font-weight: bold;
+	background: #ffebe6;
+}
+
+
