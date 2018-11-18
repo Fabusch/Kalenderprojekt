@@ -3,7 +3,7 @@ var d = tag.getDate();
 var m = tag.getMonth() + 1;
 var y = tag.getYear() + 1900;
 			
-var ansicht = 2;
+var ansicht = 3;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
@@ -40,7 +40,7 @@ function Kalender(){
 			MonatsKalender(m, y);
 			break;
 		case 3:
-			//JahresKalender(y);
+			createyear(y);
 			break;
 		}
 	}
@@ -58,15 +58,7 @@ function MonatsKalender(Monat, Jahr) {
 	} else {
 		Start = 6;
 	}
-	//Stop
-	var ende = 31;
-	if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --ende; // April(4), Juni(6), September(9), November(11) 30 Tage
-	if (Monat == 2) {	//Februar(2)
-		ende = ende - 3;
-		if (Jahr % 4 == 0) ende++;		//Schaltjahren
-		if (Jahr % 100 == 0) ende--;
-		if (Jahr % 400 == 0) ende++;
-	}
+	var ende = Monatsende(Monat, Jahr);
 	
 	var tabelle = document.getElementById('kalender').getElementsByTagName("table")[0];
 	if(tabelle.rows.length >0){		//Tabellen inhalt löschen
@@ -267,10 +259,15 @@ function wechsel(vor){
 			Monats_wechsel(vor);
 			break;
 		case 3:
-			//Jahres_wechsel(vor, kalender);
+			Jahres_wechsel(vor);
 			break;
 	}
 	Kalender(ansicht);
+}
+function Jahres_wechsel(vor){
+	y ++;
+	if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
+		d--;
 }
 function Monats_wechsel(vor){
 	if(vor){
@@ -350,3 +347,232 @@ function linkout(element){
 }
 
 
+function createyear(year){
+	for (m=1; m<=12; m++)
+		createmonth (m, year);
+}
+//creates a month table	
+function createmonth (month,year) {
+	//creates new table
+	var table = document.createElement("table");
+    table.setAttribute("id", table);
+    //fills it
+    aDate = new Date(year, month-1, 1);
+    maketitle(month,table);
+    makedata(aDate,table);
+    document.getElementById('kalender').appendChild(table);
+    //makedata(aDate,monthtable);
+}
+//make Header for Month
+function maketitle(month,table) {
+	//var monthtable = document.getElementById(month);
+	// schreibe Tabellenüberschrift
+	var caption = table.createCaption();
+	caption.innerHTML =  Monatsname[month-1];;
+}
+
+
+function eastern(aDate){
+	var K = Math.trunc(aDate.getFullYear() /100);
+	var M = 15 + Math.trunc((3*K+3)/4)- Math.trunc((8*K+13)/25);
+	var S = 2 - Math.trunc((3*K+3)/4);
+	var A = aDate.getFullYear() % 19;
+	var D = (19*A+M)%30;
+	var R = Math.trunc((D + Math.trunc(A/11) ) /29);
+	var OG = 21 + D-R;
+	var SZ = 7 - (aDate.getFullYear()+ Math.trunc(aDate.getFullYear()/4)+S)%7;
+	var OE = 7 - (OG - SZ) % 7;
+	var OS = OG + OE;
+
+	if (OS > 31){
+		var easter = new Date(aDate.getFullYear(),3,OS-31);
+		return easter;
+	}
+	else{
+		var eastern = new Date(aDate.getFullYear(),2,OS);
+		return easter;
+	}
+}
+//test if Date = Holiday
+function isholiday(aDate){
+	//NeuJahr
+	var holiday = new Date(aDate.getFullYear(),0,1);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//Karfreitag
+	holiday = eastern(aDate);
+	holiday.setDate(holiday.getDate() - 2);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//OsterMontag
+	holiday = eastern(aDate);
+	holiday.setDate(holiday.getDate() +1);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//1.Mai
+	holiday = new Date(aDate.getFullYear(),4,1)
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	
+	//Christi Himmelfahrt
+	holiday = eastern(aDate);
+	holiday.setDate(holiday.getDate() +39);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//Pfingsten
+	holiday = eastern(aDate);
+	holiday.setDate(holiday.getDate() +49);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//Tag der Deutschen Einheit
+	holiday = new Date(aDate.getFullYear(),9,3);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//Erster Weihnachtsfeiertag
+	holiday = new Date(aDate.getFullYear(),11,25);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	//Zweiter Weihnachtsfeiertag
+	holiday = new Date(aDate.getFullYear(),11,26);
+	if (aDate.valueOf()==holiday.valueOf()){
+		return true;
+	}
+	return false;
+}
+
+function weekday(aDate){
+	day = (aDate.getDay() +6)%7+1
+	return day;
+}
+//Week of the year
+function lastweekofyear(aDate){
+	newyear = new Date(aDate.getFullYear(),0,1);
+	lweeks = 0;
+	while(weekday(newyear)!=4){
+		newyear.setDate(newyear.getDate() + 1);
+	}
+	while(weekday(newyear)!=7){
+		//thursday found
+		newyear.setDate(newyear.getDate() + 1);
+	}	
+	while(newyear.getTime() < aDate.getTime()){
+		newyear.setDate(newyear.getDate() + 7);
+		lweeks +=1;
+	}
+	return lweeks;
+}
+function weekofyear(aDate){
+	newyear = new Date(aDate.getFullYear(),0,1);
+	weeks = 0;
+	while(weekday(newyear)!=4){
+		if (weekday(newyear)==7&& newyear.getTime() >= aDate.getTime()){
+			oldyear=new Date(aDate.getFullYear()-1,11,31);
+			
+			return weekofyear(oldyear);
+		}
+		newyear.setDate(newyear.getDate() + 1);
+		//passing sunday
+	}
+	weeks = 1;
+	while(weekday(newyear)!=7){
+		//thursday found
+		newyear.setDate(newyear.getDate() + 1);
+	}	
+	while(newyear.getTime() < aDate.getTime()){
+		newyear.setDate(newyear.getDate() + 7);
+		weeks +=1;
+	}
+	lastdayofyear = new Date(aDate.getFullYear(),11,31);
+	if(weeks == 53 && weekday(lastdayofyear)<4){
+		return 1;
+	}
+	else{
+		return weeks;
+	}
+}
+
+
+function makedata (aDate,table) {
+	//var table = document.getElementById(month);	  
+	//6 Rows = Max for one Month
+	var lastday = false;
+	for (var i = 0; i <= 5;i++){
+		//insert Row
+		var row = table.insertRow();
+		//first row
+		if (i == 0){
+			for (var j = 0; j <= 7;j++){
+		    	var cell = row.insertCell();
+		    	//week
+		    	if (j == 0){
+		    		
+		    		week = weekofyear(aDate);
+		    		cell.innerHTML = week;
+		    		cell.className = 'week';
+		    	}
+		    	//weekday not in month
+		    	else if (j<weekday(aDate)){
+		    		cell.className = 'notinmonth';
+		    	}
+		    	else{
+		    		cell.innerHTML = aDate.getDate();
+		    		if(j==6 || j==7||isholiday(aDate)){
+						cell.className = 'holidayorweekend';
+					}
+		    		else{
+		    			cell.className = 'calendarday';
+		    		}
+		    		aDate.setDate(aDate.getDate() + 1);
+		    	}
+			}
+		}
+		//Not first Week
+		else{
+			if (lastday == false){
+			    for (var j = 0; j <= 7;j++){
+			    	//Erstes Feld = Woche
+				    
+			    	var cell = row.insertCell();
+				    if (j == 0){
+				    	week = weekofyear(aDate);
+			    		cell.innerHTML = week;
+			    		cell.className = 'week';
+			    	}
+					//is it in month
+				    else if(aDate.getDate()<=daysofmonth(aDate)&& lastday==false){
+				    	cell.innerHTML = aDate.getDate();
+			    		if(j==6 || j==7||isholiday(aDate)){
+							cell.className = 'holidayorweekend';
+						}
+			    		else{
+			    			cell.className = 'calendarday';
+			    		}
+			    		if (daysofmonth(aDate)==aDate.getDate()){
+			    			lastday = true;
+			    		}
+			    		aDate.setDate(aDate.getDate() + 1);
+			    	
+					}
+					else{
+						cell.className = 'notinmonth'
+					}
+			    }
+			}	
+		}
+	}
+			  
+}
+
+function daysofmonth(aDate){
+	month = aDate.getMonth()+1;
+	year = aDate.getFullYear();
+	return Monatsende(month, year);
+}
