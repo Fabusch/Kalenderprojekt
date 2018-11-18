@@ -12,4 +12,24 @@ request.onupgradeneeded=function() {
 	}
 };
 
- 
+
+request.onerror = function(event) {
+	  // Do something with request.errorCode!
+	};
+	request.onsuccess = function(event) {
+	  // Do something with request.result!
+	};
+	
+	var db;
+	var request = indexedDB.open("Accountdaten");
+	request.onerror = function(event) {
+	  alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event) {
+	  db = event.target.result;
+	};
+	
+	db.onerror = function(event) {
+		  // Dies dient zur Behandlung von allen Fehlern in der Datenbank!
+		  alert("Fehler in der Datenbank behandeln: " + event.target.errorCode);
+		};
