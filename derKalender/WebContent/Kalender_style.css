@@ -103,7 +103,6 @@ inhalt{
 
 #kOverHead{	
 	margin-top: 10px;
-	font-size: 30px;
 }
 .abrund{
 	background: green;
@@ -122,6 +121,11 @@ inhalt{
 	text-align: center;
 	background: black url(img/Star-Wars_Clone.jpg);
 	background-size: 100% 100%;
+}
+table{
+	margin-left: auto;
+    margin-right: auto;
+    width: 95%;
 }
 #kalender caption {
 	font-size: 30px;
@@ -166,14 +170,14 @@ inhalt{
 }
 
 
-<!-- Tabellen der Jahres Ansicht -->
 
-.JA table {
+
+.JA {
 	margin: 5px;
     width: 350px;
 }
 
-.JA table,
+.JA,
 .JA td,
 .JA caption {
 	border: 1px solid black;
@@ -182,8 +186,7 @@ inhalt{
 	text-align: center;
 	background: black;
 }
-.JA caption
-{
+.JA caption {
 	background: #666;
 	color: #c4ced3;
 	font-weight: bold;
@@ -191,7 +194,7 @@ inhalt{
 
 .JA td.notinmonth{
 	background: #666;
-	color: ;
+	color: #c4ced3;
 	font-weight: bold;
 	}
 .JA td.week{
