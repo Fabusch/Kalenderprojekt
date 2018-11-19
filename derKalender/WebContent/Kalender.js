@@ -40,6 +40,7 @@ function Kalender(){
 	}
 	var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
 	var t2 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
+	var p = document.getElementById('kalender').getElementsByTagName("p")[0];
 	switch (ansicht){
 		case 1:
 			WochenKalender(d, m, y);
@@ -47,20 +48,30 @@ function Kalender(){
 			t1.style.fontSize = "30px";
 			t2.innerHTML = Monatsname[m-1];
 			t2.style.fontSize = "30px";
+
+			p.innerHTML = '';
+			p.style.fontSize = "2px";
 			break;
 		case 2:
 			MonatsKalender(m, y);
-			t1.innerHTML = '';
-			t1.style.fontSize = "2px";
-			t2.innerHTML = y;
-			t2.style.fontSize = "30px";
+			t1.innerHTML = y;
+			t1.style.fontSize = "30px";
+			t2.innerHTML = '';
+			t2.style.fontSize = "2px";
+
+			p.innerHTML = '';
+			p.style.fontSize = "2px";
 			break;
 		case 3:
 			createyear(y);
 			t1.innerHTML = '';
 			t1.style.fontSize = "2px";
-			t2.innerHTML = y;
-			t2.style.fontSize = "30px";
+			t2.innerHTML = '';
+			t2.style.fontSize = "2px";
+
+			p.innerHTML = y;
+			p.style.fontSize = "30px";
+			p.style.margin = "0px";
 			break;
 		}
 	}
@@ -263,9 +274,16 @@ function wechsel(vor){
 	Kalender(ansicht);
 }
 function Jahres_wechsel(vor){
-	y ++;
-	if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
-		d--;
+	if(vor){
+		y ++;
+		if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
+			d--;
+	}
+	else{
+		y --;
+		if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
+			d--;
+	}
 }
 function Monats_wechsel(vor){
 	if(vor){
@@ -501,6 +519,9 @@ function weekofyear(aDate){
 function makedata (aDate,table) {
 	//var table = document.getElementById(month);	  
 	//6 Rows = Max for one Month
+	var month = aDate.getMonth()+1;
+	var year = aDate.getFullYear();
+	
 	var lastday = false;
 	for (var i = 0; i <= 5;i++){
 		//insert Row
@@ -545,7 +566,7 @@ function makedata (aDate,table) {
 			    		cell.className = 'week';
 			    	}
 					//is it in month
-				    else if(aDate.getDate()<=daysofmonth(aDate)&& lastday==false){
+				    else if(aDate.getDate()<=Monatsende(month, year)&& lastday==false){
 				    	cell.innerHTML = aDate.getDate();
 			    		if(j==6 || j==7||isholiday(aDate)){
 							cell.className = 'holidayorweekend';
@@ -553,7 +574,7 @@ function makedata (aDate,table) {
 			    		else{
 			    			cell.className = 'calendarday';
 			    		}
-			    		if (daysofmonth(aDate)==aDate.getDate()){
+			    		if (Monatsende(month, year)==aDate.getDate()){
 			    			lastday = true;
 			    		}
 			    		aDate.setDate(aDate.getDate() + 1);
@@ -565,14 +586,6 @@ function makedata (aDate,table) {
 			    }
 			}	
 		}
-	}
-			  
-}
-
-
-function daysofmonth(aDate){
-	month = aDate.getMonth()+1;
-	year = aDate.getFullYear();
-	return Monatsende(month, year);
+	}		  
 }
 
