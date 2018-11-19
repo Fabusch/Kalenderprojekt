@@ -40,7 +40,6 @@ function Kalender(){
 	}
 	var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
 	var t2 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
-	var p = document.getElementById('kalender').getElementsByTagName("p")[0];
 	switch (ansicht){
 		case 1:
 			WochenKalender(d, m, y);
@@ -48,9 +47,6 @@ function Kalender(){
 			t1.style.fontSize = "30px";
 			t2.innerHTML = Monatsname[m-1];
 			t2.style.fontSize = "30px";
-
-			p.innerHTML = '';
-			p.style.fontSize = "2px";
 			break;
 		case 2:
 			MonatsKalender(m, y);
@@ -58,9 +54,6 @@ function Kalender(){
 			t1.style.fontSize = "30px";
 			t2.innerHTML = '';
 			t2.style.fontSize = "2px";
-
-			p.innerHTML = '';
-			p.style.fontSize = "2px";
 			break;
 		case 3:
 			createyear(y);
@@ -68,10 +61,6 @@ function Kalender(){
 			t1.style.fontSize = "2px";
 			t2.innerHTML = '';
 			t2.style.fontSize = "2px";
-
-			p.innerHTML = y;
-			p.style.fontSize = "30px";
-			p.style.margin = "0px";
 			break;
 		}
 	}
@@ -364,10 +353,21 @@ function linkout(element){
 
 
 function createyear(year){
-	for (Monat=1; Monat<=12; Monat++)
-		createmonth (Monat, year);
+	var table = document.createElement("table");
+	var caption = table.createCaption();
+	caption.innerHTML =  year
+	var Monat = 1;
+		for (i=0; Monat<=12; i++){
+			var zeile = table.insertRow(i);
+			for (c=0; ((parseInt(document.getElementById('kalender').clientWidth /250 )-1)>c && Monat<=12); c++){
+				div = createmonth (Monat, year);
+				var cell = zeile.insertCell(c);
+				cell.appendChild(div);
+				Monat++;
+			}
+		}
+	document.getElementById('kalender').appendChild(table);
 }
-
 function createmonth (month,year) {	//creates a month table	
 	//creates new table
 	var table = document.createElement("table");
@@ -377,7 +377,13 @@ function createmonth (month,year) {	//creates a month table
     aDate = new Date(year, month-1, 1);
     maketitle(month,table);
     makedata(aDate,table);
-    document.getElementById('kalender').appendChild(table);
+    
+    table.style.marginLeft= 'auto';
+    table.style.marginRight= 'auto';
+    var div = document.createElement("div");
+    div.style.height= '250px';
+    div.appendChild(table);
+    return div;
     //makedata(aDate,monthtable);
 }
 
@@ -385,7 +391,7 @@ function maketitle(month,table) {	//make Header for Month
 	//var monthtable = document.getElementById(month);
 	// schreibe Tabellenüberschrift
 	var caption = table.createCaption();
-	caption.innerHTML =  Monatsname[month-1];;
+	caption.innerHTML =  Monatsname[month-1];
 }
 
 

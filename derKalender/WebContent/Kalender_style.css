@@ -130,7 +130,6 @@ table{
 #kalender caption {
 	font-size: 30px;
 }
-}
 #kalender tbody {
 	background-color: #28b2ff24;
 	font-size: 15px;
@@ -174,7 +173,7 @@ table{
 
 
 .JA {	
-	margin-top: 5px;
+	margin: 5px;
     width: 350px;
 }
 
