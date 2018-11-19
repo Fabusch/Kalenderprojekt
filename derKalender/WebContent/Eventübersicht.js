@@ -53,7 +53,7 @@ request.onerror = function(event) {
 		  var db = event.target.result;
 
 		  
-		  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" }); // Der Keypath macht das Objekt (die Person) einzigartig damit ist sie sofort zu identifizieren
+		  var objectStore = db.createObjectStore("Accountdaten", { keyPath: "ssn" }); // Der Keypath macht das Objekt (die Person) einzigartig damit ist sie sofort zu identifizieren
 		  // in meinem Beispiel ist dies die SSN (Sozialversicherungsnummer) 
 
 		 
@@ -62,7 +62,7 @@ request.onerror = function(event) {
 
 		  objectStore.transaction.oncomplete = function(event) { // Dient dazu den ObjektStore erst fertig erstellen zu lassen bevor Daten aufgespielt werden
 		    
-		    var customerObjectStore = db.transaction("customers", "readwrite").objectStore("customers");
+		    var customerObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Accountdaten");
 		    customerData.forEach(function(customer) {
 		      customerObjectStore.add(customer);
 		    });
@@ -70,13 +70,12 @@ request.onerror = function(event) {
 		  
 		  
 		  openReq.onblocked = function(event) {
-			  // If some other tab is loaded with the database, then it needs to be closed
-			  // before we can proceed.
+			  
 			  alert("Please close all other tabs with this site open!");
 			};
 			  
 			openReq.onupgradeneeded = function(event) {
-			  // All other databases have been closed. Set everything up.
+			  
 			  db.createObjectStore(/* ... */);
 			  useDatabase(db);
 			};
@@ -88,13 +87,12 @@ request.onerror = function(event) {
 			};
 
 			openReq.onblocked = function(event) {
-				  // If some other tab is loaded with the database, then it needs to be closed
-				  // before we can proceed.
-				  alert("Please close all other tabs with this site open!");
+				
+				  alert("Schließen sie alle Seiten und aktualsieren sie die Geöffnete!");
 				};
 				  
 				openReq.onupgradeneeded = function(event) {
-				  // All other databases have been closed. Set everything up.
+				  .
 				  db.createObjectStore(/* ... */);
 				  useDatabase(db);
 				};
