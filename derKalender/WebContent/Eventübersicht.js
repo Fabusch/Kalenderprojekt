@@ -14,10 +14,8 @@ request.onupgradeneeded=function() {
 
 
 request.onerror = function(event) {
-	  // Do something with request.errorCode!
 	};
 	request.onsuccess = function(event) {
-	  // Do something with request.result!
 	};
 	
 	var db;
