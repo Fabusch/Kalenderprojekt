@@ -175,3 +175,28 @@ request.onsuccess = function(event) {
 // ODER SO db.transaction("customers").objectStore("customers").get("444-44-4444").onsuccess = function(event) {
   // alert("Name for SSN 444-44-4444 is " + event.target.result.name);
 // };
+
+
+// Eingetragene Informationen die in der Datenbank vorhanden sind zu ändern funktioniert so.
+
+var objectStore = db.transaction(["Accountdaten"], "readwrite").objectStore("Accountdaten");
+var request = objectStore.get("444-44-4444");
+request.onerror = function(event) {
+ 
+};
+request.onsuccess = function(event) {
+  
+  var data = event.target.result;
+  
+  
+  data.age = 55;
+
+  
+  var requestUpdate = objectStore.put(data);
+   requestUpdate.onerror = function(event) {
+    
+   };
+   requestUpdate.onsuccess = function(event) {
+     
+   };
+};
