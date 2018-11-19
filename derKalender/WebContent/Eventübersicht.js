@@ -69,7 +69,66 @@ request.onerror = function(event) {
 		      customerObjectStore.add(customer);
 		    });
 		  };
-		};
+		  
+		  
+		  openReq.onblocked = function(event) {
+			  // If some other tab is loaded with the database, then it needs to be closed
+			  // before we can proceed.
+			  alert("Please close all other tabs with this site open!");
+			};
+			  
+			openReq.onupgradeneeded = function(event) {
+			  // All other databases have been closed. Set everything up.
+			  db.createObjectStore(/* ... */);
+			  useDatabase(db);
+			};
+			  
+			openReq.onsuccess = function(event) {
+			  var db = event.target.result;
+			  useDatabase(db);
+			  return;
+			};
+
+			openReq.onblocked = function(event) {
+				  // If some other tab is loaded with the database, then it needs to be closed
+				  // before we can proceed.
+				  alert("Please close all other tabs with this site open!");
+				};
+				  
+				openReq.onupgradeneeded = function(event) {
+				  // All other databases have been closed. Set everything up.
+				  db.createObjectStore(/* ... */);
+				  useDatabase(db);
+				};
+				  
+				openReq.onsuccess = function(event) {
+				  var db = event.target.result;
+				  useDatabase(db);
+				  return;
+				};
+
+				openReq.onblocked = function(event) {
+					
+					  alert("Schließen sie alle Tabs damit diese Seite richtig angezeigt werden kann");
+					};
+					  
+					openReq.onupgradeneeded = function(event) {
+					  db.createObjectStore(/* ... */);
+					  useDatabase(db);
+					};
+					  
+					openReq.onsuccess = function(event) {
+					  var db = event.target.result;
+					  useDatabase(db);
+					  return;
+					};
+					
+					function useDatabase(db) {
+						  
+						  db.onversionchange = function(event) {
+						    db.close();
+						    alert("Die Datenbank wurde aktualisiert bitte schließen sie das Fenster um die Änderungen wirksam zu machen");
+						  };
 		
 		
 		
