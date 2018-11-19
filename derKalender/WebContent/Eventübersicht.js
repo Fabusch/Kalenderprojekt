@@ -37,12 +37,12 @@ request.onerror = function(event) {
 		
 		----------------------------------------------------------------------------------
 		
-		const customerData = [
+		const Nutzerdaten = [
 			  { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
 			  { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
 			];
 		
-		const dbName = "the_name";
+		const dbName = "Accountdaten";
 
 		var request = indexedDB.open(dbName, 2);
 
