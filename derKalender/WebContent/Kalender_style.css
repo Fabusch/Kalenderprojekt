@@ -172,7 +172,7 @@ table{
 
 
 
-.JA {	
+.JA {
 	margin: 5px;
     width: 350px;
 }
@@ -186,8 +186,7 @@ table{
 	text-align: center;
 	background: black;
 }
-.JA caption
-{
+.JA caption {
 	background: #666;
 	color: #c4ced3;
 	font-weight: bold;
@@ -195,7 +194,7 @@ table{
 
 .JA td.notinmonth{
 	background: #666;
-	color: ;
+	color: #c4ced3;
 	font-weight: bold;
 	}
 .JA td.week{
