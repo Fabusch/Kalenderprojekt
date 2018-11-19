@@ -160,7 +160,7 @@ request.onsuccess = function(event)
 
 // Daten aus der Datenbank aufrufen 
 
-ar transaction = db.transaction(["Accountdaten"]);
+var transaction = db.transaction(["Accountdaten"]);
 var objectStore = transaction.objectStore("Accountdaten");
 var request = objectStore.get("444-44-4444");
 request.onerror = function(event) {
