@@ -34,6 +34,11 @@ request.onerror = function(event) {
 		  alert("Fehler in der Datenbank behandeln: " + event.target.errorCode);
 		};
 		
+		
+		
+		
+		----------------------------------------------------------------------------------
+		
 		const customerData = [
 			  { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
 			  { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
@@ -50,7 +55,8 @@ request.onerror = function(event) {
 		  var db = event.target.result;
 
 		  
-		  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+		  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" }); // Der Keypath macht das Objekt (die Person) einzigartig damit ist sie sofort zu identifizieren
+		  // in meinem Beispiel ist dies die SSN (Sozialversicherungsnummer) 
 
 		 
 		  objectStore.createIndex("name", "name", { unique: false }); // Index Erstellen damit nicht 2x der gleiche Name vorhanden sein darf
