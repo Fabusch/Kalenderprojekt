@@ -130,5 +130,50 @@ request.onerror = function(event) {
 		
 		
 		
+		-------------------------------------
 		
+		// In der Datenbank Daten speichern
 		
+		var transaction = db.transaction(["Accountdaten"]), "readwrite)";  // Da eine Transaktion jetzt vorhanden ist müssen wir den Objektspeicher darauf auffrufen 
+		transaction.oncomplete = function(event) {
+			  alert("Alles erledigt");
+			};
+			
+			transaction.onerror = function(event) { // Errorbehandlung
+				};
+		
+				var objectStore = transaction.objectStore("Accountdaten");
+				customerData.forEach(function(customer) {
+				  var request = objectStore.add(customer); // add. wenn sich noch kein Objekt mit demselben Schlüssen in der DB befindet falls doch put() verwenden.
+				  request.onsuccess = function(event) {
+				    // Ergebnis die Kunden SSN
+				  };
+				});
+				
+				
+				
+				// In der Datenbank Daten löschen
+				
+				var request = db.transaction(["Accountdaten"], "readwrite")
+                .objectStore("Accountdaten")
+                .delete("444-44-4444");
+request.onsuccess = function(event)
+
+
+// Daten aus der Datenbank aufrufen 
+
+ar transaction = db.transaction(["Accountdaten"]);
+var objectStore = transaction.objectStore("Accountdaten");
+var request = objectStore.get("444-44-4444");
+request.onerror = function(event) {
+  
+};
+request.onsuccess = function(event) {
+  
+  alert("Name for SSN 444-44-4444 is " + request.result.name);
+};
+
+
+// ODER SO db.transaction("customers").objectStore("customers").get("444-44-4444").onsuccess = function(event) {
+  // alert("Name for SSN 444-44-4444 is " + event.target.result.name);
+// };
