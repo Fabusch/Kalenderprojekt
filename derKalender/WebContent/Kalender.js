@@ -3,7 +3,7 @@ var d = tag.getDate();
 var m = tag.getMonth() + 1;
 var y = tag.getYear() + 1900;
 			
-var ansicht = 3;
+var ansicht = 2;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
@@ -670,6 +670,7 @@ function makedata (aDate,table) {
 function createmonth (month,year,div) {
 	//creates new table
 	var table = document.createElement("table");
+	table.className = 'JA';	//Jahresansicht
     table.setAttribute("id", table);
     //fills it
     aDate = new Date(year,month_to_number(month)-1,1);

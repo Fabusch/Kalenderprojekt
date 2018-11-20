@@ -20,6 +20,18 @@
 					<div>							
 						<a href="Eventübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Event Übersicht</a><br>
 						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
+						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Kalender</h1>
+					</header>
+					<hr>
+					<div>
+						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender X</a><br>
 					</div>
 				</section>
 				<section class=kasten>
@@ -45,6 +57,9 @@
 				</section>
 			</nav>
 			<inhalt>
+				<div>
+					<input type="button" value="neuer Termin" onclick="window.location.href='TerminErstellung.html'" />
+				</div>
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
 						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
