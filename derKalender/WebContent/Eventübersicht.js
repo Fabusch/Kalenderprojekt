@@ -1,11 +1,11 @@
-var request = indexDB.open('Accountdaten',1);		//DatenBamk = request
+var request = indexDB.open('Accountdaten',1);		// DatenBamk = request
 
 request.onupgradeneeded=function() {
 	console.log('Datenbank angelegt');
 	
 	var db=this.result;
 	if(!db.objectStoreNames.contains('features')) {		
-		store=db.createObjectStore('feautures', {		//Tabelle = features
+		store=db.createObjectStore('feautures', {		// Tabelle = features
 			keypath:'key',
 			autoIncrement: true
 		});
@@ -53,14 +53,53 @@ request.onerror = function(event) {
 		  var db = event.target.result;
 
 		  
-		  var objectStore = db.createObjectStore("Accountdaten", { keyPath: "ssn" }); // Der Keypath macht das Objekt (die Person) einzigartig damit ist sie sofort zu identifizieren
-		  // in meinem Beispiel ist dies die SSN (Sozialversicherungsnummer) 
+		  var objectStore = db.createObjectStore("Accountdaten", { keyPath: "ssn" }); // Der
+																						// Keypath
+																						// macht
+																						// das
+																						// Objekt
+																						// (die
+																						// Person)
+																						// einzigartig
+																						// damit
+																						// ist
+																						// sie
+																						// sofort
+																						// zu
+																						// identifizieren
+		  // in meinem Beispiel ist dies die SSN (Sozialversicherungsnummer)
 
 		 
-		  objectStore.createIndex("name", "name", { unique: false }); // Index Erstellen damit nicht 2x der gleiche Name vorhanden sein darf
-		  objectStore.createIndex("email", "email", { unique: true }); // Um Nutzer anhand der Email zu identifizieren
+		  objectStore.createIndex("name", "name", { unique: false }); // Index
+																		// Erstellen
+																		// damit
+																		// nicht
+																		// 2x
+																		// der
+																		// gleiche
+																		// Name
+																		// vorhanden
+																		// sein
+																		// darf
+		  objectStore.createIndex("email", "email", { unique: true }); // Um
+																		// Nutzer
+																		// anhand
+																		// der
+																		// Email
+																		// zu
+																		// identifizieren
 
-		  objectStore.transaction.oncomplete = function(event) { // Dient dazu den ObjektStore erst fertig erstellen zu lassen bevor Daten aufgespielt werden
+		  objectStore.transaction.oncomplete = function(event) { // Dient
+																	// dazu den
+																	// ObjektStore
+																	// erst
+																	// fertig
+																	// erstellen
+																	// zu lassen
+																	// bevor
+																	// Daten
+																	// aufgespielt
+																	// werden
 		    
 		    var customerObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Accountdaten");
 		    customerData.forEach(function(customer) {
@@ -103,8 +142,7 @@ request.onerror = function(event) {
 				  return;
 				};
 
-				openReq.onblocked = function(event) {
-					
+				openReq.onblocked = function(event) {		
 					  alert("Schließen sie alle Tabs damit diese Seite richtig angezeigt werden kann");
 					};
 					  
@@ -120,7 +158,6 @@ request.onerror = function(event) {
 					};
 					
 					function useDatabase(db) {
-						  
 						  db.onversionchange = function(event) {
 						    db.close();
 						    alert("Die Datenbank wurde aktualisiert bitte schließen sie das Fenster um die Änderungen wirksam zu machen");
@@ -132,7 +169,18 @@ request.onerror = function(event) {
 		
 		// In der Datenbank Daten speichern
 		
-		var transaction = db.transaction(["Accountdaten"]), "readwrite)";  // Da eine Transaktion jetzt vorhanden ist müssen wir den Objektspeicher darauf auffrufen 
+		var transaction = db.transaction(["Accountdaten"]), "readwrite)";  // Da
+																			// eine
+																			// Transaktion
+																			// jetzt
+																			// vorhanden
+																			// ist
+																			// müssen
+																			// wir
+																			// den
+																			// Objektspeicher
+																			// darauf
+																			// auffrufen
 		transaction.oncomplete = function(event) {
 			  alert("Alles erledigt");
 			};
@@ -142,7 +190,13 @@ request.onerror = function(event) {
 		
 				var objectStore = transaction.objectStore("Accountdaten");
 				customerData.forEach(function(customer) {
-				  var request = objectStore.add(customer); // add. wenn sich noch kein Objekt mit demselben Schlüssen in der DB befindet falls doch put() verwenden.
+				  var request = objectStore.add(customer); // add. wenn sich
+															// noch kein Objekt
+															// mit demselben
+															// Schlüssen in der
+															// DB befindet falls
+															// doch put()
+															// verwenden.
 				  request.onsuccess = function(event) {
 				    // Ergebnis die Kunden SSN
 				  };
@@ -158,7 +212,7 @@ request.onerror = function(event) {
 request.onsuccess = function(event)
 
 
-// Daten aus der Datenbank aufrufen 
+// Daten aus der Datenbank aufrufen
 
 var transaction = db.transaction(["Accountdaten"]);
 var objectStore = transaction.objectStore("Accountdaten");
@@ -172,12 +226,15 @@ request.onsuccess = function(event) {
 };
 
 
-// ODER SO db.transaction("customers").objectStore("customers").get("444-44-4444").onsuccess = function(event) {
+// ODER SO
+// db.transaction("customers").objectStore("customers").get("444-44-4444").onsuccess
+// = function(event) {
   // alert("Name for SSN 444-44-4444 is " + event.target.result.name);
 // };
 
 
-// Eingetragene Informationen die in der Datenbank vorhanden sind zu ändern funktioniert so.
+// Eingetragene Informationen die in der Datenbank vorhanden sind zu ändern
+// funktioniert so.
 
 var objectStore = db.transaction(["Accountdaten"], "readwrite").objectStore("Accountdaten");
 var request = objectStore.get("444-44-4444");
