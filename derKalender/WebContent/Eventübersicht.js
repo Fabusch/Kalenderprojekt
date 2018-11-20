@@ -1,4 +1,4 @@
-var request = indexDB.open('Accountdaten',1);		// DatenBamk = request
+var request = indexDB.open('Accountdaten',1);		// DatenBank = request
 
 request.onupgradeneeded=function() {
 	console.log('Datenbank angelegt');
