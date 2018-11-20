@@ -161,7 +161,9 @@ request.onerror = function(event) {
 						  db.onversionchange = function(event) {
 						    db.close();
 						    alert("Die Datenbank wurde aktualisiert bitte schließen sie das Fenster um die Änderungen wirksam zu machen");
-						  };		
+						  }};	
+						  
+						  
 		// In der Datenbank Daten speichern
 		
 		var transaction = db.transaction(["Accountdaten"]), "readwrite)";  // Da
