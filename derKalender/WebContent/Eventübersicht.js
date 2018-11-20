@@ -189,7 +189,7 @@ request.onsuccess = function(event) {
   var data = event.target.result;
   
   
-  data.age = 55;
+  data.age = 58;
 
   
   var requestUpdate = objectStore.put(data);
