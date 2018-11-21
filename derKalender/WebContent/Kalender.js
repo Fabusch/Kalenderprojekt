@@ -67,7 +67,7 @@ request.onupgradeneeded = function(event) {
 }
 
 
-function addTemine(aData){
+function addTemine(aDate){
 	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
 	switch(ansicht){
 		case 1:
@@ -129,6 +129,7 @@ function addTemine(aData){
 	}
 }
 
+
 var tag = new Date();
 var d = tag.getDate();
 var m = tag.getMonth() + 1;
@@ -146,7 +147,9 @@ function background(element){
 	else if(element.innerHTML=="Star-Wars Clone")
 		document.getElementById('kalender').style.backgroundImage = "url('img/Star-Wars_Clone.jpg')";
 }
-function Monatsende(Monat, Jahr){
+function Monatsende(aDate){
+	var Monat = aDate.getMonth() + 1;
+	var Jahr = aDate.getYear() + 1900;
 	var Monatsende = 31;
 	if (Monat == 4 || Monat == 6 || Monat == 9 || Monat == 11) --Monatsende; // April(4), Juni(6), September(9), November(11) 30 Tage
 	if (Monat == 2) {	//Februar(2)
@@ -171,9 +174,9 @@ function Kalender(){
 	}
 	var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
 	var t2 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
-	var aData = new Date(y,m-1,1);
 	switch (ansicht){
 		case 1:
+			var aDate = new Date(y,m-1,d);
 			WochenKalender(d, m, y);
 			t1.innerHTML = y;
 			t1.style.fontSize = "30px";
@@ -181,7 +184,8 @@ function Kalender(){
 			t2.style.fontSize = "30px";
 			break;
 		case 2:
-			MonatsKalender(m, y);
+			var aDate = new Date(y,m-1,1);
+			MonatsKalender(aDate);
 			t1.innerHTML = y;
 			t1.style.fontSize = "30px";
 			t2.innerHTML = '';
@@ -207,27 +211,23 @@ function Kalender(){
 			t2.style.fontSize = "2px";
 			break;
 	}
-	addTemine(aData);
+	addTemine(aDate);
 }
-function MonatsKalender(Monat, Jahr) {
+function MonatsKalender(aDate) {
 	var jetzt = new Date();		// aktuelles Datum
-	var DieserMonat = jetzt.getMonth() + 1;
-	var DiesesJahr = jetzt.getYear() + 1900;
-	var DieserTag = jetzt.getDate();
 	var Wochentagab = new Array("Mo","Di","Mi","Do","Fr","Sa","So");	//abkürzungen für die Wochentage
 	
-	var Zeit = new Date(Jahr, Monat - 1, 1);
-	var Start = Zeit.getDay();		//Wochentag des ersten Tags im Monat
+	var Start = aDate.getDay();		//Wochentag des ersten Tags im Monat
 	if (Start > 0) {
 		Start--;
 	} else {
 		Start = 6;
 	}
-	var ende = Monatsende(Monat, Jahr);
+	var ende = Monatsende(aDate);
 	
 	var table = document.createElement("table");
 	
-	var Kopf = Monatsname[Monat-1];	//Tabellenüberschrift
+	var Kopf = Monatsname[aDate.getMonth()-1];	//Tabellenüberschrift
 	var caption = table.createCaption();
 	caption.innerHTML = Kopf;
 	
@@ -244,9 +244,11 @@ function MonatsKalender(Monat, Jahr) {
 	var cell = zeile.insertCell(2+ Gruppenmitglieder.length);
 	cell.innerHTML = "KW";
 	
-	var Tageszahl = 1;				//Tabellenbody
+			//Tabellenbody
 	for (var i = 0; i < ende; i++) {		//bis Monatsende
 		var zeile = table.insertRow(i+1);
+		
+		Tageszahl =aDate.getDate();
 		
 		zeile.className = 'kalendertag';	
 		cells = zeile.insertCell(0);
@@ -265,16 +267,11 @@ function MonatsKalender(Monat, Jahr) {
 			cells.innerHTML = ' ';
 		}
 		if (wt=="Montag"||Tageszahl==1){		//Kalender Woche ergänzen
-			var date = new Date(y,m-1,Tageszahl);		//der Tag
-			var currentThursday = new Date(date.getTime() +(3-((date.getDay()+6) % 7)) * 86400000);		//KalenderWoche berechnen
-			var yearOfThursday = currentThursday.getFullYear();
-			var firstThursday = new Date(new Date(yearOfThursday,0,4).getTime() +(3-((new Date(yearOfThursday,0,4).getDay()+6) % 7)) * 86400000);
-			
+			kW = weekofyear(aDate);
 			cellskW = zeile.insertCell(Gruppenmitglieder.length +2);
-			var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
 			cellskW.innerHTML = kW;			//Kalender Woche
 			
-			cellskW.title = Tageszahl + '.'+ Monat+'.'+ y;	//Datum vom Montag als titel
+			cellskW.title = aDate.getDate() + '.'+ (aDate.getMonth() + 1) +'.'+ (aDate.getYear() + 1900);	//Datum vom Montag als titel
 			cellskW.className = 'kw';
 			cellskW.addEventListener('click', function(){	click_wechsel( 1, this.title);	});
 			cellskW.addEventListener('mouseover', function(){	link(this);	});
@@ -282,13 +279,11 @@ function MonatsKalender(Monat, Jahr) {
 			
 			cellskW.rowSpan = 7 - Wochentag.indexOf(wt);	// länge der Zelle bis Sonntag
 		}
-		if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tageszahl == DieserTag)){	//heute hervorheben 
+		if ( (aDate.getDate()==jetzt.getDate()) && (aDate.getMonth()==jetzt.getMonth()) && (aDate.getYear()==jetzt.getYear()) ){	//heute hervorheben 
 			zeile.className = zeile.className + ' heute';			//makiert den Tag
 			cellskW.className= cellskW.className + ' heute';			//makiert die aktuelle Kalenderwoche
 		}
-		
-		
-		Tageszahl++;
+		aDate.setDate(aDate.getDate() + 1);
 	}
 	document.getElementById('kalender').appendChild(table);
 }
@@ -487,7 +482,7 @@ function click_wechsel(sicht, datum){
 	d = parseInt(d) ;		//String to Int
 	m = parseInt(m) ;
 	y = parseInt(y) ;
-	Kalender(sicht);
+	Kalender(sicht) ;
 }
 function link(element){
 	element.style.color="#FFEB3B";
@@ -499,114 +494,14 @@ function linkout(element){
 
 //Convert monthname to monthnumber
 function month_to_number(month){
-	switch(month){
-		case "Januar":
-			return 1;
-		case "Februar":
-			return 2;
-		case "März":
-			return 3;
-		case "April":
-			return 4;
-		case "Mai":
-			return 5;
-		case "Juni":
-			return 6;
-		case "Juli":
-			return 7;
-		case "August":
-			return 8;
-		case "September":
-			return 9
-		case "Oktober":
-			return 10;
-		case "November":
-			return 11;
-		case "Dezember":
-			return 12;
-	}
-	return 0;
 }
 //Conver monthnumber to monthname
 function number_to_month(number){
-	switch(number){
-	case 1:
-		return "Januar";
-	case 2:
-		return "Februar";
-	case 3:
-		return "März";
-	case 4:
-		return "April"
-	case 5:
-		return "Mai";
-	case 6:
-		return "Juni";
-	case 7:
-		return "Juli";
-	case 8:
-		return "August";
-	case 9:
-		return "September";
-	case 10:
-		return "Oktober";
-	case 11:
-		return "November";
-	case 12:
-		return "Dezember";
-	}
-	return "Error";
-
 }
 function daysofmonth(aDate){
-	month = number_to_month(aDate.getMonth()+1);
-	year = aDate.getFullYear();
-	switch(month){
-		case "Januar":
-			return 31;
-		case "Februar":
-			if (isleapyear(year)){
-				return 29;
-			}
-			else{
-				return 28;
-			}
-		case "März":
-			return 31;
-		case "April":
-			return 30;
-		case "Mai":
-			return 31
-		case "Juni":
-			return 30;
-		case "Juli":
-			return 31;
-		case "August":
-			return 31;
-		case "September":
-			return 30;
-		case "Oktober":
-			return 31;
-		case "November":
-			return 30;
-		case "Dezember":
-			return 31;
-		}
-	return 0;
-	
 }
 //Test if leap year
 function isleapyear(year){
-	if (year%4 == 0){
-		if (year%100 == 0){
-			if (year%400 == 0){
-				return true;
-			}
-			return false;
-		}
-		return true;
-	}
-	return false;
 }
 
 
@@ -726,7 +621,7 @@ function maketitle(month,table) {
       //var monthtable = document.getElementById(month);
 	  // schreibe Tabellenüberschrift
 	  var caption = table.createCaption();
-	  caption.innerHTML = month;
+	  caption.innerHTML = Monatsname[month-1];
 }
 
 function makedata (aDate,table) {
@@ -803,10 +698,10 @@ function makedata (aDate,table) {
 function createmonth (month,year,div) {
 	//creates new table
 	var table = document.createElement("table");
-	table.className = 'JA';	//Jahresansicht
+	table.className = 'JA';	//Jahresansicht für css
     table.setAttribute("id", table);
     //fills it
-    aDate = new Date(year,month_to_number(month)-1,1);
+    aDate = new Date(year, month-1, 1);
 	maketitle(month,table);
 	makedata(aDate,table);
 	table.style.cssFloat = "left";
@@ -814,100 +709,71 @@ function createmonth (month,year,div) {
 	div.appendChild(table);
 }
 function createyear(year,main){
-
-	var div;
-	div = document.createElement('div');
-	div.setAttribute("id", "firstquater");
-	div.style.cssFloat = "left";
 	
-	createmonth ("Januar",year,div);
-	createmonth ("Februar",year,div);
-	createmonth ("März",year,div);
-
-	main.appendChild(div);
-
-	div = document.createElement('div');
-	div.setAttribute("id", "secondquater");
-	div.style.cssFloat = "left";
-
-	createmonth ("April",year,div);
-	createmonth ("Mai",year,div);
-	createmonth ("Juni",year,div);
-
-	main.appendChild(div);
+	for(i=0; i<=4; i++){
+		var div;
+		div = document.createElement('div');
+		div.setAttribute("id", "firstquater");
+		div.style.cssFloat = "left";
 	
-	div = document.createElement('div');
-	div.setAttribute("id", "thirdquater");
-	div.style.cssFloat = "left";
+		createmonth (i+1, year,div);
+		createmonth (i+2, year,div);
+		createmonth (i+3, year,div);
 
-	createmonth ("Juli",year,div);
-	createmonth ("August",year,div);
-	createmonth ("September",year,div);
-
-	main.appendChild(div);
-	
-	div = document.createElement('div');
-	div.setAttribute("id", "fourthquater");
-	div.style.cssFloat = "left";
-
-	createmonth ("Oktober",year,div);
-	createmonth ("November",year,div);
-	createmonth ("Dezember",year,div);
-
-	main.appendChild(div);
-
-}
-
-function buttonconfig(button, id,caption){
-	button.setAttribute("id",id);
-	button.innerHTML = caption;
-}
-
-function initializeyearcounter(main){
-	var counter = document.createElement("table");
-	counter.setAttribute("id", "counter");
-	counter.style.cssFloat = "left";
-	row = counter.insertRow();
-	cell = row.insertCell();
-	today = new Date();
-	cell.innerText = today.getFullYear();
-	main.appendChild(counter);
-}
-
-function clear(main){
-	while (main.firstChild) {
-		main.removeChild(main.firstChild);
+		main.appendChild(div);
 	}
 }
 
-function decreaseyear(){
-	main = document.getElementById("Kalender");
-	clear(main);
-	var counter = document.getElementById("counter");
-	createyear(parseInt(counter.innerText)-1,calendartag);
-	counter.innerText = parseInt(counter.innerText)-1;
-}
-
-function increaseyear(){
-	main = document.getElementById("Kalender");
-	clear(main) 
-	var counter = document.getElementById("counter");
-	createyear(parseInt(counter.innerText)+1,calendartag);
-	counter.innerText = parseInt(counter.innerText)+1;
-	
-}
-
-function buttons(buttontag,calendartag){
-	var button;
-	
-	button = document.createElement("button");
-	buttonconfig(button, "lastyear","Jahr vorher");
-	button.addEventListener('click', decreaseyear);
-	buttontag.appendChild(button);
-
-	button = document.createElement("button");
-	buttonconfig(button, "nextyear","Jahr nachher");
-	button.addEventListener('click', increaseyear);
-	buttontag.appendChild(button);
-}
+//function buttonconfig(button, id,caption){
+//	button.setAttribute("id",id);
+//	button.innerHTML = caption;
+//}
+//
+//function initializeyearcounter(main){
+//	var counter = document.createElement("table");
+//	counter.setAttribute("id", "counter");
+//	counter.style.cssFloat = "left";
+//	row = counter.insertRow();
+//	cell = row.insertCell();
+//	today = new Date();
+//	cell.innerText = today.getFullYear();
+//	main.appendChild(counter);
+//}
+//
+//function clear(main){
+//	while (main.firstChild) {
+//		main.removeChild(main.firstChild);
+//	}
+//}
+//
+//function decreaseyear(){
+//	main = document.getElementById("Kalender");
+//	clear(main);
+//	var counter = document.getElementById("counter");
+//	createyear(parseInt(counter.innerText)-1,calendartag);
+//	counter.innerText = parseInt(counter.innerText)-1;
+//}
+//
+//function increaseyear(){
+//	main = document.getElementById("Kalender");
+//	clear(main) 
+//	var counter = document.getElementById("counter");
+//	createyear(parseInt(counter.innerText)+1,calendartag);
+//	counter.innerText = parseInt(counter.innerText)+1;
+//	
+//}
+//
+//function buttons(buttontag,calendartag){
+//	var button;
+//	
+//	button = document.createElement("button");
+//	buttonconfig(button, "lastyear","Jahr vorher");
+//	button.addEventListener('click', decreaseyear);
+//	buttontag.appendChild(button);
+//
+//	button = document.createElement("button");
+//	buttonconfig(button, "nextyear","Jahr nachher");
+//	button.addEventListener('click', increaseyear);
+//	buttontag.appendChild(button);
+//}
 
