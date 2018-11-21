@@ -1,3 +1,134 @@
+//import * as db from '/DB.js';
+var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request
+request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Datenbank erstmals angelegt
+	console.log('Datenbank angelegt');
+	alert('Datenbank angelegt');
+	var db=this.result;
+	if(!db.objectStoreNames.contains('Kalender')) {		
+		store=db.createObjectStore('Kalender', {		// Tabelle = features
+			keypath:'key',
+			autoIncrement: true
+		});
+	}
+};
+
+request.onerror = function(event) {			//bei Fehler
+	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+};
+request.onsuccess = function(event) {	//Datenbank geöffnet
+	db = event.target.result;
+	
+	db.onerror = function(event) {
+		// Dies dient zur Behandlung von allen Fehlern in der Datenbank!
+		alert("Fehler in der Datenbank behandeln: " + event.target.errorCode);
+	};
+};
+
+
+//const	User ={username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]};
+//const	Termin ={ TID: key, name: "Ostern", user: username(ID), DataStart: Start, DataEnd: End };
+//const	Gruppe ={ GID: key, name:"Familie", Mitglieder: ["Max75"] };
+	
+var request = indexedDB.open("User", 2);
+
+request.onerror = function(event) {	};
+request.onupgradeneeded = function(event) {
+	var db = event.target.result;
+	
+	var objectStore = db.createObjectStore("User", { keyPath: "username" });	//User
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
+		var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");
+		UserData.forEach(function(User) {
+			UserObjectStore.add(User);
+		});
+	};
+}
+
+var request = indexedDB.open("Termine", 3);
+var request = indexedDB.open("Gruppen", 4);
+
+request.onerror = function(event) {	};
+request.onupgradeneeded = function(event) {
+	var db = event.target.result;
+	var objectStore = db.createObjectStore("Termine", { keyPath: "TID" });	//Termine
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
+		var TerminObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Termine");
+		TerminData.forEach(function(Termin) {
+			TerminObjectStore.add(Termin);
+		});
+	};
+	var objectStore = db.createObjectStore("Gruppen", { keyPath: "GID" });
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
+		var GruppenObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Gruppen");
+		GruppenData.forEach(function(Gruppe) {
+			GruppenObjectStore.add(Gruppe);
+		});
+	};
+}
+
+
+function addTemine(aData){
+	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
+	switch(ansicht){
+		case 1:
+//			for(Gruppenmitglieder){
+//				Person[i].getTermine(von, bis);
+//				for(Termin){
+//					Anfang.year.month.day.getHours;
+//					Ende.year.month.day.getHours;
+//					name = 'gut'// Termin.name;
+					cellStart=1;
+					cellEnd=4;
+					for(var i=1; i<= (cellEnd-cellStart); i++){
+						Kalender.rows[2+i].deleteCell(1);
+					}
+					var cell = Kalender.rows[cellStart+1].cells[1];
+					cell.className = cell.className +' Termin';
+					cell.innerHTML= name;
+					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+//				}
+//			}
+			break;
+		case 2:
+//			for(var g=0; g< Gruppenmitglieder.length; g++){
+//				Person[g].getTermine(von, bis);
+//				for(Termin){
+//					Anfang= Termin.year.month.day;
+//					Ende= Termin.year.month.day;
+					name = 'gut'// Termin.name;
+					cellStart=1;
+					cellEnd=4;
+					for(var i=1; i<= (cellEnd-cellStart); i++){
+						Kalender.rows[1+i].deleteCell(2);
+					}
+					var cell = Kalender.rows[cellStart].cells[/*g+*/2];
+					cell.className = cell.className +' Termin';
+					cell.innerHTML= name;
+					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+//				}
+//			}
+			break;
+		case 3:
+//			for(Gruppenmitglieder){
+//				Person[i].getTermine(von, bis);
+//				for(Termin){
+//					Anfang.year.month.day;
+//					Ende.year.month.day;
+//					cellStart
+//					cellEnd
+//					name = 'gut'// Termin.name;
+//						for(var i=1; i<= (cellEnd-cellStart); i++)
+//							var cell = Kalender.rows[cellStart].cells[1];
+//							cell.className = cell.className +' Termin';
+//							cell.title= cell.title + ' name';
+//					}
+//					cell.class;
+//				}
+//			}
+			break;
+	}
+}
+
 var tag = new Date();
 var d = tag.getDate();
 var m = tag.getMonth() + 1;
@@ -7,7 +138,7 @@ var ansicht = 2;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
-Gruppenmitglieder =new Array("Person 1","Person 2","Person 3","Person 4","Person 5","Person 6","Person 7");
+Gruppenmitglieder =new Array("Person 1","Person 2","Person 3"/*,"Person 4","Person 5","Person 6","Person 7"*/);
 			
 function background(element){
 	if(element.innerHTML=="Neptune")
@@ -40,6 +171,7 @@ function Kalender(){
 	}
 	var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];		//Überschriften Links
 	var t2 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
+	var aData = new Date(y,m-1,1);
 	switch (ansicht){
 		case 1:
 			WochenKalender(d, m, y);
@@ -74,8 +206,9 @@ function Kalender(){
 			t2.innerHTML = '';
 			t2.style.fontSize = "2px";
 			break;
-		}
 	}
+	addTemine(aData);
+}
 function MonatsKalender(Monat, Jahr) {
 	var jetzt = new Date();		// aktuelles Datum
 	var DieserMonat = jetzt.getMonth() + 1;
@@ -104,7 +237,7 @@ function MonatsKalender(Monat, Jahr) {
 	cell.innerHTML = "Datum";
 	var cell = zeile.insertCell(1);
 	cell.innerHTML = "Wochentag";
-	for (var i = 0; i <= Gruppenmitglieder.length-1; i++) {		//Eine Spallte für jedes Gruppenmitglied
+	for (var i = 0; i < Gruppenmitglieder.length; i++) {		//Eine Spallte für jedes Gruppenmitglied
 		var cell = zeile.insertCell(i+2);
 		cell.innerHTML = Gruppenmitglieder[i];
 	}
