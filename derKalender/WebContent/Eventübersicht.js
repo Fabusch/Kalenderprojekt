@@ -183,4 +183,3 @@ request.onsuccess = function(event) {
 	requestUpdate.onsuccess = function(event) {
 	};
 };
-
