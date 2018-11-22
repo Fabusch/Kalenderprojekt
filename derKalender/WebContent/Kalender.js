@@ -268,15 +268,15 @@ function Kalender(){
 			t1.innerHTML = tag.getYear() + 1900;
 			t1.style.fontSize = "30px";
 			t2.innerHTML = '';
-			t2.style.fontSize = "2px";
+			t2.style.fontSize = "0px";
 			break;
 			
 		case 3:
 			createyear();
 			t1.innerHTML = '';
-			t1.style.fontSize = "2px";
+			t1.style.fontSize = "0px";
 			t2.innerHTML = '';
-			t2.style.fontSize = "2px";
+			t2.style.fontSize = "0px";
 			break;
 	}
 	addTemine(aDate);
@@ -457,14 +457,15 @@ function createmonth (month,year) {	//creates a month table
     maketitle(month,table);
     makedata(aDate,table);
     
-    table.style.marginLeft= 'auto';
+    table.style.marginLeft= 0;
     table.style.marginRight= 'auto';
     var div = document.createElement("div");
-    div.style.height= '250px';
+    div.style.height= '245px';
     div.appendChild(table);
     return div;
     //makedata(aDate,monthtable);
 }
+
 //make Header for Month
 function maketitle(month,table) {
       //var monthtable = document.getElementById(month);
