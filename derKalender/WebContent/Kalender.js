@@ -131,9 +131,6 @@ function addTemine(aDate){
 
 
 var tag = new Date();
-var d = tag.getDate();
-var m = tag.getMonth() + 1;
-var y = tag.getYear() + 1900;
 			
 var ansicht = 2;
 			
@@ -176,21 +173,25 @@ function Kalender(){
 	var t2 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
 	switch (ansicht){
 		case 1:
-			var aDate = new Date(y,m-1,d);
-			WochenKalender(d, m, y);
-			t1.innerHTML = y;
+			var aDate = new Date(tag.getYear()+1900, tag.getMonth() ,tag.getDate());
+			WochenKalender(aDate);
+			
+			t1.innerHTML = tag.getYear() + 1900;
 			t1.style.fontSize = "30px";
-			t2.innerHTML = Monatsname[m-1];
+			t2.innerHTML = Monatsname[tag.getMonth()];
 			t2.style.fontSize = "30px";
 			break;
+			
 		case 2:
-			var aDate = new Date(y,m-1,1);
+			var aDate = new Date(tag.getYear()+1900, tag.getMonth(), 1);
 			MonatsKalender(aDate);
-			t1.innerHTML = y;
+			
+			t1.innerHTML = tag.getYear() + 1900;
 			t1.style.fontSize = "30px";
 			t2.innerHTML = '';
 			t2.style.fontSize = "2px";
 			break;
+			
 		case 3:
 			main = document.getElementById("kalender");
 			var buttontag = document.createElement("div");
@@ -227,7 +228,7 @@ function MonatsKalender(aDate) {
 	
 	var table = document.createElement("table");
 	
-	var Kopf = Monatsname[aDate.getMonth()-1];	//Tabellenüberschrift
+	var Kopf = Monatsname[aDate.getMonth()];	//Tabellenüberschrift
 	var caption = table.createCaption();
 	caption.innerHTML = Kopf;
 	
@@ -271,7 +272,7 @@ function MonatsKalender(aDate) {
 			cellskW = zeile.insertCell(Gruppenmitglieder.length +2);
 			cellskW.innerHTML = kW;			//Kalender Woche
 			
-			cellskW.title = aDate.getDate() + '.'+ (aDate.getMonth() + 1) +'.'+ (aDate.getYear() + 1900);	//Datum vom Montag als titel
+			cellskW.title = aDate.getDate() + '.'+ (aDate.getMonth()+1) +'.'+ (aDate.getYear() + 1900);	//Datum vom Montag als titel
 			cellskW.className = 'kw';
 			cellskW.addEventListener('click', function(){	click_wechsel( 1, this.title);	});
 			cellskW.addEventListener('mouseover', function(){	link(this);	});
@@ -287,37 +288,20 @@ function MonatsKalender(aDate) {
 	}
 	document.getElementById('kalender').appendChild(table);
 }
-function WochenKalender(Tag, Monat, Jahr) {
+function WochenKalender(aDate) {
 	var jetzt = new Date();		// aktuelles Datum
-	var DieserMonat = jetzt.getMonth() + 1;
-	var DiesesJahr = jetzt.getYear() + 1900;
-	var DieserTag = jetzt.getDate();
 	
-	var date = new Date(Jahr,Monat-1,Tag);		//der Tag
-	var currentThursday = new Date(date.getTime() +(3-((date.getDay()+6) % 7)) * 86400000);
-	var yearOfThursday = currentThursday.getFullYear();
-	var firstThursday = new Date(new Date(yearOfThursday,0,4).getTime() +(3-((new Date(yearOfThursday,0,4).getDay()+6) % 7)) * 86400000);
+	var kW = weekofyear(aDate);
 	
-	var kW = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000/7);
-	
-	var Zeit = new Date(Jahr, Monat-1, Tag);
-	var Start = Zeit.getDay();		//Wochentag
+	var Start = aDate.getDay();		//Wochentag
 	if (Start > 0) 
 		Start--;
 	else 
 		Start = 6;
-	Tag = Tag-Start;	//Tag soll ein Montag sein
-	if(Tag <=0){
-		Monat--;
-		if(Monat <=0){
-			Monat=12;
-			Jahr--;
-		}
-		Tag = Monatsende(Monat, Jahr)+Tag;
-	}
+	aDate.setDate(aDate.getDate() -Start);		//mit Montag beginnen
 	var table = document.createElement("table");
 	
-	var Kopf = kW+".KW";	//Tabellenüberschrift		//!!!
+	var Kopf = kW+".KW";	//Tabellenüberschrift
 	var caption = table.createCaption();
 	caption.innerHTML = Kopf;
 	
@@ -328,34 +312,25 @@ function WochenKalender(Tag, Monat, Jahr) {
 	var zeile1 = table.insertRow(1);		//Datums zeile
 	var cells1 = zeile1.insertCell(0);
 	cells.innerHTML = " ";
-	for (var i = 0; i <= 7-1; i++) {		//Wochentag
+	for (var i = 0; i <= 7-1; i++) {		//Wochentage
 		var cells = zeile.insertCell(i+1);
-		if(Tag > Monatsende(Monat, Jahr)){			//falls Monats wechsel
-			Tag = 1;
-			Monat++;
-			if(Monat >=13){		//falls Jahres wechsel
-				Monat=1;
-				Jahr++;
-			}
-		}
 		cells.innerHTML = Wochentag[i];
 		
 		cells1 = zeile1.insertCell(i+1);
 		
-		var tag = Tag;
-		var monat = Monat;
+		var tag = aDate.getDate();
+		var monat = aDate.getMonth()+1;
 		if (tag<=9)
 			tag = "0"+tag;
 		if (monat<=9)
 			monat= "0"+ monat;
-		cells1.innerHTML = tag+"."+monat+"."+Jahr;	//datum
+		cells1.innerHTML = tag+"."+monat+"."+(aDate.getYear() + 1900);	//datum
 		
-		if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tag == DieserTag)){ 		//heute
-			cells.className = cells.className + ' heute';
+		if ( (aDate.getDate()==jetzt.getDate()) && (aDate.getMonth()==jetzt.getMonth()) && (aDate.getYear()==jetzt.getYear()) ){
+			cells.className = cells.className + ' heute';			//makiert
 			cells1.className = cells1.className + ' heute';
 		}
-		
-		Tag++;
+		aDate.setDate(aDate.getDate() + 1);
 	}
 	
 	for (var i = 0; i <= 23; i++) {		//Tabellenbody
@@ -371,7 +346,7 @@ function WochenKalender(Tag, Monat, Jahr) {
 			cells.innerHTML = ' ';
 			var day = table.rows[1].cells[j+1].innerHTML;		//datum als classe
 			cells.className = cells.className + day;
-			if ((Jahr == DiesesJahr) && (Monat == DieserMonat) && (Tag-(7-j) == DieserTag)) 	//heute
+			if ((aDate.getMonth()==jetzt.getMonth()) && (aDate.getYear()==jetzt.getYear()) && (aDate.getDate()-(7-j) == jetzt.getDate())) 	//heute
 				cells.className = cells.className + ' heute';
 			
 			if(i>=4 && i<=11)							//tag in drei abschnitte aufteilen
@@ -404,64 +379,40 @@ function wechsel(vor){
 }
 function Jahres_wechsel(vor){
 	if(vor){
-		y ++;
-		if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
-			d--;
+		tag.setDate(1);
+		tag.setMonth(1);
+		tag.setYear(tag.getYear()+1)
 	}
 	else{
-		y --;
-		if(m==2 && d==29)		//29.Febuar ist nur alle 4 Jahre
-			d--;
+		tag.setDate(1);
+		tag.setMonth(1);
+		tag.setYear(tag.getYear()-1)
 	}
 }
 function Monats_wechsel(vor){
 	if(vor){
-		m += 1;
-		if(m==13){
-			m =1;
-			y += 1;
-		}
+		tag.setDate(1);
+		tag.setMonth(tag.getMonth() + 1);
 	}
 	else{
-		m -= 1;
-		if(m==0){
-			m =12;
-			y -= 1;
-		}
+		tag.setDate(1);
+		tag.setMonth(tag.getMonth() - 1);
 	}
 }			
 function Wochen_wechsel(vor){
-	if(vor){
-		d += 7;
-		if(Monatsende( m, y)<d){
-			d -= Monatsende( m, y);
-			m += 1;
-			if(m==13){
-				m =1;
-				y =y+1;
-			}
-		}
-	}
-	else{
-		d -= 7;
-		if(d<=0){
-			m = m-1;
-			if(m==0){
-				m =12;
-				y =y-1;
-			}
-			d += Monatsende( m, y);
-		}
-	}
+	if(vor)
+		tag.setDate(tag.getDate() + 7);
+	else
+		tag.setDate(tag.getDate() - 7);
 }
 
 function click_wechsel(sicht, datum){
 	ansicht = sicht;
 	if(datum[2]=='.'){
-		d = datum[0]+datum[1];
+		var d = datum[0]+datum[1];
 		if(datum[5]=='.'){
-			m = datum[3]+datum[4];
-			y = datum[6]+datum[7]+datum[8]+datum[9];
+			var m = datum[3]+datum[4];
+			var y = datum[6]+datum[7]+datum[8]+datum[9];
 		}
 		else{
 			m = datum[3];
@@ -482,6 +433,7 @@ function click_wechsel(sicht, datum){
 	d = parseInt(d) ;		//String to Int
 	m = parseInt(m) ;
 	y = parseInt(y) ;
+	tag = new Date(y, m-1 ,d);
 	Kalender(sicht) ;
 }
 function link(element){
@@ -494,11 +446,13 @@ function linkout(element){
 
 //Convert monthname to monthnumber
 function month_to_number(month){
+	Monatsname[aDate.getMonth()-1];
 }
 //Conver monthnumber to monthname
 function number_to_month(number){
 }
 function daysofmonth(aDate){
+	Monatsende(aDate);
 }
 //Test if leap year
 function isleapyear(year){
@@ -776,4 +730,4 @@ function createyear(year,main){
 //	button.addEventListener('click', increaseyear);
 //	buttontag.appendChild(button);
 //}
-
+//
