@@ -25,9 +25,9 @@ request.onsuccess = function(event) {	//Datenbank geöffnet
 };
 
 
-//const	User ={username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]};
-//const	Termin ={ TID: key, name: "Ostern", user: username(ID), DataStart: Start, DataEnd: End };
-//const	Gruppe ={ GID: key, name:"Familie", Mitglieder: ["Max75"] };
+const	User ={username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]};
+const	Termin ={ TID: key, name: "Ostern", user: username(ID), DataStart: Start, DataEnd: End };
+const	Gruppe ={ GID: key, name:"Familie", Mitglieder: ["Max75"] };
 	
 var request = indexedDB.open("User", 2);
 
@@ -131,7 +131,7 @@ function addTemine(aDate){
 
 
 var tag = new Date();	//angezeigtes Datum			
-var ansicht = 2;
+var ansicht = 3;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
@@ -472,6 +472,9 @@ function maketitle(month,table) {
 	  // schreibe Tabellenüberschrift
 	  var caption = table.createCaption();
 	  caption.innerHTML = Monatsname[month];
+	  caption.addEventListener('click', function(){	click_wechsel( 2, (tag.getDate() + '.'+ (month+1) +'.'+ (tag.getYear()+1900)))	});
+	  caption.addEventListener('mouseover', function(){	link(this);	});
+	  caption.addEventListener('mouseout', function(){	linkout(this);	});
 }
 function makedata (aDate,table) {
 	//var table = document.getElementById(month);	  
@@ -490,6 +493,9 @@ function makedata (aDate,table) {
 		    		week = weekofyear(aDate);
 		    		cell.innerHTML = week;
 		    		cell.className = 'week';
+		    		cell.addEventListener('click', function(){	click_wechsel( 1, (aDate.getDate() + '.'+ (aDate.getMonth()) +'.'+ (aDate.getYear()+1900)) )	});
+		    		cell.addEventListener('mouseover', function(){	link(this);	});
+		    		cell.addEventListener('mouseout', function(){	linkout(this);	});
 		    	}
 		    	//weekday not in month
 		    	else if (j<weekday(aDate)){
