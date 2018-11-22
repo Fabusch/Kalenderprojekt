@@ -2,7 +2,7 @@
 var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request
 request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Datenbank erstmals angelegt
 	console.log('Datenbank angelegt');
-	alert('Datenbank angelegt');
+//	alert('Datenbank angelegt'); muss Ja nicht aufploppen für den Nutzer reicht Ja wenn sie im Hintergrund erstellt wird.
 	var db=this.result;
 	if(!db.objectStoreNames.contains('Kalender')) {		
 		store=db.createObjectStore('Kalender', {		// Tabelle = features
