@@ -1,8 +1,8 @@
 //import * as db from '/DB.js';
 
 const	User =[{username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]}];
-const	Termin =[{ TID: 'g4fo6c', name: "Ostern", username: 'Max75'/*, DataStart: Start, DataEnd: End */}];
-const	Gruppe =[{ GID: 'lsbra8', name:"Familie", Mitglieder: ["Max75"] }];
+const	Termin =[{ TID: '1', name: "Ostern", username: 'Max75'/*, DataStart: Start, DataEnd: End */}];
+const	Gruppe =[{ GID: '1', name:"Familie", Mitglieder: ["Max75"] }];
 
 var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request
 request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Datenbank erstmals angelegt
@@ -14,35 +14,17 @@ request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Daten
 			keypath:'GID',
 			autoIncrement: true
 		});
-		objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
-			var GruppenObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Gruppen");
-			GruppenData.forEach(function(Gruppe) {
-				GruppenObjectStore.add(Gruppe);
-			});
-		};
 	}
 	if(!db.objectStoreNames.contains('User')) {		
 		store=db.createObjectStore('User', {		// Tabelle = features
 			keypath:'username',
 		});
-		objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
-			var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");
-			UserData.forEach(function(User) {
-				UserObjectStore.add(User);
-			});
-		};
 	}
 	if(!db.objectStoreNames.contains('Termin')) {		
 		store=db.createObjectStore('Termin', {		// Tabelle = features
 			keypath:'TID',
 			autoIncrement: true
 		});
-		objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   
-			var TerminObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Termine");
-			TerminData.forEach(function(Termin) {
-				TerminObjectStore.add(Termin);
-			});
-		};
 	}
 };
 request.onerror = function(event) {			//bei Fehler
@@ -50,12 +32,40 @@ request.onerror = function(event) {			//bei Fehler
 };
 request.onsuccess = function(event) {	//Datenbank geöffnet
 	db = event.target.result;
-	
 	db.onerror = function(event) {
 		// Dies dient zur Behandlung von allen Fehlern in der Datenbank!
 		alert("Fehler in der Datenbank behandeln: " + event.target.errorCode);
 	};
 };
+
+var request = indexedDB.open("Accountdaten",1);	
+request.onerror = function(event) {	};	
+request.onupgradeneeded = function(event) {	
+	var db = event.target.result;	
+			
+	var objectStore = db.createObjectStore("User", { keyPath: "username" });	//User	
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
+		var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");	
+		UserData.forEach(function(User) {	
+			UserObjectStore.add(User);	
+		});	
+	};	
+	var objectStore = db.createObjectStore("Termine", { keyPath: "TID" });	//Termine	
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
+		var TerminObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Termine");	
+		TerminData.forEach(function(Termin) {	
+			TerminObjectStore.add(Termin);	
+		});	
+	};	
+	var objectStore = db.createObjectStore("Gruppen", { keyPath: "GID" });	
+	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
+		var GruppenObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Gruppen");	
+		GruppenData.forEach(function(Gruppe) {	
+			GruppenObjectStore.add(Gruppe);	
+		});	
+	};	
+}	
+
 
 
 	
