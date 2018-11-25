@@ -4,7 +4,7 @@ const	User =[{username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]}];
 const	Termin =[{ TID: '1', name: "Ostern", username: 'Max75'/*, DataStart: Start, DataEnd: End */}];
 const	Gruppe =[{ GID: '1', name:"Familie", Mitglieder: ["Max75"] }];
 
-var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request
+var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request 
 request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Datenbank erstmals angelegt
 	console.log('Datenbank angelegt');
 //	alert('Datenbank angelegt'); muss Ja nicht aufploppen für den Nutzer reicht Ja wenn sie im Hintergrund erstellt wird.
@@ -48,8 +48,13 @@ request.onupgradeneeded = function(event) {
 		var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");	
 		UserData.forEach(function(User) {	
 			UserObjectStore.add(User);	
+//			var transaction=myDB.transaction(["User"]) //IDBTransaction.
+//			transaction.oncomplete = function(event){};          Test der noch nicht funktionierte!
+//			transaction.onerror = function(event) {}
+//			var objectStore = transaction.objectSorte("User");
+//			var request = objectStore.add({name:"Peter", id:1})
 		});	
-	};	
+	};
 	var objectStore = db.createObjectStore("Termine", { keyPath: "TID" });	//Termine	
 	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
 		var TerminObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Termine");	
