@@ -1,42 +1,40 @@
 //import * as db from '/DB.js';
 
-const	User =[{username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen:[1]}];
-const	Termin =[{ TID: '1', name: "Ostern", username: 'Max75'/*, DataStart: Start, DataEnd: End */}];
-const	Gruppe =[{ GID: '1', name:"Familie", Mitglieder: ["Max75"] }];
+const User =[	{ username: "Max75", name:"Maxi", Passwor:"fzrem7dr"/*, Gruppen: ["1"]*/},
+				{ username: "Jan46z", name:"Jan", Passwor:"jfghxfgxk"/*, Gruppen: ["1","2"]*/}
+			];
+const Termine =[{ TID: 1, name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd: End */},
+				{ TID: 2, name: "Weinachten", username: "Jan46z"/*, DataStart: Start, DataEnd: End */}
+			];
+const Gruppen =[{ GID: 1, name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
+				{ GID: 2, name:"Feunde", Mitglieder: ["Jan46z"] }
+			];
 
-var request = window.indexedDB.open('Accountdaten',1);		// DatenBank = request 
-request.onupgradeneeded=function() {	//Datenbank-Version sich geändert // Datenbank erstmals angelegt
-	console.log('Datenbank angelegt');
-//	alert('Datenbank angelegt'); muss Ja nicht aufploppen für den Nutzer reicht Ja wenn sie im Hintergrund erstellt wird.
-	var db=this.result;
-	if(!db.objectStoreNames.contains('Gruppe')) {		
-		store=db.createObjectStore('Gruppe', {		// Tabelle = Gruppe
-			keypath:'GID',
-			autoIncrement: true
-		});
-	}
-	if(!db.objectStoreNames.contains('User')) {		
-		store=db.createObjectStore('User', {		// Tabelle = features
-			keypath:'username',
-		});
-	}
-	if(!db.objectStoreNames.contains('Termin')) {		
-		store=db.createObjectStore('Termin', {		// Tabelle = features
-			keypath:'TID',
-			autoIncrement: true
-		});
-	}
-};
-request.onerror = function(event) {			//bei Fehler
+
+var Db;
+var request = window.indexedDB.open("Accountdaten",1);	
+request.onerror = function(event) {	
+	console.log("error: ");
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
-request.onsuccess = function(event) {	//Datenbank geöffnet
-	db = event.target.result;
-	db.onerror = function(event) {
-		// Dies dient zur Behandlung von allen Fehlern in der Datenbank!
-		alert("Fehler in der Datenbank behandeln: " + event.target.errorCode);
-	};
-};
+request.onsuccess = function(event){
+	Db = request.result;
+}
+request.onupgradeneeded = function(event){
+	var Db = event.target.result;
+	ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+	for (var i in User){
+		ObjectStore.add(User[i]);
+	}
+	ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID"});
+	for (var i in Termine){
+		ObjectStore.add(Termine[i]);
+	}
+	ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID"});
+	for (var i in Gruppen){
+		ObjectStore.add(Gruppen[i]);
+	}
+}
 
 var request = indexedDB.open("Accountdaten",1);	
 request.onerror = function(event) {	};	
