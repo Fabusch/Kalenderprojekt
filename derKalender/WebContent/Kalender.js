@@ -46,11 +46,6 @@ request.onupgradeneeded = function(event) {
 		var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");	
 		UserData.forEach(function(User) {	
 			UserObjectStore.add(User);	
-//			var transaction=myDB.transaction(["User"]) //IDBTransaction.
-//			transaction.oncomplete = function(event){};          Test der noch nicht funktionierte!
-//			transaction.onerror = function(event) {}
-//			var objectStore = transaction.objectSorte("User");
-//			var request = objectStore.add({name:"Peter", id:1})
 		});	
 	};
 	var objectStore = db.createObjectStore("Termine", { keyPath: "TID" });	//Termine	
