@@ -9,17 +9,17 @@ const Termine =[{ name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd
 const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 				{ name:"Feunde", Mitglieder: ["Jan46z"] }
 			];
+
+
 var Db;
-
-
 var request = window.indexedDB.open("Accountdaten",1);	
 request.onerror = function(event) {	
 	console.log("error: ");
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
 request.onsuccess = function(event){
-	Db = event.target.result;
-};
+	Db = request.result;
+}
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
 	ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
