@@ -1,74 +1,55 @@
 //import * as db from '/DB.js';
 
-const User =[	{ username: "Max75", name:"Maxi", Passwor:"fzrem7dr"/*, Gruppen: ["1"]*/},
-				{ username: "Jan46z", name:"Jan", Passwor:"jfghxfgxk"/*, Gruppen: ["1","2"]*/}
+const User =[	{ username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen: ["1"]},
+				{ username: "Jan46z", name:"Jan", Passwor:"jfghxfgxk", Gruppen: ["1","2"]}
 			];
-const Termine =[{ TID: 1, name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd: End */},
-				{ TID: 2, name: "Weinachten", username: "Jan46z"/*, DataStart: Start, DataEnd: End */}
+const Termine =[{ name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd: End */},
+				{ name: "Weinachten", username: "Jan46z"/*, DataStart: Start, DataEnd: End */}
 			];
-const Gruppen =[{ GID: 1, name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
-				{ GID: 2, name:"Feunde", Mitglieder: ["Jan46z"] }
+const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
+				{ name:"Feunde", Mitglieder: ["Jan46z"] }
 			];
-
-
 var Db;
+
+
 var request = window.indexedDB.open("Accountdaten",1);	
 request.onerror = function(event) {	
 	console.log("error: ");
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
 request.onsuccess = function(event){
-	Db = request.result;
-}
+	Db = event.target.result;
+};
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
 	ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
-	for (var i in User){
-		ObjectStore.add(User[i]);
+	for (var u in User){
+		ObjectStore.add(User[u]);
 	}
-	ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID"});
-	for (var i in Termine){
-		ObjectStore.add(Termine[i]);
+	var Db = event.target.result;
+	ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
+	for (var t in Termine){
+		ObjectStore.add(Termine[t]);
 	}
-	ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID"});
-	for (var i in Gruppen){
-		ObjectStore.add(Gruppen[i]);
+	var Db = event.target.result;
+	ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
+	for (var g in Gruppen){
+		ObjectStore.add(Gruppen[g]);
 	}
 }
-
-var request = indexedDB.open("Accountdaten",1);	
-request.onerror = function(event) {	};	
-request.onupgradeneeded = function(event) {	
-	var db = event.target.result;	
-			
-	var objectStore = db.createObjectStore("User", { keyPath: "username" });	//User	
-	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
-		var UsererObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("User");	
-		UserData.forEach(function(User) {	
-			UserObjectStore.add(User);	
-//			var transaction=myDB.transaction(["User"]) //IDBTransaction.
-//			transaction.oncomplete = function(event){};          Test der noch nicht funktionierte!
-//			transaction.onerror = function(event) {}
-//			var objectStore = transaction.objectSorte("User");
-//			var request = objectStore.add({name:"Peter", id:1})
-		});	
+//einfügen(Db);			//Db is not set
+function einfügen(Db){
+	var quest = Db.
+		transaction(["Termin"], "readwrite").objectStore("Termin")
+		.add({name: "Geburtstag", username: "Jan46z"});
+	
+	quest.onsuccess = function(event) {
+		alert("Der Termin wurde hinzugefügt.");
 	};
-	var objectStore = db.createObjectStore("Termine", { keyPath: "TID" });	//Termine	
-	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
-		var TerminObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Termine");	
-		TerminData.forEach(function(Termin) {	
-			TerminObjectStore.add(Termin);	
-		});	
-	};	
-	var objectStore = db.createObjectStore("Gruppen", { keyPath: "GID" });	
-	objectStore.transaction.oncomplete = function(event) { // erst fertig erstellen, bevor Daten aufgespielt werden   	
-		var GruppenObjectStore = db.transaction("Accountdaten", "readwrite").objectStore("Gruppen");	
-		GruppenData.forEach(function(Gruppe) {	
-			GruppenObjectStore.add(Gruppe);	
-		});	
-	};	
-}	
-
+	quest.onerror = function(event) {
+		alert("Der Termin wurde NICHT hinzugefügt.!!!!!!");
+	}
+}
 
 
 	
