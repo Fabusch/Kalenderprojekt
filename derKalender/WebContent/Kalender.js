@@ -11,14 +11,14 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 			];
 
 
-var Db;
+var Db;		//Fabian der Wert
 var request = window.indexedDB.open("Accountdaten",1);	
 request.onerror = function(event) {	
 	console.log("error: ");
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
 request.onsuccess = function(event){
-	Db = request.result;
+	Db = request.result;		//Fabian	nur innerhalb dieser funktion gesetzt
 }
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
@@ -37,7 +37,7 @@ request.onupgradeneeded = function(event){
 		ObjectStore.add(Gruppen[g]);
 	}
 }
-//einfügen(Db);			//Db is not set
+//einfügen(Db);			//Fabian	hier hat Db keinen Wert
 function einfügen(Db){
 	var quest = Db.
 		transaction(["Termin"], "readwrite").objectStore("Termin")
