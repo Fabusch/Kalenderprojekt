@@ -39,7 +39,7 @@ request.onupgradeneeded = function(event){
 }
 einfügen();	
 function einfügen(){
-	var Db
+	var Db;
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
@@ -55,7 +55,7 @@ function einfügen(){
 		var Db = event.target.result;
 		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
 		for (var g in Gruppen){
-			ObjectStore.add(Gruppen[g]);
+			ObjectStore.add(Gruppen[g]);        // Datenbank wird erstellt wenn diese noch nicht vorhanden ist
 		}
 	};
 	request.onerror = function(event) {	
@@ -63,7 +63,7 @@ function einfügen(){
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
 	request.onsuccess = function(event){
-		Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
 		request = Db.transaction(["Termin"], "readwrite")
 			.objectStore("Termin")
 			.add({name: "Geburtstag", username: "Jan46z"});
