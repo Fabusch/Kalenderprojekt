@@ -1,7 +1,7 @@
 //import * as db from '/DB.js';
 
-const User =[	{ username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen: ["1"]},
-				{ username: "Jan46z", name:"Jan", Passwor:"jfghxfgxk", Gruppen: ["1","2"]}
+const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrem7dr", Gruppen: ["1"]},
+				{ username: "Jan46z", name:"Jan", Passwort:"jfghxfgxk", Gruppen: ["1","2"]}
 			];
 const Termine =[{ name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd: End */},
 				{ name: "Weinachten", username: "Jan46z"/*, DataStart: Start, DataEnd: End */}
@@ -18,11 +18,13 @@ request.onerror = function(event) {
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
 request.onsuccess = function(event){
-	Db = request.result;		//Fabian	nur innerhalb dieser funktion gesetzt
+	Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
+	alert("Die Datenbank wurde angelegt");
+	einfügen(Db);
 }
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
-	ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+	var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
 	for (var u in User){
 		ObjectStore.add(User[u]);
 	}
@@ -37,16 +39,17 @@ request.onupgradeneeded = function(event){
 		ObjectStore.add(Gruppen[g]);
 	}
 }
-//einfügen(Db);			//Fabian	hier hat Db keinen Wert
+	
 function einfügen(Db){
-	var quest = Db.
-		transaction(["Termin"], "readwrite").objectStore("Termin")
+	var request = Db.transaction(["Termin"], "readwrite")
+		.objectStore("Termin")
+//		transaction(["Termin"], "readwrite").objectStore("Termin")
 		.add({name: "Geburtstag", username: "Jan46z"});
 	
-	quest.onsuccess = function(event) {
+	request.onsuccess = function(event) {
 		alert("Der Termin wurde hinzugefügt.");
 	};
-	quest.onerror = function(event) {
+	request.onerror = function(event) {
 		alert("Der Termin wurde NICHT hinzugefügt.!!!!!!");
 	}
 }
