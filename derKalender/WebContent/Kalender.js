@@ -1,4 +1,4 @@
-//import * as db from '/DB.js';
+
 
 const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrem7dr", Gruppen: ["1"]},
 				{ username: "Jan46z", name:"Jan", Passwort:"jfghxfgxk", Gruppen: ["1","2"]}
@@ -11,16 +11,14 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 			];
 
 
-var Db;		//Fabian der Wert
 var request = window.indexedDB.open("Accountdaten",1);	
 request.onerror = function(event) {	
 	console.log("error: ");
 	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 };
 request.onsuccess = function(event){
-	Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
+	Db = request.result;	
 	alert("Die Datenbank wurde angelegt");
-	einfügen(Db);
 }
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
@@ -39,9 +37,36 @@ request.onupgradeneeded = function(event){
 		ObjectStore.add(Gruppen[g]);
 	}
 }
-	
-function einfügen(Db){
-	var request = Db.transaction(["Termin"], "readwrite")
+einfügen();	
+function einfügen(){
+	var Db
+	var request = window.indexedDB.open("Accountdaten",1);	
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
+		alert("Die Datenbank wurde angelegt");
+	}
+	request.onupgradeneeded = function(event){
+		var Db = event.target.result;
+		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+		for (var u in User){
+			ObjectStore.add(User[u]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
+		for (var t in Termine){
+			ObjectStore.add(Termine[t]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
+		for (var g in Gruppen){
+			ObjectStore.add(Gruppen[g]);
+		}
+	}
+	request = Db.transaction(["Termin"], "readwrite")
 		.objectStore("Termin")
 //		transaction(["Termin"], "readwrite").objectStore("Termin")
 		.add({name: "Geburtstag", username: "Jan46z"});
@@ -56,74 +81,74 @@ function einfügen(Db){
 
 
 function addTemine(aDate){
-	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
-	switch(ansicht){
-		case 1:
-//			for(Gruppenmitglieder){
-//				Person[i].getTermine(von, bis);
-//				for(Termin){
-//					Anfang.year.month.day.getHours;
-//					Ende.year.month.day.getHours;
-//					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
-					name = 'gut'// Termin.name;
-					cellStart=1;
-					cellEnd=4;
-					for(var i=1; i<= (cellEnd-cellStart); i++){
-						Kalender.rows[2+i].deleteCell(1);
-					}
-					var cell = Kalender.rows[cellStart+1].cells[1];
-					cell.className = cell.className +' Termin';
-					cell.innerHTML= name;
-					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
-//				}
-//			}
-			break;
-		case 2:
-//			for(var g=0; g< Gruppenmitglieder.length; g++){
-//				Person[g].getTermine(von, bis);
-				Person =0;
-//				for(Termin){
-					name = 'gut'// Termin.name;
-					if(Start.getMonth() == tag.getMonth()){
-						Start= new Date(2018,11,25);
-						End= new Date(2018, 11,30);
-					}
-					else{
-						End= new Date(2018,11,25);
-						Start= new Date(2018, 11,30);
-					}
-					rowStart= (	document.getElementsByClassName( Start.getDate() +"."+ Start.getMonth() +"." + Start.getYear+1900 )	.rowIndex);
-					var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];
-					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
-					for(var i=1; i<= (dauer); i++){
-						Kalender.rows[rowStart+i].deleteCell(2+Person);
-					}
-					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
-					cell.className = cell.className +' Termin';
-					cell.innerHTML= name;
-					cell.rowSpan = dauer;		//	dauer
-//				}
-//			}
-			break;
-		case 3:
-//			for(Gruppenmitglieder){
-//				Person[i].getTermine(von, bis);
-//				for(Termin){
-//					Anfang.year.month.day;
-//					Ende.year.month.day;
-//					cellStart
-//					cellEnd
+//	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
+//	switch(ansicht){
+//		case 1:
+////			for(Gruppenmitglieder){
+////				Person[i].getTermine(von, bis);
+////				for(Termin){
+////					Anfang.year.month.day.getHours;
+////					Ende.year.month.day.getHours;
+////					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
 //					name = 'gut'// Termin.name;
-//						for(var i=1; i<= (cellEnd-cellStart); i++)
-//							var cell = Kalender.rows[cellStart].cells[1];
-//							cell.className = cell.className +' Termin';
-//							cell.title= cell.title + ' name';
+//					cellStart=1;
+//					cellEnd=4;
+//					for(var i=1; i<= (cellEnd-cellStart); i++){
+//						Kalender.rows[2+i].deleteCell(1);
 //					}
-//					cell.class;
-//				}
-//			}
-			break;
-	}
+//					var cell = Kalender.rows[cellStart+1].cells[1];
+//					cell.className = cell.className +' Termin';
+//					cell.innerHTML= name;
+//					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+////				}
+////			}
+//			break;
+//		case 2:
+////			for(var g=0; g< Gruppenmitglieder.length; g++){
+////				Person[g].getTermine(von, bis);
+//				Person =0;
+////				for(Termin){
+//					name = 'gut'// Termin.name;
+//					if(Start.getMonth() == tag.getMonth()){
+//						Start= new Date(2018,11,25);
+//						End= new Date(2018, 11,30);
+//					}
+//					else{
+//						End= new Date(2018,11,25);
+//						Start= new Date(2018, 11,30);
+//					}
+//					rowStart= (	document.getElementsByClassName( Start.getDate() +"."+ Start.getMonth() +"." + Start.getYear+1900 )	.rowIndex);
+//					var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];
+//					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
+//					for(var i=1; i<= (dauer); i++){
+//						Kalender.rows[rowStart+i].deleteCell(2+Person);
+//					}
+//					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
+//					cell.className = cell.className +' Termin';
+//					cell.innerHTML= name;
+//					cell.rowSpan = dauer;		//	dauer
+////				}
+////			}
+//			break;
+//		case 3:
+////			for(Gruppenmitglieder){
+////				Person[i].getTermine(von, bis);
+////				for(Termin){
+////					Anfang.year.month.day;
+////					Ende.year.month.day;
+////					cellStart
+////					cellEnd
+////					name = 'gut'// Termin.name;
+////						for(var i=1; i<= (cellEnd-cellStart); i++)
+////							var cell = Kalender.rows[cellStart].cells[1];
+////							cell.className = cell.className +' Termin';
+////							cell.title= cell.title + ' name';
+////					}
+////					cell.class;
+////				}
+////			}
+//			break;
+//	}
 }
 
 
