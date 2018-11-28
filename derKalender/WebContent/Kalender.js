@@ -18,7 +18,6 @@ request.onerror = function(event) {
 };
 request.onsuccess = function(event){
 	Db = request.result;	
-	alert("Die Datenbank wurde angelegt");
 }
 request.onupgradeneeded = function(event){
 	var Db = event.target.result;
@@ -36,9 +35,15 @@ request.onupgradeneeded = function(event){
 	for (var g in Gruppen){
 		ObjectStore.add(Gruppen[g]);
 	}
+	alert("Die Datenbank wurde angelegt");
 }
-einfügen();	
-function einfügen(){
+
+
+einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: ["3"]});
+einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", /*, DataStart: Start, DataEnd: End */});	
+einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
+
+function einfügen(store, Werte){
 	var Db;
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
@@ -64,15 +69,15 @@ function einfügen(){
 	};
 	request.onsuccess = function(event){
 		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
-		request = Db.transaction(["Termin"], "readwrite")
-			.objectStore("Termin")
-			.add({name: "Geburtstag", username: "Jan46z"});
+		request = Db.transaction([store], "readwrite")
+			.objectStore(store)
+			.add(Werte);
 		
 		request.onsuccess = function(event) {
-			alert("Der Termin wurde hinzugefügt.");
+			alert("Der "+store+" Datensatz wurde hinzugefügt.");
 		};
 		request.onerror = function(event) {
-			alert("Der Termin wurde NICHT hinzugefügt.!!!!!!");
+			alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.!!!!!!");
 		}
 	}
 }
