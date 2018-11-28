@@ -52,9 +52,6 @@ function einfügen(Db){
 }
 
 
-	
-
-
 function addTemine(aDate){
 	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
 	switch(ansicht){
@@ -64,7 +61,8 @@ function addTemine(aDate){
 //				for(Termin){
 //					Anfang.year.month.day.getHours;
 //					Ende.year.month.day.getHours;
-//					name = 'gut'// Termin.name;
+//					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
+					name = 'gut'// Termin.name;
 					cellStart=1;
 					cellEnd=4;
 					for(var i=1; i<= (cellEnd-cellStart); i++){
@@ -80,19 +78,27 @@ function addTemine(aDate){
 		case 2:
 //			for(var g=0; g< Gruppenmitglieder.length; g++){
 //				Person[g].getTermine(von, bis);
+				Person =0;
 //				for(Termin){
-//					Anfang= Termin.year.month.day;
-//					Ende= Termin.year.month.day;
 					name = 'gut'// Termin.name;
-					cellStart=1;
-					cellEnd=4;
-					for(var i=1; i<= (cellEnd-cellStart); i++){
-						Kalender.rows[1+i].deleteCell(2);
+					if(Start.getMonth() == tag.getMonth()){
+						Start= new Date(2018,11,25);
+						End= new Date(2018, 11,30);
 					}
-					var cell = Kalender.rows[cellStart].cells[/*g+*/2];
+					else{
+						End= new Date(2018,11,25);
+						Start= new Date(2018, 11,30);
+					}
+					rowStart= (	document.getElementsByClassName( Start.getDate() +"."+ Start.getMonth() +"." + Start.getYear+1900 )	.rowIndex);
+					var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];
+					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
+					for(var i=1; i<= (dauer); i++){
+						Kalender.rows[rowStart+i].deleteCell(2+Person);
+					}
+					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
 					cell.className = cell.className +' Termin';
 					cell.innerHTML= name;
-					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+					cell.rowSpan = dauer;		//	dauer
 //				}
 //			}
 			break;
@@ -119,7 +125,7 @@ function addTemine(aDate){
 
 
 var tag = new Date();	//angezeigtes Datum			
-var ansicht = 3;
+var ansicht = 2;
 			
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
@@ -380,7 +386,7 @@ function MonatsKalender(aDate) {
 		
 		Tageszahl =aDate.getDate();
 		
-		zeile.className = 'kalendertag';	
+		zeile.className = aDate.getDate() +"."+ (aDate.getMonth()+1) +"."+ (aDate.getYear()+1900);
 		cells = zeile.insertCell(0);
 		cells.innerHTML = Tageszahl;	//Datum
 		
