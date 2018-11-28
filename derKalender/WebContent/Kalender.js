@@ -40,15 +40,7 @@ request.onupgradeneeded = function(event){
 einfügen();	
 function einfügen(){
 	var Db
-	var request = window.indexedDB.open("Accountdaten",1);	
-	request.onerror = function(event) {	
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-	};
-	request.onsuccess = function(event){
-		Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
-		alert("Die Datenbank wurde angelegt");
-	}
+	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
 		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
@@ -65,17 +57,23 @@ function einfügen(){
 		for (var g in Gruppen){
 			ObjectStore.add(Gruppen[g]);
 		}
-	}
-	request = Db.transaction(["Termin"], "readwrite")
-		.objectStore("Termin")
-//		transaction(["Termin"], "readwrite").objectStore("Termin")
-		.add({name: "Geburtstag", username: "Jan46z"});
-	
-	request.onsuccess = function(event) {
-		alert("Der Termin wurde hinzugefügt.");
 	};
-	request.onerror = function(event) {
-		alert("Der Termin wurde NICHT hinzugefügt.!!!!!!");
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;	//Fabian	nur innerhalb dieser funktion gesetzt
+		request = Db.transaction(["Termin"], "readwrite")
+			.objectStore("Termin")
+			.add({name: "Geburtstag", username: "Jan46z"});
+		
+		request.onsuccess = function(event) {
+			alert("Der Termin wurde hinzugefügt.");
+		};
+		request.onerror = function(event) {
+			alert("Der Termin wurde NICHT hinzugefügt.!!!!!!");
+		}
 	}
 }
 
