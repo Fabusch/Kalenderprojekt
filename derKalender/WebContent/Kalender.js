@@ -1,7 +1,7 @@
 //import * as db from '/DB.js';
 
-const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrem7dr", Gruppen: ["1"]},
-				{ username: "Jan46z", name:"Jan", Passwort:"jfghxfgxk", Gruppen: ["1","2"]}
+const User =[	{ username: "Max75", name:"Maxi", Passwor:"fzrem7dr", Gruppen: ["1"]},
+				{ username: "Jan46z", name:"Jan", Passwor:"jfghxfgxk", Gruppen: ["1","2"]}
 			];
 const Termine =[{ name: "Ostern", username: "Max75"/*, DataStart: Start, DataEnd: End */},
 				{ name: "Weinachten", username: "Jan46z"/*, DataStart: Start, DataEnd: End */}
