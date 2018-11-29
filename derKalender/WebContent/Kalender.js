@@ -84,74 +84,70 @@ function einfügen(store, Werte){
 
 
 function addTemine(aDate){
-//	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
-//	switch(ansicht){
-//		case 1:
-////			for(Gruppenmitglieder){
-////				Person[i].getTermine(von, bis);
-////				for(Termin){
-////					Anfang.year.month.day.getHours;
-////					Ende.year.month.day.getHours;
-////					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
+	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
+	switch(ansicht){
+		case 1:
+//			for(Gruppenmitglieder){
+//				Person[i].getTermine(von, bis);
+//				for(Termin){
+//					Anfang.year.month.day.getHours;
+//					Ende.year.month.day.getHours;
+//					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
+					name = 'gut'// Termin.name;
+					cellStart=1;
+					cellEnd=4;
+					for(var i=1; i<= (cellEnd-cellStart); i++){
+						Kalender.rows[2+i].deleteCell(1);
+					}
+					var cell = Kalender.rows[cellStart+1].cells[1];
+					cell.className = cell.className +' Termin';
+					cell.innerHTML= name;
+					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+//				}
+//			}
+			break;
+		case 2:
+//			for(var g=0; g< Gruppenmitglieder.length; g++){
+//				Person[g].getTermine(von, bis);
+				Person =0;
+//				for(Termin){
+					name = 'gut'// Termin.name;
+					Start= new Date(2018,11,25);
+					End= new Date(2018, 11,30);
+					clas = Start.getDate() +"."+ Start.getMonth() +"." + (Start.getYear()+1900);
+					rowStart= (document.getElementsByClassName( clas )[0].rowIndex);
+//					var t1 =document.getElementById('kOverHead').getElementsByTagName("a")[0];
+//					t1.innerHTML = clas;
+					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
+					for(var i=1; i<= (dauer); i++){
+						Kalender.rows[rowStart+i].deleteCell(2+Person);
+					}
+					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
+					cell.className = cell.className +' Termin';
+					cell.innerHTML= name;
+					cell.rowSpan = dauer;		//	dauer
+//				}
+//			}
+			break;
+		case 3:
+//			for(Gruppenmitglieder){
+//				Person[i].getTermine(von, bis);
+//				for(Termin){
+//					Anfang.year.month.day;
+//					Ende.year.month.day;
+//					cellStart
+//					cellEnd
 //					name = 'gut'// Termin.name;
-//					cellStart=1;
-//					cellEnd=4;
-//					for(var i=1; i<= (cellEnd-cellStart); i++){
-//						Kalender.rows[2+i].deleteCell(1);
+//						for(var i=1; i<= (cellEnd-cellStart); i++)
+//							var cell = Kalender.rows[cellStart].cells[1];
+//							cell.className = cell.className +' Termin';
+//							cell.title= cell.title + ' name';
 //					}
-//					var cell = Kalender.rows[cellStart+1].cells[1];
-//					cell.className = cell.className +' Termin';
-//					cell.innerHTML= name;
-//					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
-////				}
-////			}
-//			break;
-//		case 2:
-////			for(var g=0; g< Gruppenmitglieder.length; g++){
-////				Person[g].getTermine(von, bis);
-//				Person =0;
-////				for(Termin){
-//					name = 'gut'// Termin.name;
-//					if(Start.getMonth() == tag.getMonth()){
-//						Start= new Date(2018,11,25);
-//						End= new Date(2018, 11,30);
-//					}
-//					else{
-//						End= new Date(2018,11,25);
-//						Start= new Date(2018, 11,30);
-//					}
-//					rowStart= (	document.getElementsByClassName( Start.getDate() +"."+ Start.getMonth() +"." + Start.getYear+1900 )	.rowIndex);
-//					var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];
-//					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
-//					for(var i=1; i<= (dauer); i++){
-//						Kalender.rows[rowStart+i].deleteCell(2+Person);
-//					}
-//					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
-//					cell.className = cell.className +' Termin';
-//					cell.innerHTML= name;
-//					cell.rowSpan = dauer;		//	dauer
-////				}
-////			}
-//			break;
-//		case 3:
-////			for(Gruppenmitglieder){
-////				Person[i].getTermine(von, bis);
-////				for(Termin){
-////					Anfang.year.month.day;
-////					Ende.year.month.day;
-////					cellStart
-////					cellEnd
-////					name = 'gut'// Termin.name;
-////						for(var i=1; i<= (cellEnd-cellStart); i++)
-////							var cell = Kalender.rows[cellStart].cells[1];
-////							cell.className = cell.className +' Termin';
-////							cell.title= cell.title + ' name';
-////					}
-////					cell.class;
-////				}
-////			}
-//			break;
-//	}
+//					cell.class;
+//				}
+//			}
+			break;
+	}
 }
 
 
@@ -416,8 +412,8 @@ function MonatsKalender(aDate) {
 		var zeile = table.insertRow(i+1);
 		
 		Tageszahl =aDate.getDate();
-		
-		zeile.className = aDate.getDate() +"."+ (aDate.getMonth()+1) +"."+ (aDate.getYear()+1900);
+		zeile.className = "Tag";
+		zeile.className =zeile.className+" "+ aDate.getDate() +"."+ (aDate.getMonth()+1) +"."+ (aDate.getYear()+1900);
 		cells = zeile.insertCell(0);
 		cells.innerHTML = Tageszahl;	//Datum
 		
@@ -530,9 +526,11 @@ function makedata (aDate,table) {
 		    		cell.innerHTML = aDate.getDate();
 		    		if(j==6 || j==7||isholiday(aDate)){
 						cell.className = 'holidayorweekend';
+						cell.className = cell.className+' '+' Tag';
 					}
 		    		else{
 		    			cell.className = 'calendarday';
+		    			cell.className = cell.className+' '+' Tag';
 		    		}
 		    		aDate.setDate(aDate.getDate() + 1);
 		    	}
@@ -549,15 +547,20 @@ function makedata (aDate,table) {
 						week = weekofyear(aDate);
 			    		cell.innerHTML = week;
 			    		cell.className = 'week';
+			    		cell.addEventListener('click', function(){	click_wechsel( 1, (aDate.getDate() + '.'+ (aDate.getMonth()) +'.'+ (aDate.getYear()+1900)) )	});
+			    		cell.addEventListener('mouseover', function(){	link(this);	});
+			    		cell.addEventListener('mouseout', function(){	linkout(this);	});
 			    	}
 					//is it in month
 				    else if(aDate.getDate()<=Monatsende(aDate)&& lastday==false){
 						cell.innerHTML = aDate.getDate();
 			    		if(j==6 || j==7||isholiday(aDate)){
 							cell.className = 'holidayorweekend';
+			    			cell.className = cell.className+' '+' Tag';
 						}
 			    		else{
 			    			cell.className = 'calendarday';
+			    			cell.className = cell.className+' '+' Tag';
 						}
 			    		if (Monatsende(aDate)==aDate.getDate()){
 			    			lastday = true;
