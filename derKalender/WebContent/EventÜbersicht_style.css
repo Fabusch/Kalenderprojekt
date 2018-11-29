@@ -57,6 +57,11 @@ body {
     padding-bottom:20px;
 }
 }
+.tg table{
+	margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
 .Inhalt{	
 	position: relative;
     top: 100px;
