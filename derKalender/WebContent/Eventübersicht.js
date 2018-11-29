@@ -1,4 +1,5 @@
 
+
 var request = indexDB.open('Accountdaten',1);		// DatenBank = request
 
 request.onupgradeneeded=function() {

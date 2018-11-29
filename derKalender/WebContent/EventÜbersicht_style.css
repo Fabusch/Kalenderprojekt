@@ -1,6 +1,11 @@
 .box {
-  width: 100px;
-  height: 200px;
+	position:absolute;
+	top: 10px;
+	left: 30px;
+  	width: 140px;
+  	height: 250px;
+  	overflow-x: hidden;
+  	overflow-y: visible;
   background-color: #ddd;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -29,7 +34,7 @@
     opacity: 1;
 }
 body {
-    background: white url(img/background.jpg);
+  background: white url(img/background.jpg);
 	font-family: arial;
 	font-size: px;
 	width: 100%;
@@ -38,15 +43,25 @@ body {
 	color: white;
 }
 .tg{
-	position: relative;
-	align: right;
-	width: 70%;
-	float: right;
-	margin: 2px 2px;
-	padding:2px 2px;
+	position: absolute;
+	left: 150px;
+	background: goldenrod;
+	width: 380px;
+	color: #fff;
+	margin:50px;
+	margin-bottom: px;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom:20px;
+    align: "left" border="1";
+}
 }
 .tg table  {
-	border-collapse:relative;
+	position: relative;
+	text-align: left;
+	height:250px;
+	
 	
 }
 .tg table td{
@@ -66,17 +81,22 @@ body {
 }
 
 .tgg {
+	position: absolute;
+	left: 700px;
+	background: goldenrod;
 	border-collapse: seperate;
-	border-spacing: 6;
+	border-spacing: 20px;
 	width: 250px;
-	positon: right;
+	float: left;
+	position: left;
 	font-family: Arial, sans-serif;
-	font-size: 30px;
+	font-size: 10px;
 	padding: 10px 5px;
 	border-style: solid;
 	border-width: 1px;
 	overflow: hidden;
 	word-break: normal;
+	
 }
 .tgg th{
 	font-weight: normal;
