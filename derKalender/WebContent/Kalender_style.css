@@ -21,7 +21,8 @@ header {
     top: 0;
     right: 0;
     bottom: 0;
-    background: white url(img/wald.png);
+    background: white url(img/10_Tansania_20131023_095720.jpg);
+    background-size: 50% 100%;
     background-position: top left;
     z-index: 1;
     overflow: visible;
@@ -119,7 +120,7 @@ inhalt{
 	border-width: 1px;
     border-radius: 10px;
 	text-align: center;
-	background: black url(img/Star-Wars_Clone.jpg);
+	background: black url(img/Natur/10_Tansania_20131014_133001.jpg);
 	background-size: 100% 100%;
 }
 table{
@@ -131,8 +132,11 @@ table{
 	font-size: 30px;
 }
 #kalender tbody {
-	background-color: #28b2ff24;
+	background-color: #28b2ff5c;
 	font-size: 15px;
+}
+.thead{
+	    background-color: #28b2ff5c;
 }
 .Tag::after {
   content: "";
@@ -143,12 +147,12 @@ table{
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .Tag:hover {
-  transform: scale(1.0, 1.3);
+  transform: scale(1.0, 1.3);	
 }
 .Tag:hover::after {
     opacity: 1;
