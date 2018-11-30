@@ -1,4 +1,4 @@
-.box {
+/* .box {
 	position:absolute;
 	top: 10px;
 	left: 30px;
@@ -10,9 +10,9 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
+} */
 
-.box::after {
+/* .box::after {
   content: "";
   border-radius: 5px;
   position: absolute;
@@ -32,37 +32,80 @@
 
 .box:hover::after {
     opacity: 1;
-}
+} */
+
 body {
-  background: white url(img/background.jpg);
+    background: white url(img/background.jpg);
 	font-family: arial;
-	font-size: px;
+	font-size: 15px;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	color: white;
+	color: white; 
 }
-.tg{
-	position: absolute;
-	left: 150px;
-	background: goldenrod;
-	width: 380px;
+
+header {	
+	height: 90px;
+	width: 100%;
+	text-align: center;
+	z-index: 1000;
+	position: relative;
+}
+.header_hintergrund {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: white url(img/wald.png);
+    background-position: top left;
+    z-index: 1;
+    overflow: visible;
+}
+.logo {
+	margin: auto;
+	display: block;
+	position: relative;
+	z-index: 5;
+}
+
+nav{
+	position: relative;
+    top: 110px;
+    left: 10px;
+	width: 14%;	
+	height: 870px;
+	float: left;
+	text-align: left;
+	
+	overflow-x: hidden;
+	overflow-y: visible;
+}
+.kasten{
+	background: gray;
 	color: #fff;
-	margin:50px;
-	margin-bottom: 5px;
-	border-collapse: seperate;
+	margin:5px;
+	margin-bottom: 10px;
     border-width: 1px;
     border-radius: 10px;
     padding: 10px;
     padding-bottom:20px;
 }
+.kasten header{
+	position: relative;
+	text-align: center;
+	height:auto;
 }
-.tg table{
-	margin-left: auto;
-    margin-right: auto;
-    width: 95%;
+.kasten div{
+	position: relative;
+	left: 10px;
 }
-.Inhalt{	
+a{
+	color: white;
+	text-decoration: none;
+}
+
+inhalt{	
 	position: relative;
     top: 100px;
     text-align: center;
@@ -71,50 +114,21 @@ body {
 	margin: 5px;
 	color: #fff;
 	overflow-x: visible;
-}
-.tg table  {
-	position: relative;
-	text-align: left;
-	height:250px;
 	
-	
-}
-.tg table td{
-	padding:10px 5px;
-	border-style:double;
-	border-width:1px;
-	overflow:hidden;
-	word-break:normal;
-}
-.tg table th{
-	font-weight:normal;
-	padding:10px 5px;
-	border-style:double;
-	border-width:1px;
-	overflow:hidden;
-	word-break:normal;
+
 }
 
-.tgg {
-	position: absolute;
-	left: 700px;
-	background: goldenrod;
-	border-collapse: seperate;
-	border-spacing: 20px;
-	width: 250px;
-	float: left;
-	position: left;
-	font-family: Arial, sans-serif;
-	font-size: 10px;
-	padding: 10px 5px;
-	border-style: solid;
+.abrund{
+	background: green;
+	padding: 5px;
+	width: 95%;
 	border-width: 1px;
-	overflow: hidden;
-	word-break: normal;
-	
+    border-radius: 10px;
 }
-.tgg th{
-	font-weight: normal;
-	border-style: solid;
-	border-width: 1px;
+
+
+table{
+	margin-left: auto;
+    margin-right: auto;
+    width: 95%;
 }

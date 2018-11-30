@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -8,30 +7,60 @@
 		<script src="Eventübersicht.js"> </script>
 	</head>
 	<body>
-		
-		
-		<div class="box">
-			<section class=Übersicht></section>
-			<header>
-			<h4>Profil</h4></header>  
-			
-			<p>Bild einfügen<p>
-            <input type="file" name="image" size=> <!-- Hier kann ggf ein Bild eingefügt werden -->	
-			<h4>Vorname</h4>     <!--  Vorname einfügen -->
-			<h4>Nachname</h4>	 <!--  Nachname einfügen -->
-			
-			<div>							
+		<div>
+			<header class= header_hintergrund>
+				<img src="img/schriftzug.png" alt="Logo" class="logo">
+			</header>
+			<nav>
+				<section class=kasten>
+					<header>
+						<h1>Profil</h1>
+					</header>
+					<hr>
+					<section class=kasten>
+					<header>
+						<h4> Vorname</h4>
+						<h4> Familienname</h4>
+						</header>
+					<div>							
+						<a href="Kalender.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender</a><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">ihre Kalender</a><br>
 						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
+						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
 					</div>
-		</div>
-		
-		
-		
-		
-	<div class="Inhalt">
-		
-		<div class="tg">
+				</section>
+				
+					
+					<hr>
+					
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Ansicht</h1>
+					</header>
+					<hr>
+					<div>
+						<a onclick=" setAnsicht(1)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Wochenansicht</a><br>
+						<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Monatsansicht</a><br>
+						<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Jahresansicht</a><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Hintergrund einstellen</h1>
+					</header>
+					<hr>
+					<div>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
+					</div>
+				</section>
+			</nav>
+			<inhalt>
+			
+			<div class="tg">
 			<table>
+			
 			
  				<tr>
     				<th class="tg-031e">Termine</th>
@@ -69,23 +98,16 @@
     				<td class="tg-031e"></td> 
   				</tr>
 			</table>
-		</div>
-		<div>
-			<table class="tgg">
-				<caption>Deine Kalender</caption>
-				<tr>
+</div>
+
+										
+				</div>
 				
-				<th> &nbsp;</th>
-				</tr>
-<tr>
-					<th>&nbsp;</th>
-				</tr>
-				<tr>
-					<th>&nbsp;</th>	
-				</tr>
-			</table>
-			
-		</div>
-	</div>
+								
+				
+				<br>
+				<br>
+			</inhalt>
+		
 	</body>
 </html>
