@@ -157,7 +157,15 @@ var ansicht = 2;
 Monatsname = new Array("Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember");
 Wochentag = new Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag");
 Gruppenmitglieder =new Array("Person 1","Person 2","Person 3"/*,"Person 4","Person 5","Person 6","Person 7"*/);
-			
+
+function hide(event) {
+	var x = document.getElementById('a'+event.id);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
+}
 function background(element){
 	if(element.innerHTML=="1")
 		document.getElementById('kalender').style.backgroundImage = "url('img/Natur/10_Tansania_20131014_133001.jpg')";
