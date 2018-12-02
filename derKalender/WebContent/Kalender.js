@@ -98,13 +98,12 @@ function Gruppe(GID){
 		request = store.get(GID);		// der datensatz mit der entsprechenden GID
 		request.onsuccess = function(event) {
 			if (request.result){
-				var GMitglieder =request.result.Mitglieder;	//Fabian	speicher das Array erfolgreich unter GMitglieder
+				Gruppenmitglieder =request.result.Mitglieder;	//Fabian	speicher das Array erfolgreich unter GMitglieder
 				var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
-				t1.innerHTML=GMitglieder;		//nur um das ergebnis zu überprüfen
+				t1.innerHTML=Gruppenmitglieder;		//nur um das ergebnis zu überprüfen
 			}else{
 				alter("Fehler: Datensatz nicht gefunden");
-			}//Fabian
-			Gruppenmitglieder = GMitglieder;
+			};
 		};
 	}
 }
