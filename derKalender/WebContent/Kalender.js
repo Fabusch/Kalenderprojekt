@@ -44,7 +44,6 @@ einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", /*, DataStart: Star
 einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
 
 function einfügen(store, Werte){
-	var Db;
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
@@ -82,6 +81,33 @@ function einfügen(store, Werte){
 	}
 }
 
+function Gruppe(GID){
+	var request = window.indexedDB.open("Accountdaten",1);
+//	var GMitglieder = new Array(request);		//Fabian	dieser Wert wird leider nicht geändert und somit returnt
+	request.onupgradeneeded = function(event){
+		console.log("error: ");
+	};
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;
+		transaction = Db.transaction(["Gruppe"]);
+		store = transaction.objectStore("Gruppe");
+		request = store.get(GID);		// der datensatz mit der entsprechenden GID
+		request.onsuccess = function(event) {
+			if (request.result){
+				var GMitglieder =request.result.Mitglieder;	//Fabian	speicher das Array erfolgreich unter GMitglieder
+				var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
+				t1.innerHTML=GMitglieder;		//nur um das ergebnis zu überprüfen
+			}else{
+				alter("Fehler: Datensatz nicht gefunden");
+			}//Fabian
+			Gruppenmitglieder = GMitglieder;
+		};
+	}
+}
 
 function addTemine(aDate){
 	var Kalender = document.getElementById('kalender').getElementsByTagName('table')[0];
@@ -90,19 +116,22 @@ function addTemine(aDate){
 //			for(Gruppenmitglieder){
 //				Person[i].getTermine(von, bis);
 //				for(Termin){
-//					Anfang.year.month.day.getHours;
-//					Ende.year.month.day.getHours;
-//					dauer = Math.round( ((Anfang.getTime() - Ende.getTime())/1000) /(60*60) );
+					Anfang = "October 13, 2014 08:11:00";
+					Ende = "October 13, 2014 11:13:00";
+					dauer = Math.abs(Math.round( ((Anfang.getTime() - Ende.getTime())/1000/60/60) ));
 					name = 'gut'// Termin.name;
 					cellStart=1;
-					cellEnd=4;
-					for(var i=1; i<= (cellEnd-cellStart); i++){
+					cellEnd = cellStart+ dauer;
+					var t1 =document.getElementById('kOverHead').getElementsByTagName("a")[0];
+					t1.innerHTML = dauer;
+					for(var i=1; i<= dauer; i++){
 						Kalender.rows[2+i].deleteCell(1);
 					}
 					var cell = Kalender.rows[cellStart+1].cells[1];
 					cell.className = cell.className +' Termin';
 					cell.innerHTML= name;
 					cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
+					
 //				}
 //			}
 			break;
@@ -112,14 +141,12 @@ function addTemine(aDate){
 				Person =0;
 //				for(Termin){
 					name = 'gut'// Termin.name;
-					Start= new Date(2018,11,25);
-					End= new Date(2018, 11,30);
-					clas = Start.getDate() +"."+ Start.getMonth() +"." + (Start.getYear()+1900);
-					rowStart= (document.getElementsByClassName( clas )[0].rowIndex);
-//					var t1 =document.getElementById('kOverHead').getElementsByTagName("a")[0];
-//					t1.innerHTML = clas;
-					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Start.getFullYear(), Start.getMonth(), Start.getDate())/(1000*60*60*24));
-					for(var i=1; i<= (dauer); i++){
+					Start= new Date(2018,12-1,23);
+					End= new Date(2018, 12-1,25);
+					clas = Start.getDate() +"."+ (Start.getMonth()+1) +"." + (Start.getYear()+1900);
+					rowStart= document.getElementsByClassName(clas)[0].rowIndex;
+					dauer = Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Date.UTC( Start.getFullYear(), Start.getMonth(), Start.getDate()) )	/(1000*60*60*24));
+					for(var i=1; i<= (-2); i++){
 						Kalender.rows[rowStart+i].deleteCell(2+Person);
 					}
 					var cell = Kalender.rows[rowStart].cells[/*g+*/2];
@@ -301,6 +328,7 @@ function linkout(element){
 }
 
 function Kalender(){
+	Gruppe(1);		//Fabian		er führt den rest aus, bevor Gruppe(1) komplett durchlaufen wurde
 	tabellen = document.getElementById('kalender').getElementsByTagName('table');
 	if(tabellen.length != 0){			//Tabellen löschen
 		do{
@@ -326,8 +354,8 @@ function Kalender(){
 			
 			t1.innerHTML = tag.getYear() + 1900;
 			t1.style.fontSize = "30px";
-			t2.innerHTML = '';
-			t2.style.fontSize = "0px";
+//			t2.innerHTML = '';
+//			t2.style.fontSize = "0px";
 			break;
 			
 		case 3:
@@ -338,6 +366,7 @@ function Kalender(){
 			t2.style.fontSize = "0px";
 			break;
 	}
+	t1.innerHTML= Gruppenmitglieder;		//Fabian  nur um das ergebnis zu sehen
 	addTemine(aDate);
 }
 function WochenKalender(aDate) {
@@ -370,13 +399,7 @@ function WochenKalender(aDate) {
 		
 		cells1 = zeile1.insertCell(i+1);
 		
-		var tag = aDate.getDate();
-		var monat = aDate.getMonth()+1;
-		if (tag<=9)
-			tag = "0"+tag;
-		if (monat<=9)
-			monat= "0"+ monat;
-		cells1.innerHTML = tag+"."+monat+"."+(aDate.getYear() + 1900);	//datum
+		cells1.innerHTML = aDate.getDate()+"."+(aDate.getMonth()+1)+"."+(aDate.getYear() + 1900);	//datum
 		
 		if ( (aDate.getDate()==jetzt.getDate()) && (aDate.getMonth()==jetzt.getMonth()) && (aDate.getYear()==jetzt.getYear()) ){
 			cells.className = cells.className + ' heute';			//makiert
