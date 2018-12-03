@@ -119,6 +119,8 @@ inhalt{
 	border-width: 1px;
     border-radius: 10px;
 	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
 	background: black url(img/Natur/10_Tansania_20131014_133001.jpg);
 	background-size: 100% 100%;
 }
