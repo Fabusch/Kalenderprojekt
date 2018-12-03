@@ -1,43 +1,7 @@
-/* .box {
-	position:absolute;
-	top: 10px;
-	left: 30px;
-  	width: 120px;
-  	height: 250px;
-  	overflow-x: hidden;
-  	overflow-y: visible;
-  background-color: goldenrod;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-} */
-
-/* .box::after {
-  content: "";
-  border-radius: 5px;
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.box:hover {
-  transform: scale(1.25, 1.25);
-}
-
-.box:hover::after {
-    opacity: 1;
-} */
-
 body {
     background: white url(img/background.jpg);
 	font-family: arial;
-	font-size: 15px;
+	font-size: 18px;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
@@ -57,7 +21,8 @@ header {
     top: 0;
     right: 0;
     bottom: 0;
-    background: white url(img/wald.png);
+    background: white url(img/10_Tansania_20131023_095720.jpg);
+    background-size: 50% 100%;
     background-position: top left;
     z-index: 1;
     overflow: visible;
@@ -73,8 +38,7 @@ nav{
 	position: relative;
     top: 110px;
     left: 10px;
-	width: 14%;	
-	height: 870px;
+	width: 14%;
 	float: left;
 	text-align: left;
 	
@@ -114,10 +78,13 @@ inhalt{
 	margin: 5px;
 	color: #fff;
 	overflow-x: visible;
-	
-
+	high: 300px;
 }
 
+
+#kOverHead{	
+	margin-top: 10px;
+}
 .abrund{
 	background: green;
 	padding: 5px;
@@ -126,7 +93,16 @@ inhalt{
     border-radius: 10px;
 }
 
-
+#kalender{
+	position: relative;
+	padding: 5px;
+	width: 95%;
+	border-width: 1px;
+    border-radius: 10px;
+	text-align: center;
+	background: black url(img/Natur/10_Tansania_20131014_133001.jpg);
+	background-size: 100% 100%;
+}
 table{
 	margin-left: auto;
     margin-right: auto;

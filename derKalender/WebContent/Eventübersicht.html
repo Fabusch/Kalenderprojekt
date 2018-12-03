@@ -17,23 +17,13 @@
 						<h1>Profil</h1>
 					</header>
 					<hr>
-					<section class=kasten>
-					<header>
-						<h4> Vorname</h4>
-						<h4> Familienname</h4>
-						</header>
 					<div>							
-						<a href="Kalender.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender</a><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">ihre Kalender</a><br>
-						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
-						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
+						<h3> Name</h3>
+						<h3> Familiename</h3>
 					</div>
 				</section>
+					
 				
-					
-					<hr>
-					
-				</section>
 				<section class=kasten>
 					<header>
 						<h1>Ansicht</h1>
@@ -50,7 +40,7 @@
 						<h1>Hintergrund einstellen</h1>
 					</header>
 					<hr>
-					<div>
+					<div id="aBackground" style="display: true;">
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">1</a><br>
@@ -74,6 +64,14 @@
 				</section>
 			</nav>
 			<inhalt>
+			<div class=kasten id=kOverhead>
+				<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		
+					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
+					<div id = kalender>
+						<script type="text/javascript">
+							Kalender();
+						</script>
+					</div>
 			
 			<div class="tg">
 			<table>
@@ -122,9 +120,7 @@
 				
 								
 				
-				<br>
-				<br>
+				
 			</inhalt>
-		
 	</body>
 </html>
