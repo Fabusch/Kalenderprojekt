@@ -42,7 +42,6 @@ request.onupgradeneeded = function(event){
 einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: ["3"]});
 einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", /*, DataStart: Start, DataEnd: End */});	
 einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
-
 function einfügen(store, Werte){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
@@ -81,26 +80,55 @@ function einfügen(store, Werte){
 	}
 }
 
-function Gruppe(GID){
+var GID =1;	//diese Gruppe soll angezeigt werden
+function GruppeKalender(){
 	var request = window.indexedDB.open("Accountdaten",1);
 //	var GMitglieder = new Array(request);		//Fabian	dieser Wert wird leider nicht geändert und somit returnt
-	request.onupgradeneeded = function(event){
-		console.log("error: ");
-	};
-	request.onerror = function(event) {	
+	request.onerror = function(event) {		//Falls fehler auftretten
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
+	request.onupgradeneeded = function(event){		//Datenbank anlegen, falls noch nicht vorhanden
+		var Db = event.target.result;
+		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+		for (var u in User){
+			ObjectStore.add(User[u]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
+		for (var t in Termine){
+			ObjectStore.add(Termine[t]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
+		for (var g in Gruppen){
+			ObjectStore.add(Gruppen[g]);
+		}
+	};
 	request.onsuccess = function(event){
 		Db = request.result;
-		transaction = Db.transaction(["Gruppe"]);
+		transaction = Db.transaction(["Gruppe","User"]);
 		store = transaction.objectStore("Gruppe");
 		request = store.get(GID);		// der datensatz mit der entsprechenden GID
+		objectStore = transaction.objectStore("User");
 		request.onsuccess = function(event) {
 			if (request.result){
-				Gruppenmitglieder =request.result.Mitglieder;	//Fabian	speicher das Array erfolgreich unter GMitglieder
-				var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[1];
-				t1.innerHTML=Gruppenmitglieder;		//nur um das ergebnis zu überprüfen
+				Gruppenmitglieder =request.result.Mitglieder;	//username der Gruppenmitglieder
+				
+				Kalender();
+				if(ansicht == 2){
+					tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+					for (var p in Gruppenmitglieder.length) {		//Eine Spallte für jedes Gruppenmitglied
+						request = objectStore.get(Gruppenmitglieder[0]);
+						request.onsuccess = function(event) {
+							if (quest.result){
+								tabelle.rows[0].cells[0+2] = p;	//username der Gruppenmitglieder
+							}else{
+								alter("Fehler: Datensatz nicht gefunden");
+							};
+						}
+					}
+				}
 			}else{
 				alter("Fehler: Datensatz nicht gefunden");
 			};
@@ -327,7 +355,7 @@ function linkout(element){
 }
 
 function Kalender(){
-	Gruppe(1);		//Fabian		er führt den rest aus, bevor Gruppe(1) komplett durchlaufen wurde
+	//Gruppe(1);		//Fabian		er führt den rest aus, bevor Gruppe(1) komplett durchlaufen wurde
 	tabellen = document.getElementById('kalender').getElementsByTagName('table');
 	if(tabellen.length != 0){			//Tabellen löschen
 		do{
@@ -365,7 +393,7 @@ function Kalender(){
 			t2.style.fontSize = "0px";
 			break;
 	}
-	t1.innerHTML= Gruppenmitglieder;		//Fabian  nur um das ergebnis zu sehen
+	//t1.innerHTML= Gruppenmitglieder;		//Fabian  nur um das ergebnis zu sehen
 	addTemine(aDate);
 }
 function WochenKalender(aDate) {
