@@ -4,39 +4,93 @@
     <head>
         <meta charset="utf-8" />
         <title>Gruppenerstellung</title>
-        <link rel="stylesheet" type="text/css" href="StyleErstellungG.css">
+        <link rel="stylesheet" type="text/css" href="Kalender_style.css">
     </head>
     <body>
-        <div id="Hintergrund">
-            <h1>Gruppenerstellung</h1>
-            <div id="div1">
-                <img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
-                <input type="file" name="image">
-                <form>
-                    <h2>Name: <input type="text" name="gruppenname" autofocus="true" required="on"></h2><br>
-                </form>
-            </div>
-            <div id="div2">
-                <h2>Mitglieder</h2>
-                <ol>
-                    <li>Mitglied</li>
-                    <li>Mitglied</li>
-                    <li>Mitglied</li>
-                    <li>Mitglied</li>
-                    <li>Mitglied</li>
-                </ol>
-                <form>
-                    <input type="submit" value="Hinzufügen"><br>
-                </form>
-            </div>
-            <div>
+        <div>
+			<header class= header_hintergrund>
+				<img src="img/schriftzug.png" alt="Logo" class="logo">
+			</header>
+			<nav>
+				<section class=kasten>
+					<header>
+						<h1>Home</h1>
+					</header>
+					<hr>
+					<div>							
+						<a href="Eventübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Event Übersicht</a><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
+						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Kalender</h1>
+					</header>
+					<hr>
+					<div>
+						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
+						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender X</a><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Ansicht</h1>
+					</header>
+					<hr>
+					<div>
+						<a onclick=" setAnsicht(1)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Wochenansicht</a><br>
+						<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Monatsansicht</a><br>
+						<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Jahresansicht</a><br>
+					</div>
+				</section>
+				<section class=kasten>
+					<header>
+						<h1>Kalender Hintergrund</h1>
+					</header>
+					<hr>
+					<div>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
+						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
+					</div>
+				</section>
+			</nav>
+            <inhalt>
+                <h1>Gruppenerstellung</h1>
+                <div>
+                    <img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
+                    <form method="post" enctype="multipart/form-data">
+                      <label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
+                        <input name="datei" type="file" size="50" accept="image/*"> 
+                      </label>  
+                    </form>
+                    <form>
+                        <h2>Name: <input type="text" name="gruppenname" autofocus="true" required="on"></h2><br>
+                    </form>
+                </div>
+                <div>
+                    <h2>Mitglieder</h2>
+                    <ol>
+                        <li>Mitglied</li>
+                        <li>Mitglied</li>
+                        <li>Mitglied</li>
+                        <li>Mitglied</li>
+                        <li>Mitglied</li>
+                    </ol>
+                    <form>
+                        <input type="submit" value="Hinzufügen"><br>
+                    </form>
+                </div>
+                <div>
 
-            </div>
-            <div id="div3">
-                <form>
-                    <input type="submit" value="Gruppe erstellen">
-                </form>
-            </div>
+                </div>
+                <div>
+                    <form>
+                        <input type="submit" value="Gruppe erstellen">
+                    </form>
+                </div>
+            </inhalt>
         </div>
     </body>
 </html>
