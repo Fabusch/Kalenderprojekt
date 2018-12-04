@@ -34,3 +34,6 @@ function background(element){
 	else if(element.innerHTML=="17")
 document.getElementById('kalender').style.backgroundImage = "url('img/Natur/20150722_120621.jpg')";}
 
+
+
+

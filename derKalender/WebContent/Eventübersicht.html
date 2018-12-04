@@ -14,19 +14,19 @@
 			<nav>
 				<section class=kasten>
 					<header>
-						<h1>Profil</h1>
+						<h6>Profil</h6>
 					</header>
 					<hr>
 					<div>							
-						<h3> Name</h3>
-						<h3> Familienname</h3>
+						<h7> Name</h7>
+						<h7> Familiename</h7>
 					</div>
 				</section>
 					
 				
 				<section class=kasten>
 					<header>
-						<h1>Ansicht</h1>
+						<h6>Ansicht</h6>
 					</header>
 					<hr>
 					<div>
@@ -37,7 +37,7 @@
 				</section>
 				<section class=kasten>
 					<header>
-						<h1>Hintergrund einstellen</h1>
+						<h6>Hintergrund einstellen</h6>
 					</header>
 					<hr>
 					<div id="aBackground" style="display: true;">
@@ -63,9 +63,14 @@
 					</div>
 				</section>
 			</nav>
-			
 			<inhalt>
-			<div class="tg">
+			<div class=kasten id=kOverhead>
+				<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		
+					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
+					<div id = kalender>
+					
+					</div>
+			</div>
 			<table>
  				<tr>
     				<th class="tg-031e">Termine</th>
@@ -104,13 +109,6 @@
   				</tr>
 			</table>
 </div>
-			<div class=kasten id=kOverhead>
-				<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		
-					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
-					<div id = kalender>
-
-					</div>									
-				</div>
 				
 								
 				

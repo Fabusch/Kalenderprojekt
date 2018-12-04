@@ -62,7 +62,7 @@ nav{
 }
 .kasten div{
 	position: relative;
-	left: 15px;
+	left: 10px;
 }
 a{
 	color: white;
@@ -83,7 +83,6 @@ inhalt{
 
 #kOverHead{	
 	margin-top: 10px;
-	height: 50px;
 }
 .abrund{
 	background: green;
@@ -106,13 +105,5 @@ inhalt{
 table{
 	margin-left: auto;
     margin-right: auto;
-    width: 100px:
-}
-tg.{
-	position: relative;
-	align: left;
-	width: 70%;
-	float: right;
-	margin: 10px 5px;
-	padding:15px 5px;
+    width: 95%;
 }
