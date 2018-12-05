@@ -135,11 +135,16 @@ table.Termine{
   border-collapse: collapse;
 }
 
-table.Termine td, table.Termine th {
+table.Termine td {
 	border: 1px solid #AAAAAA;
-  	padding: 70px 20px;
+  	padding: 75px 20px;
 	
 }
+table.Termine th {
+	border: 1px solid #AAAAAA;
+  	padding: 45px 20px;
+	
 }
+
 
 
