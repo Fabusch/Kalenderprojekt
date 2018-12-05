@@ -46,8 +46,8 @@ nav{
 	overflow-y: visible;
 }
 .kasten{
-	background: gray;
-	color: #fff;
+	background: black;
+	color: white;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -63,7 +63,29 @@ nav{
 .kasten div{
 	position: relative;
 	left: 10px;
+	height: 100px;
 }
+.Inhaltskasten{
+	background: black;
+	color: white;
+	margin:5px;
+	margin-bottom: 10px;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom:20px;
+}
+.Inhaltskasten header {
+	position: relative;
+	text-align: center;
+	height:auto;
+}
+.Inhaltskasten div{
+	position: relative;
+	left: 10px;
+	height: 700px;
+}
+
 a{
 	color: white;
 	text-decoration: none;
@@ -102,8 +124,22 @@ inhalt{
 	background: black url(img/Natur/10_Tansania_20131014_133001.jpg);
 	background-size: 100% 100%;
 }
-table{
+table.Termine{
 	margin-left: auto;
     margin-right: auto;
     width: 95%;
+      border: 1px solid #1C6EA4;
+  
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
 }
+
+table.Termine td, table.Termine th {
+	border: 1px solid #AAAAAA;
+  	padding: 70px 20px;
+	
+}
+}
+
+

@@ -9,40 +9,27 @@
 	<body>
 		<div>
 			<header class= header_hintergrund>
-				<img src="img/schriftzug.png" alt="Logo" class="logo">
 			</header>
 			<nav>
 				<section class=kasten>
 					<header>
-						<h1>Profil</h1>
+						<h6>Profil</h6>
 					</header>
 					<hr>
 					<div>							
-						<h3> Name</h3>
-						<h3> Familiename</h3>
+						<h6> Name</h6>
+						
+						
+						<h6> Familiename</h6>
 					</div>
 				</section>
 					
-				
 				<section class=kasten>
 					<header>
-						<h1>Ansicht</h1>
+						<h6>Hintergrund einstellen</h6>
 					</header>
 					<hr>
-					<div>
-						<a onclick=" setAnsicht(1)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Wochenansicht</a><br>
-						<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Monatsansicht</a><br>
-						<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Jahresansicht</a><br>
-					</div>
-				</section>
-				<section class=kasten>
-					<header>
-						<h1>Hintergrund einstellen</h1>
-					</header>
-					<hr>
-					<div id="aBackground" style="display: true;">
-						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
-						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
+					<div id="aBackground" style="display: false;">
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">1</a><br>
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">2</a><br>
 						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">3</a><br>
@@ -64,19 +51,11 @@
 				</section>
 			</nav>
 			<inhalt>
-			<div class=kasten id=kOverhead>
-				<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		
+			<div class=Inhaltskasten id=kOverhead>
+			<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>		
 					<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">  </a><br>
 					<div id = kalender>
-						<script type="text/javascript">
-							Kalender();
-						</script>
-					</div>
-			
-			<div class="tg">
-			<table>
-			
-			
+			<table class="Termine">
  				<tr>
     				<th class="tg-031e">Termine</th>
     				<th class="tg-031e">Wochentag</th>
@@ -112,11 +91,13 @@
     				<td class="tg-031e"></td>
     				<td class="tg-031e"></td> 
   				</tr>
-			</table>
+</table>
+				
+					
+					</div>
+			</div>
+			
 </div>
-
-										
-				</div>
 				
 								
 				
