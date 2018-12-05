@@ -46,7 +46,7 @@ nav{
 	overflow-y: visible;
 }
 .kasten{
-	background: gray;
+	background: orangered;
 	color: #fff;
 	margin:5px;
 	margin-bottom: 10px;
@@ -63,7 +63,29 @@ nav{
 .kasten div{
 	position: relative;
 	left: 10px;
+	height: 100px;
 }
+.Inhaltskasten{
+	background: orangered;
+	color: #fff;
+	margin:5px;
+	margin-bottom: 10px;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom:20px;
+}
+.Inhaltskasten header {
+	position: relative;
+	text-align: center;
+	height:auto;
+}
+.Inhaltskasten div{
+	position: relative;
+	left: 10px;
+	height: 700px;
+}
+
 a{
 	color: white;
 	text-decoration: none;
