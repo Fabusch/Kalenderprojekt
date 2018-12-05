@@ -46,8 +46,8 @@ nav{
 	overflow-y: visible;
 }
 .kasten{
-	background: orangered;
-	color: #fff;
+	background: black;
+	color: white;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -66,8 +66,8 @@ nav{
 	height: 100px;
 }
 .Inhaltskasten{
-	background: orangered;
-	color: #fff;
+	background: black;
+	color: white;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -137,7 +137,7 @@ table.Termine{
 
 table.Termine td, table.Termine th {
 	border: 1px solid #AAAAAA;
-  	padding: 20px 2px;
+  	padding: 70px 20px;
 	
 }
 }
