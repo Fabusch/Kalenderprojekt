@@ -58,12 +58,12 @@ nav{
 .kasten header{
 	position: relative;
 	text-align: center;
-	height:auto;
+	height: 10px;;
 }
 .kasten div{
 	position: relative;
 	left: 10px;
-	height: 100px;
+	height: 150px;
 }
 .Hintergrundkasten{
 	background: black;
