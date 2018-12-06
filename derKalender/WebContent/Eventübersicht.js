@@ -35,5 +35,30 @@ function background(element){
 document.getElementById('kalender').style.backgroundImage = "url('img/Natur/20150722_120621.jpg')";}
 
 
+function init() {
+	var buttonEins = document.getElementById('eins');
+	buttonEins.addEventListener('click', fensterOeffnen);
+}
+
+function fensterOeffnen() {
+	window.open('GruppenErstellung.html');
+}
+window.addEventListener('DOMContentLoaded', init);
+
+
+function init() {
+	var buttonEins = document.getElementById('zwei');
+	buttonEins.addEventListener('click', fensterOeffnen);
+}
+
+function fensterOeffnen() {
+	window.open('TerminErstellung.html');
+}
+window.addEventListener('DOMContentLoaded', init);
+
+
+
+
+
 
 

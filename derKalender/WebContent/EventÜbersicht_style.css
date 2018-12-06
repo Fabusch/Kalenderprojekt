@@ -58,12 +58,32 @@ nav{
 .kasten header{
 	position: relative;
 	text-align: center;
-	height:auto;
+	height: 10px;;
 }
 .kasten div{
 	position: relative;
 	left: 10px;
-	height: 100px;
+	height: 150px;
+}
+.Hintergrundkasten{
+	background: black;
+	color: white;
+	margin:5px;
+	margin-bottom: 10px;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom:20px;
+}
+.Hintergrundkasten header {
+	position: relative;
+	text-align: center;
+	height:auto;
+}
+.Hintergrundkasten div{
+	position: relative;
+	left: 10px;
+	height: 50px;
 }
 .Inhaltskasten{
 	background: black;
@@ -135,11 +155,16 @@ table.Termine{
   border-collapse: collapse;
 }
 
-table.Termine td, table.Termine th {
+table.Termine td {
 	border: 1px solid #AAAAAA;
-  	padding: 70px 20px;
+  	padding: 75px 20px;
 	
 }
+table.Termine th {
+	border: 1px solid #AAAAAA;
+  	padding: 45px 20px;
+	
 }
+
 
 
