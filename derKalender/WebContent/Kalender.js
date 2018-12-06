@@ -147,95 +147,98 @@ function eintragMitglieder(objectStore, p){
 	};
 }
 
-function addTemin(TID, person){
-	var tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
-	var request = window.indexedDB.open("Accountdaten",1);
-	
-	request.onsuccess = function(event){
-		Db = request.result;
-		transaction = Db.transaction(["Termin"]);
-		store = transaction.objectStore("Termin");
-		request = store.get(TID);		// der datensatz mit der entsprechenden GID
-		
-		request.onsuccess = function(event){
-			if (request.result){
-				name =request.result.name;	//name des Termins
-				
-				Start= request.result.start ;	//zeiten
-				End= request.result.ende ;
-				
-				switch(ansicht){
-					case 1:
-						dauer = Math.abs(Math.round( ((Anfang.getTime() - Ende.getTime())/1000/60/60) ));
-						name = 'gut'// Termin.name;
-							cellStart=1;
-						cellEnd = cellStart+ dauer;
-						var t1 =document.getElementById('kOverHead').getElementsByTagName("a")[0];
-						t1.innerHTML = dauer;
-						for(var i=1; i<= dauer; i++){
-							Kalender.rows[2+i].deleteCell(1);
-						}
-						var cell = tabelle.rows[cellStart+1].cells[1];
-						cell.className = cell.className +' Termin';
-						cell.innerHTML= name;
-						cell.rowSpan = (cellEnd-cellStart)+1;		//	dauer
-						
-						break;
-					case 2:
-//						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
-//						for (var p in Gruppenmitglieder.length) {		//Eine Spallte für jedes Gruppenmitglied
-//							request = objectStore.get(Gruppenmitglieder[0]);
-//							request.onsuccess = function(event) {
-//								if (quest.result){
-//									tabelle.rows[0].cells[0+2] = p;	//username der Gruppenmitglieder
-//								}else{
-//									alter("Fehler: Datensatz nicht gefunden");
-//								};
-//							}
+//function addTemin(TID, person){
+//	var tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+//	var request = window.indexedDB.open("Accountdaten",1);
+//	
+//	request.onsuccess = function(event){
+//		Db = request.result;
+//		transaction = Db.transaction(["Termin"]);
+//		store = transaction.objectStore("Termin");
+//		request = store.get(TID);		// der datensatz mit der entsprechenden GID
+//		
+//		request.onsuccess = function(event){
+//			if (request.result){
+//				name =request.result.name;	//name des Termins
+//				
+//				Start= request.result.start ;	//zeiten
+//				End= request.result.ende ;
+//				
+//				switch(ansicht){
+//					case 1:
+//						rowStart= document.getElementsByClassName( Start.getHouer())[0].rowIndex;	//Zeile des Datums start
+//						clas1 = Start.getDate() +"."+ (Start.getMonth()+1) +"." + (Start.getYear()+1900)
+//						spalteStart= document.getElementsByClassName(clas1)[0].cellIndex;
+//						
+//						
+//						clas2 = End.getDate() +"."+ (End.getMonth()+1) +"." + (End.getYear()+1900);
+//						rowEnd= document.getElementsByClassName(clas2)[0].rowIndex;		//Zeile des Datums ende
+//						
+//						dauer =	rowEnd -rowStart;		// Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Date.UTC( Start.getFullYear(), Start.getMonth(), Start.getDate()) )	/(1000*60*60*24));
+//						for(var i=1; i<= (dauer); i++){
+//							tabelle.rows[rowStart+i].deleteCell(2+person);
 //						}
-						clas1 = Start.getDate() +"."+ (Start.getMonth()+1) +"." + (Start.getYear()+1900);
-						rowStart= document.getElementsByClassName(clas1)[0].rowIndex;	//Zeile des Datums start
-						
-						clas2 = End.getDate() +"."+ (End.getMonth()+1) +"." + (End.getYear()+1900);
-						rowEnd= document.getElementsByClassName(clas2)[0].rowIndex;		//Zeile des Datums ende
-						
-						dauer =	rowEnd -rowStart;		// Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Date.UTC( Start.getFullYear(), Start.getMonth(), Start.getDate()) )	/(1000*60*60*24));
-						for(var i=1; i<= (dauer); i++){
-							tabelle.rows[rowStart+i].deleteCell(2+person);
-						}
-						var cell = tabelle.rows[rowStart].cells[2+person];
-						cell.className = cell.className +' Termin';
-						cell.innerHTML= name;
-						cell.rowSpan = dauer+1;		//	dauer
-						
-						break;
-					case 3:
-//						Anfang.year.month.day;
-//						Ende.year.month.day;
-//						cellStart
-//						cellEnd
-//						name = 'gut'// Termin.name;
-//						for(var i=1; i<= (cellEnd-cellStart); i++){
-//							var cell = Kalender.rows[cellStart].cells[1];
-//							cell.className = cell.className +' Termin';
-//							cell.title= cell.title + ' name';
+//						var cell = tabelle.rows[rowStart].cells[2+person];
+//						cell.className = cell.className +' Termin';
+//						cell.innerHTML= name;
+//						cell.rowSpan = dauer+1;
+//						
+//						break;
+//					case 2:
+////						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+////						for (var p in Gruppenmitglieder.length) {		//Eine Spallte für jedes Gruppenmitglied
+////							request = objectStore.get(Gruppenmitglieder[0]);
+////							request.onsuccess = function(event) {
+////								if (quest.result){
+////									tabelle.rows[0].cells[0+2] = p;	//username der Gruppenmitglieder
+////								}else{
+////									alter("Fehler: Datensatz nicht gefunden");
+////								};
+////							}
+////						}
+//						clas1 = Start.getDate() +"."+ (Start.getMonth()+1) +"." + (Start.getYear()+1900);
+//						rowStart= document.getElementsByClassName(clas1)[0].rowIndex;	//Zeile des Datums start
+//						
+//						clas2 = End.getDate() +"."+ (End.getMonth()+1) +"." + (End.getYear()+1900);
+//						rowEnd= document.getElementsByClassName(clas2)[0].rowIndex;		//Zeile des Datums ende
+//						
+//						dauer =	rowEnd -rowStart;		// Math.floor((Date.UTC(End.getFullYear(), End.getMonth(), End.getDate()) - Date.UTC( Start.getFullYear(), Start.getMonth(), Start.getDate()) )	/(1000*60*60*24));
+//						for(var i=1; i<= (dauer); i++){
+//							tabelle.rows[rowStart+i].deleteCell(2+person);
 //						}
-//						cell.class;
-						
-						break;
-				}
-			}
-		}
-	}
-}
-
-function dieTermine(){
-//	for(Gruppenmitglieder){
-//		Person[i].getTermine(von, bis);
-//		for(Termine){
-			addTemin(2,1);
+//						var cell = tabelle.rows[rowStart].cells[2+person];
+//						cell.className = cell.className +' Termin';
+//						cell.innerHTML= name;
+//						cell.rowSpan = dauer+1;		//	dauer
+//						
+//						break;
+//					case 3:
+////						Anfang.year.month.day;
+////						Ende.year.month.day;
+////						cellStart
+////						cellEnd
+////						name = 'gut'// Termin.name;
+////						for(var i=1; i<= (cellEnd-cellStart); i++){
+////							var cell = Kalender.rows[cellStart].cells[1];
+////							cell.className = cell.className +' Termin';
+////							cell.title= cell.title + ' name';
+////						}
+////						cell.class;
+//						
+//						break;
+//				}
+//			}
 //		}
-}
+//	}
+//}
+//
+//function dieTermine(){
+////	for(Gruppenmitglieder){
+////		Person[i].getTermine(von, bis);
+////		for(Termine){
+//			addTemin(2,1);
+////		}
+//}
 
 
 var tag = new Date();	//angezeigtes Datum			
@@ -429,7 +432,7 @@ function Kalender(){
 			t2.style.fontSize = "0px";
 			break;
 	}
-	dieTermine();
+//	dieTermine();
 }
 function WochenKalender(aDate) {
 	var jetzt = new Date();		// aktuelles Datum
