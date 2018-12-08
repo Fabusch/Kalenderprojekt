@@ -1,23 +1,32 @@
-
+.signup{
+position:absolute;
+	background: lightgray;
+	color: white;
+	float:left;
+	margin:120px;
+	margin-bottom: px;
+    border-width: px;
+    border-radius: 10px;
+    padding: 100px;
+    padding-bottom:30px;
+	  padding-left: 120px;
+	  
+}
+.Inhaltskasten header {
+	position: relative;
+	text-align: center;
+	height:auto;
+}
 
 body {
+	background-color: aliceblue;
 	font-family: arial;
 	font-size: 18px;
 	width: 100%;
-	margin-right: auto;
-	margin-left: auto;
+	margin-right: 100%;
+	margin-left: 40%;
 	color: white; 
 }
-
-.signup{
-	position:absolute;
-	height: 30px;
-	border : 1 px solid #999999; 
-	font : normal 14px helvetica; 
-	color:#444444;
-	width: 20%;
-	height: 115%;
-	}
 	header {	
 	height: 90px;
 	width: 100%;
@@ -26,7 +35,7 @@ body {
 	position: relative;
 }
 .header_hintergrund {
-    position: absolute;
+    position:absolute;
     left: 0;
     top: 0;
     right: 0;
@@ -43,9 +52,3 @@ body {
 	position: relative;
 	z-index: 5;                /* Hier gegebenenenfalls das Erstellte KalenderIcon platzieren statt Conan.
 }
-
-	
-	
-	
-	
-	
