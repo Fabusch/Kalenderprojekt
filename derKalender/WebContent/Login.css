@@ -1,12 +1,49 @@
-<style>
+
+
+body {
+	font-family: arial;
+	font-size: 18px;
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	color: white; 
+}
 
 .signup{
+	position:absolute;
+	height: 30px;
 	border : 1 px solid #999999; 
 	font : normal 14px helvetica; 
 	color:#444444;
+	width: 20%;
+	height: 100%;
 	}
-	
-	</style>
+	header {	
+	height: 90px;
+	width: 100%;
+	text-align: center;
+	z-index: 1000;
+	position: relative;
+}
+.header_hintergrund {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: white url(img/10_Tansania_20131023_095720.jpg);
+    background-size: 50% 100%;
+    background-position: top left;
+    z-index: 1;
+    overflow: visible;
+}
+.logo {
+	margin: auto;
+	display: block;
+	position: relative;
+	z-index: 5;                /* Hier gegebenenenfalls das Erstellte KalenderIcon platzieren statt Conan.
+}
+
 	
 	
 	
