@@ -13,6 +13,10 @@ position:absolute;
     padding: 120px;
     padding-bottom:30px;
 	  padding-left: 15px;
+	  background-image: url("example.jpg");
+
+	background-attachment: fixed;
+	transform: scale(1.25);
 	  
 }
 .Inhaltskasten header {
@@ -54,4 +58,14 @@ body {
 	display: block;
 	position: relative;
 	z-index: 5;                /* Hier gegebenenenfalls das Erstellte KalenderIcon platzieren statt Conan.
+}
+
+div {
+background-image: url("example.jpg");
+background-attachment: fixed;
+transform: scale(1.25);
+}
+body {
+height: 100%;
+overflow: scroll;
 }

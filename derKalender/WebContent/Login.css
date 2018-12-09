@@ -11,6 +11,9 @@ position:absolute;
     padding: 120px;
     padding-bottom:30px;
 	  padding-left: 15px;
+	  background-attachment: fixed;
+	transform: scale(1.25);
+	  
 	  
 }
 .Inhaltskasten header {
