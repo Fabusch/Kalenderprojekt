@@ -21,7 +21,7 @@ header {
     right: 0;
     bottom: 0;
     background: white url(img/10_Tansania_20131023_095720.jpg);
-    background-size: 50% 100%;
+    background-size: 100% 100%;
     background-position: top left;
     z-index: 1;
     overflow: visible;
@@ -144,11 +144,10 @@ inhalt{
 table.Termine{
 	margin-left: auto;
     margin-right: auto;
-    width: 95%;
-      border: 1px solid #1C6EA4;
+     border: 1px solid #1C6EA4;
   
-  width: 100%;
-  text-align: left;
+  width: 98%;
+  text-align: center;
   border-collapse: collapse;
 }
 
