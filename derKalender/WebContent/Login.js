@@ -35,3 +35,13 @@ function validate(form){
 		return""
 	}
 }
+
+function init() {
+	var buttonEins = document.getElementById('Registrierungsseite');
+	buttonEins.addEventListener('click', fensterOeffnen2);
+}
+
+function fensterOeffnen2() {
+	window.open('Registrierung.html');
+}
+window.addEventListener('DOMContentLoaded', init);

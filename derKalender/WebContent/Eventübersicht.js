@@ -46,12 +46,12 @@ function fensterOeffnen() {
 window.addEventListener('DOMContentLoaded', init);
 
 
-function init() {
+function init1() {
 	var buttonEins = document.getElementById('zwei');
 	buttonEins.addEventListener('click', fensterOeffnen);
 }
 
-function fensterOeffnen() {
+function fensterOeffnen2() {
 	window.open('TerminErstellung.html');
 }
 window.addEventListener('DOMContentLoaded', init);
