@@ -727,27 +727,32 @@ function eastern(aDate){
 	}
 }
 //test if Date = Holiday
-function isholiday(aDate){
+function isholiday(aDate,cell){
+	//Bundesweit
 	//NeuJahr
 	var holiday = new Date(aDate.getFullYear(),0,1);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Neujahr',cell);
 		return true;
 	}
 	//Karfreitag
 	holiday = eastern(aDate);
 	holiday.setDate(holiday.getDate() - 2);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Karfreitag',cell);
 		return true;
 	}
 	//OsterMontag
 	holiday = eastern(aDate);
 	holiday.setDate(holiday.getDate() +1);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Ostermontag',cell);
 		return true;
 	}
 	//1.Mai
 	holiday = new Date(aDate.getFullYear(),4,1)
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Tag der Arbeit',cell);
 		return true;
 	}
 	
@@ -755,31 +760,84 @@ function isholiday(aDate){
 	holiday = eastern(aDate);
 	holiday.setDate(holiday.getDate() +39);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Christi Himmelfahrt',cell);
 		return true;
 	}
 	//Pfingsten
 	holiday = eastern(aDate);
 	holiday.setDate(holiday.getDate() +49);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Pfingsten',cell);
 		return true;
 	}
 	//Tag der Deutschen Einheit
 	holiday = new Date(aDate.getFullYear(),9,3);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Tag der Deutschen Einheit',cell);
 		return true;
 	}
 	//Erster Weihnachtsfeiertag
 	holiday = new Date(aDate.getFullYear(),11,25);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('1. Weihnachtsfeiertag',cell);
 		return true;
 	}
 	//Zweiter Weihnachtsfeiertag
 	holiday = new Date(aDate.getFullYear(),11,26);
 	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('2. Weihnachtsfeiertag',cell);
+		return true;
+	}
+	//Laenderspeziefisch
+	//Heilige Drei Ke
+	holiday = new Date(aDate.getFullYear(),0,6);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Heilige Drei Koenige\nFeiertag in BW,BY,ST',cell);
+		return true;
+	}
+	//Fronleichnam
+	holiday = eastern(aDate);
+	holiday.setDate(holiday.getDate() +60);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Fronleichnam\nFeiertag in BW,BY,HE,NW,RP,SL',cell);
+		return true;
+	}
+	//Augsburger Hohes Friedensfest
+	holiday = new Date(aDate.getFullYear(),7,8);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Augsburger Hohes Friedensfest\nFeiertag nur in Augsburg,Bayern',cell);
+		return true;
+	}
+	//Mariae Himmelfahrt
+	holiday = new Date(aDate.getFullYear(),7,15);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Mariae Himmelfahrt\nFeiertag in BY,SL',cell);
+		return true;
+	}
+	//Reformationstag
+	holiday = new Date(aDate.getFullYear(),9,31);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Reformationstag\nFeiertag in BB,HB,HH,MV,NI,SN,ST,SH,TH',cell);
+		return true;
+	}
+	//Allerheiligen
+	holiday = new Date(aDate.getFullYear(),10,1);
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Allerheiligen\nFeiertag in BW,BY,NW,RP,SL',cell);
+		return true;
+	}
+	//Buss und Bettag //Mittwoch vor dem 23 November
+	holiday = new Date(aDate.getFullYear(),10,23);
+	while(weekday(holiday)!=3){
+		holiday.setDate(holiday.getDate()-1);
+	}
+	if (aDate.valueOf()==holiday.valueOf()){
+		addtooltip('Buss und Bettag\n Feiertag in SN',cell);
 		return true;
 	}
 	return false;
 }
+
 
 function weekday(aDate){
 	day = (aDate.getDay() +6)%7+1
@@ -813,6 +871,92 @@ function weekofyear(aDate){
 	}
 	else{
 		return weeks;
+	}
+}
+
+
+//Select = field to find
+//from = Database
+//where = values
+//what = field
+function getfromdb(select,from,where0,where1,what0,what1){
+	var request = window.indexedDB.open("Termine",1);
+
+	request.onupgradeneeded = function(event) {
+		//Nicht sicher Welche
+		var db = event.target.result;
+		//var store = db.createObjectStore(select+what0+what1);
+		//for (var t in Termine){
+		//	ObjectStore.add(Termine[t]);
+		//}
+		store.createIndex(what0+what1, [what0,what1],{unique:false});
+	}
+
+	request.onsuccess = function(event){
+		
+		var db = event.target.result;
+		var transaction = db.transaction(from,'readonly');
+		var store = transaction.objectStore(from);
+		var index = store.index(what0+what1);
+		// Select only those records where prop1=value1 and prop2=value2
+		var request = index.openCursor(IDBKeyRange.only([where0, where1]));
+		// Select the first matching record
+		var request = index.get(IDBKeyRange.only([where0, where1]));
+
+		request.onsuccess = function(event){
+			if (select == '*'){
+				return request
+			}
+			else{
+				return request.get(select);
+			}
+		}
+
+		request.onerror = function(event) {
+			return '';
+		};
+	};
+	request.onerror = function(event) {
+		return '';
+	};
+}
+
+function get_termin(Group_Personal,Id,aDate){
+	var result;
+	if(Group_Personal==0){
+		result = getfromdb('name','Termine',Id,aDate,'username','Date');
+	}
+	else{
+		result = getfromdb('name','Termine',Id,aDate,'GID','Date');
+	}
+	return result;
+}
+
+function addtooltiptermin(Group_Personal,aDate, cell){
+	var username = get_user();
+	var termin_on_date = get_termin(Group_Personal,username,aDate)
+	if (termin_on_date.name != ""){
+		addtooltip(termin_on_date.name,cell);
+	}
+}
+
+function addtooltip(text,cell){
+	//Hat noch keinen Tooltip
+	if (cell.firstChild== null){
+		var tooltip = document.createElement("div");
+		var span = document.createElement("span");
+		tooltip.setAttribute("class","tooltip");
+		span.setAttribute("class","tooltiptext");
+		tooltip.innerHTML = cell.innerHTML;
+		cell.innerHTML = "";
+		span.innerText = text;
+		tooltip.appendChild(span);
+		cell.appendChild(tooltip);
+	}
+	//hat schon einen
+	else{
+		var span = cell.firstChild.firstChild
+		span.innerText = span.innerText + '\n' + text;
 	}
 }
 
