@@ -45,3 +45,68 @@ function fensterOeffnen2() {
 	window.open('Registrierung.html');
 }
 window.addEventListener('DOMContentLoaded', init);
+
+
+const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrem7dr", Gruppen: ["1"]},
+	{ username: "Jan46z", name:"Jan", Passwort:"jfghxfgxk", Gruppen: ["1","2"]}
+];
+const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
+	{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
+];
+const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
+	{ name:"Feunde", Mitglieder: ["Jan46z"] }
+];
+
+
+
+check("Max75","fzrem7dr");
+
+function check(username, Passwort){
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onupgradeneeded = function(event){
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
+		ObjectStore.add({ user:"NaN", Gruppe: "NaN" });
+		
+		var Db = event.target.result;
+		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+		for (var u in User){
+			ObjectStore.add(User[u]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
+		for (var t in Termine){
+			ObjectStore.add(Termine[t]);
+		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
+		for (var g in Gruppen){
+			ObjectStore.add(Gruppen[g]);        // Datenbank wird erstellt wenn diese noch nicht vorhanden ist
+		}
+	};
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+
+	request.onsuccess = function(event){
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
+		transaction = Db.transaction(["aktuell","User"]);
+		store = transaction.objectStore("Gruppe");
+		request = store.get(GID);		// der datensatz mit der entsprechenden GID
+		objectStore = transaction.objectStore("User");
+		request.onsuccess = function(event) {
+			if (request.result){
+				Gruppenmitglieder =request.result.Mitglieder;
+			}
+		}
+		request.onsuccess = function(event) {
+			//alert("Der "+store+" Datensatz wurde hinzugefügt.");
+		};
+		request.onerror = function(event) {
+			//alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.!!!!!!");
+		}
+	}
+}
+
+
