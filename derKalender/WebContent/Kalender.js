@@ -66,7 +66,6 @@ function einfügen(store, Werte){
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
-	
 	request.onsuccess = function(event){
 		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
 		request = Db.transaction([store], "readwrite")
@@ -474,13 +473,12 @@ function WochenKalender(aDate) {
 	
 	for (var i = 0; i <= 23; i++) {		//Tabellenbody
 		var zeile = table.insertRow(i+2);
-		zeile.id	= i;
 		cells = zeile.insertCell(0);		//Zeit
 		if(i<=9)
 			cells.innerHTML = "0"+i+":00";
 		else
-			cells.innerHTML = i+":00";
-		
+			cells.innerHTML = i+":00";	
+					
 		for (var j = 0; j <= 6; j++) {		//Zellen der Tage
 			cells = zeile.insertCell(j+1);
 			cells.innerHTML = ' ';
@@ -650,14 +648,16 @@ function makedata (aDate,table) {
 		    	}
 		    	else{
 		    		cell.innerHTML = aDate.getDate();
-		    		if(j==6 || j==7||isholiday(aDate)){
+		    		if(j==6 || j==7||isholiday(aDate,cell)){
 						cell.className = 'holidayorweekend';
 						cell.className = cell.className+' '+' Tag';
 					}
 		    		else{
 		    			cell.className = 'calendarday';
 		    			cell.className = cell.className+' '+' Tag';
-		    		}
+					}
+					//Group_Personal 1 = Group 0 = Person
+					//addtooltiptermin(Group_Personal,aDate, cell);
 		    		aDate.setDate(aDate.getDate() + 1);
 		    	}
 			}
@@ -680,7 +680,7 @@ function makedata (aDate,table) {
 					//is it in month
 				    else if(aDate.getDate()<=Monatsende(aDate)&& lastday==false){
 						cell.innerHTML = aDate.getDate();
-			    		if(j==6 || j==7||isholiday(aDate)){
+			    		if(j==6 || j==7||isholiday(aDate,cell)){
 							cell.className = 'holidayorweekend';
 			    			cell.className = cell.className+' '+' Tag';
 						}
@@ -691,7 +691,9 @@ function makedata (aDate,table) {
 			    		if (Monatsende(aDate)==aDate.getDate()){
 			    			lastday = true;
 						}
-			    		aDate.setDate(aDate.getDate() + 1);
+						//Group_Personal 1 = Group 0 = Person
+						//addtooltiptermin(Group_Personal,aDate, cell);
+						aDate.setDate(aDate.getDate() + 1);
 			    	
 					}
 					else{
@@ -789,7 +791,7 @@ function isholiday(aDate,cell){
 		return true;
 	}
 	//Laenderspeziefisch
-	//Heilige Drei Ke
+	//Heilige Drei Könige
 	holiday = new Date(aDate.getFullYear(),0,6);
 	if (aDate.valueOf()==holiday.valueOf()){
 		addtooltip('Heilige Drei Koenige\nFeiertag in BW,BY,ST',cell);
@@ -823,7 +825,7 @@ function isholiday(aDate,cell){
 	//Allerheiligen
 	holiday = new Date(aDate.getFullYear(),10,1);
 	if (aDate.valueOf()==holiday.valueOf()){
-		addtooltip('Allerheiligen\nFeiertag in BW,BY,NW,RP,SL',cell);
+		addtooltip('Allerheiligen\Feiertag in BW,BY,NW,RP,SL',cell);
 		return true;
 	}
 	//Buss und Bettag //Mittwoch vor dem 23 November
@@ -837,7 +839,6 @@ function isholiday(aDate,cell){
 	}
 	return false;
 }
-
 
 function weekday(aDate){
 	day = (aDate.getDay() +6)%7+1
@@ -873,43 +874,29 @@ function weekofyear(aDate){
 		return weeks;
 	}
 }
-
-
-//Select = field to find
-//from = Database
-//where = values
-//what = field
 function getfromdb(select,from,where0,where1,what0,what1){
 	var request = window.indexedDB.open("Termine",1);
 
 	request.onupgradeneeded = function(event) {
 		//Nicht sicher Welche
 		var db = event.target.result;
-		//var store = db.createObjectStore(select+what0+what1);
+		var store = db.createObjectStore(select+what0+what1);
 		//for (var t in Termine){
 		//	ObjectStore.add(Termine[t]);
 		//}
 		store.createIndex(what0+what1, [what0,what1],{unique:false});
 	}
 
-	request.onsuccess = function(event){
-		
+	request.onsuccess = function(event){	
 		var db = event.target.result;
 		var transaction = db.transaction(from,'readonly');
 		var store = transaction.objectStore(from);
 		var index = store.index(what0+what1);
-		// Select only those records where prop1=value1 and prop2=value2
 		var request = index.openCursor(IDBKeyRange.only([where0, where1]));
-		// Select the first matching record
 		var request = index.get(IDBKeyRange.only([where0, where1]));
 
 		request.onsuccess = function(event){
-			if (select == '*'){
-				return request
-			}
-			else{
-				return request.get(select);
-			}
+			return request.get(select);
 		}
 
 		request.onerror = function(event) {
@@ -927,13 +914,12 @@ function get_termin(Group_Personal,Id,aDate){
 		result = getfromdb('name','Termine',Id,aDate,'username','Date');
 	}
 	else{
-		result = getfromdb('name','Termine',Id,aDate,'GID','Date');
+		result = getfromdb('name','Termine',GID,aDate,'GID','Date');
 	}
 	return result;
 }
 
 function addtooltiptermin(Group_Personal,aDate, cell){
-	var username = get_user();
 	var termin_on_date = get_termin(Group_Personal,username,aDate)
 	if (termin_on_date.name != ""){
 		addtooltip(termin_on_date.name,cell);
@@ -941,23 +927,13 @@ function addtooltiptermin(Group_Personal,aDate, cell){
 }
 
 function addtooltip(text,cell){
-	//Hat noch keinen Tooltip
-	if (cell.firstChild== null){
-		var tooltip = document.createElement("div");
-		var span = document.createElement("span");
-		tooltip.setAttribute("class","tooltip");
-		span.setAttribute("class","tooltiptext");
-		tooltip.innerHTML = cell.innerHTML;
-		cell.innerHTML = "";
-		span.innerText = text;
-		tooltip.appendChild(span);
-		cell.appendChild(tooltip);
-	}
-	//hat schon einen
-	else{
-		var span = cell.firstChild.firstChild
-		span.innerText = span.innerText + '\n' + text;
-	}
+	var tooltip = document.createElement("div");
+	var span = document.createElement("span");
+	tooltip.setAttribute("class","tooltip");
+	span.setAttribute("class","tooltiptext");
+	tooltip.innerHTML = cell.innerHTML;
+	cell.innerHTML = "";
+	span.innerText = text;
+	tooltip.appendChild(span);
+	cell.appendChild(tooltip);
 }
-
-
