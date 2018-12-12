@@ -5,7 +5,7 @@ function db(){
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
 		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
-		ObjectStore.add({id:"1", user:NaN, Gruppe: NaN });
+		ObjectStore.add({id:1, user:NaN, Gruppe: NaN });
 		
 		var Db = event.target.result;
 		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
@@ -97,8 +97,7 @@ function login(username, passwort){
 	request.onsuccess = function(event){
 		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 		
-		transaction = Db.transaction(["aktuell","User"]);
-		store = transaction.objectStore("aktuell");
+		transaction = Db.transaction(["aktuell","User"], "readwrite");
 		objectStore = transaction.objectStore("User");
 		//aktuell = store.get(1);		// der datensatz mit der entsprechenden GID
 		request = objectStore.get(username);
@@ -106,8 +105,14 @@ function login(username, passwort){
 		request.onsuccess = function(event) {
 			if (request.result){
 				if(passwort == request.result.Passwort){	//username der Gruppenmitglieder
-					//alert("erfolgreich eingelogt"))
-					window.location.href = "Eventübersicht.html";
+					//alert("erfolgreich eingelogt");
+					store = transaction.objectStore("aktuell");
+					therequest = store.put({id:"1", user: username, Gruppe: NaN });
+					therequest.onsuccess = function(event) {
+						window.location.href = "Eventübersicht.html";}
+					therequest.onerror = function(event) {
+						alert("falsch");
+					}
 				}
 				else
 					alert("Benutzername oder Passwort ist falsch");
@@ -120,3 +125,4 @@ function login(username, passwort){
 		}
 	}
 }
+
