@@ -1,5 +1,5 @@
-einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
-einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
+//einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
+//einfügen("Gruppe",	{name: "AG", Mitglieder: ["lol"]});
 
 function einfügen(store, Werte){
 	var request = window.indexedDB.open("Accountdaten",1);
@@ -14,10 +14,10 @@ function einfügen(store, Werte){
 			.add(Werte);
 		
 		request.onsuccess = function(event) {
-			//alert("Der "+store+" Datensatz wurde hinzugefügt.");
+			alert("Der "+store+" Datensatz wurde hinzugefügt.");
 		};
 		request.onerror = function(event) {
-			//alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.!!!!!!");
+			alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.!!!!!!");
 		}
 	}
 }

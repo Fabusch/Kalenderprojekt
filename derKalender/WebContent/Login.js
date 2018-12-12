@@ -5,7 +5,7 @@ function db(){
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
 		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
-		ObjectStore.add({id:"1", user:"NaN", Gruppe: "NaN" });
+		ObjectStore.add({id:"1", user:NaN, Gruppe: NaN });
 		
 		var Db = event.target.result;
 		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
@@ -30,13 +30,14 @@ function db(){
 
 	request.onsuccess = function(event){
 		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
-		alert("DB erstellt");
+		//alert("DB erstellt");
 	}
 }
 
-function validate(form){
-	fail = validateNickname(form.nickname.value)
-	fail += validatePasswort(form.passwort.value)
+function validate(){
+	form= document.getElementsByTagName("table")[0];
+	fail = validateNickname(document.getElementById("nickname").value)
+	fail += validatePasswort(document.getElementById("passwort").value)
 	if (fail == "") {return true;}
 	else{alert(fail); return false}
 	
@@ -82,41 +83,19 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 
 function check(){
 //	if(valiadte()){
-		login("Max75","fzrEm7dr");
+		login(document.getElementById("nickname").value, document.getElementById("passwort").value);
 //	}
 }
 
 function login(username, passwort){
 	var request = window.indexedDB.open("Accountdaten",1);
-	request.onupgradeneeded = function(event){
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
-		ObjectStore.add({id:"1", user:"NaN", Gruppe: "NaN" });
-		
-		var Db = event.target.result;
-		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
-		for (var u in User){
-			ObjectStore.add(User[u]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
-		for (var t in Termine){
-			ObjectStore.add(Termine[t]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
-		for (var g in Gruppen){
-			ObjectStore.add(Gruppen[g]);        // Datenbank wird erstellt wenn diese noch nicht vorhanden ist
-		}
-	};
-	request.onerror = function(event) {	
+	request.onerror = function(event) {
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
 
 	request.onsuccess = function(event){
-		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
-		alert("DB bereits erstellt");
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 		
 		transaction = Db.transaction(["aktuell","User"]);
 		store = transaction.objectStore("aktuell");
@@ -127,17 +106,17 @@ function login(username, passwort){
 		request.onsuccess = function(event) {
 			if (request.result){
 				if(passwort == request.result.Passwort){	//username der Gruppenmitglieder
-					alert("erfolgreich eingelogt");
-					//window.location.href='Eventübersicht.html'
+					//alert("erfolgreich eingelogt"))
+					window.location.href = "Eventübersicht.html";
 				}
 				else
-					alert("Passwort ist falsch "+ passwort+" != "+ request.result.Passwort);
+					alert("Benutzername oder Passwort ist falsch");
 			}
+			else
+				alert("Benutzername oder Passwort ist falsch");
 		}
 		request.onerror = function(event) {
-			alert("username oder Passwort ist falsch");
+			alert("Benutzername oder Passwort ist falsch");
 		}
 	}
 }
-
-

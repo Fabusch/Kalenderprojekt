@@ -10,25 +10,24 @@
 		<header 	class= header_hintergrund>
 			<img src="img/schriftzug.png" alt="Logo" class="logo">
 		</header>
-			
-			
- 		<table class="signup" border="0" cellpadding="2" cellspacing="5" bgcolor="#eeeeee">
-
 		
- 				<tr>
- 					<td><button id="Registrierungsseite">Hier registrieren </button></td>
- 				</tr>
- 				<tr>
- 					<td>Benutzername</td><td><input type="text" maxlength="16" name="nickname"/></td>
- 				</tr>
- 				<tr>
- 					<td>Passwort</td><td><input type="password" maxlength="16" name="passwort"/></td>
-				</tr>
- 				<tr>
- 					<td colspan="2" align="center">
- 						<input type="submit" value="Login" onclick='check()'>
- 					</td>
- 				</tr>
+ 		<table class="signup" border="0" cellpadding="2" cellspacing="5" bgcolor="#eeeeee">
+ 			<tr>
+ 				<td><button id="Registrierungsseite">Hier registrieren </button></td>
+ 			</tr>
+ 			<tr>
+ 				<td>Benutzername</td>
+ 				<td><input type="text" maxlength="16" id="nickname"/></td>
+ 			</tr>
+ 			<tr>
+ 				<td>Passwort</td>
+ 				<td><input type="password" maxlength="16" id="passwort"/></td>
+			</tr>
+ 			<tr>
+ 				<td colspan="2" align="center">
+ 					<input type="submit" value="Login" onclick='if(validate())	check();'>
+ 				</td>
+ 			</tr>
  		</table>
  
 	</body>
