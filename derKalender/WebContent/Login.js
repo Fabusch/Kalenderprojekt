@@ -68,7 +68,7 @@ function init() {
 function fensterOeffnen() {
 	window.open('Registrierung.html');
 }
-window.addEventListener('DOMContentLoaded', init);
+//window.addEventListener('DOMContentLoaded', init);
 
 
 const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrEm7dr", Gruppen: ["1"]},
@@ -99,30 +99,114 @@ function login(username, passwort){
 		
 		transaction = Db.transaction(["aktuell","User"], "readwrite");
 		objectStore = transaction.objectStore("User");
-		//aktuell = store.get(1);		// der datensatz mit der entsprechenden GID
-		request = objectStore.get(username);
+		request = objectStore.get(username);	//rufe verlangten User auf
 		
 		request.onsuccess = function(event) {
 			if (request.result){
-				if(passwort == request.result.Passwort){	//username der Gruppenmitglieder
+				if(passwort == request.result.Passwort){	//Passwort vergleich
 					//alert("erfolgreich eingelogt");
 					store = transaction.objectStore("aktuell");
-					therequest = store.put({id:"1", user: username, Gruppe: NaN });
-					therequest.onsuccess = function(event) {
-						window.location.href = "Eventübersicht.html";}
-					therequest.onerror = function(event) {
-						alert("falsch");
+					request = store.put({id:1, user: username, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
+					request.onsuccess = function(event) {
+						window.location.href = "Eventübersicht.html";}	//öffne Sartseite
+					request.onerror = function(event) {
+						alert("Benutzername oder Passwort ist falsch");	//interner Fehler beim speicher des aktuellen User
 					}
 				}
 				else
-					alert("Benutzername oder Passwort ist falsch");
+					alert("Benutzername oder Passwort ist falsch");	// Falsches Passwort
 			}
 			else
-				alert("Benutzername oder Passwort ist falsch");
+				alert("Benutzername oder Passwort ist falsch");	//kein User mit diesen username vorhanden
 		}
-		request.onerror = function(event) {
+		request.onerror = function(event) {	
 			alert("Benutzername oder Passwort ist falsch");
 		}
+	}
+}
+
+
+
+function date(){
+	fail  = validateVorname( document.getElementById("vorname").value )
+	fail += validateNachname( document.getElementById("nachname").value )
+	fail += validateNickname( document.getElementById("nickname").value )
+	fail += validatePasswort( document.getElementById("passwort").value )
+	
+	if (fail == "") return true
+	else{alert(fail); return false}
+	
+	function validateVorname(field){
+		if (field =="") return "Es wurde kein Vorname eingegeben.\n"
+		return""
+	}
+//	function validateNachname(field){
+//		if (field =="") return "Es wurde kein Vorname eingegeben.\n"
+//		return""
+//	}
+	function validateNickname(field){
+		if (field == "") return "Es wurde kein Nickname eingegeben.\n"
+		else if(field.length < 5)
+			return "Der Nickname muss zwischen 5 und 15 Zeichen haben.\n"
+		else if (/[^a-zA-Z0-9_-]/.test(field))
+			return "Es dürfen nur die Zeichen a-z, A-Z, 0-9, - und _ verwendet werden.\n"
+		return ""
+	}
+	function validatePasswort(field){
+		if(field=="") return "Es wurde kein Passwort eingegeben.\n"
+		else if(field.length < 5) 
+			return "Das Passwort muss zwischen 5 und 15 Zeichen haben.\n"
+		else if(!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field))
+			return "Dass Passwort muss mindestens aus je einem Zeichen a-z, A-Z und 0-9 beinhalten.\n"
+		return""
+	}	
+}
+
+function regestriren(){
+	if(date()){
+		vorname = document.getElementById("vorname").value
+		nachname = document.getElementById("nachname").value
+		nickname = document.getElementById("nickname").value 
+		passwort = document.getElementById("passwort").value
+		
+		Datensatz = {username:nickname, name:vorname, Passwort:passwort, Gruppen: []}
+		var request = window.indexedDB.open("Accountdaten",1);
+		request.onerror = function(event) {
+			console.log("error: ");
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+		
+		request.onsuccess = function(event){
+			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+			
+//			transaction = Db.transaction(["aktuell","User"], "readwrite");
+//			objectStore = transaction.objectStore("User");
+//			request = objectStore.get(username);
+//			
+//			request.onsuccess = function(event) {
+//				if (request.result){
+//					if(passwort == request.result.Passwort){	
+//						//alert("erfolgreich eingelogt");
+//						store = transaction.objectStore("aktuell");
+//						therequest = store.put({id:1, user: username, Gruppe: NaN });
+//						therequest.onsuccess = function(event) {
+//							window.location.href = "Eventübersicht.html";}
+//						therequest.onerror = function(event) {
+//							alert("falsch");
+//						}
+//					}
+//					else
+//						alert("Benutzername oder Passwort ist falsch");
+//				}
+//				else
+//					alert("Benutzername oder Passwort ist falsch");
+//			}
+//			request.onerror = function(event) {
+//				alert("Benutzername oder Passwort ist falsch");
+//			}
+		}
+		
+		
 	}
 }
 
