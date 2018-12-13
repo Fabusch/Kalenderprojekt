@@ -44,8 +44,8 @@ function fensterOeffnen() {
 //window.addEventListener('DOMContentLoaded', init);
 
 
-const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: ["1"]},
-				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: ["1","2"]}
+const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
+				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
 ];
 const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
 	{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
@@ -64,6 +64,9 @@ function login(){
 		request.onerror = function(event) {
 			console.log("error: ");
 			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+		request.onupgradeneeded = function(event){		//ohne Datenbank auch nicht eingeloggt
+			db();
 		};
 		request.onsuccess = function(event){
 			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
