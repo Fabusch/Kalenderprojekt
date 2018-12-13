@@ -34,7 +34,6 @@ function background(element){
 	else if(element.innerHTML=="17")
 document.getElementById('kalender').style.backgroundImage = "url('img/Natur/20150722_120621.jpg')";}
 
-
 function init() {
 	var buttonEins = document.getElementById('eins');
 	buttonEins.addEventListener('click', fensterOeffnen);
@@ -57,8 +56,27 @@ function fensterOeffnen2() {
 window.addEventListener('DOMContentLoaded', init1);
 
 
+function Gruppen(event) {
+	var x = document.getElementById('a' +event.id);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+		event.innerHTML= "Gruppen verstecken v";
+	} else {
+		x.style.display = "none";
+		event.innerHTML= "Gruppen Anzeigen >"
+	}
+}
+function hide(event) {
+	var x = document.getElementById('a'+event.id);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
+}
 
-
-
+function Kalender(GID){
+		
+}
 
 
