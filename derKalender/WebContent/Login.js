@@ -34,15 +34,6 @@ function db(){
 	}
 }
 
-function init() {
-	var buttonEins = document.getElementById('Registrierungsseite');
-	buttonEins.addEventListener('click', fensterOeffnen)
-}
-function fensterOeffnen() {
-	window.open('Registrierung.html');
-}
-//window.addEventListener('DOMContentLoaded', init);
-
 
 const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
 				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}

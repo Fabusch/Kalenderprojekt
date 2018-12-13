@@ -1,7 +1,7 @@
 
 
-const User =[	{ username: "Max75", name:"Maxi", Passwort:"fzrem7dr", Gruppen: ["1"]},
-				{ username: "Jan46z", name:"Jan", Passwort:"jfghxfgxk", Gruppen: ["1","2"]}
+const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
+				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
 			];
 const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
 				{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
@@ -9,7 +9,6 @@ const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 
 const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 				{ name:"Feunde", Mitglieder: ["Jan46z"] }
 			];
-
 
 //var request = window.indexedDB.open("Accountdaten",1);	
 //request.onerror = function(event) {	
@@ -39,15 +38,19 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 //}
 
 
-einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: ["3"]});
-einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
-einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
+//einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: [3]});
+//einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
+//einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
 
 function einfügen(store, Werte){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
-		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
+		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
+		ObjectStore.add({id:1, user:"Jan46z", Gruppe: 1 });
+		
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
 		for (var u in User){
 			ObjectStore.add(User[u]);
 		}
@@ -81,8 +84,54 @@ function einfügen(store, Werte){
 	}
 }
 
-var GID = 1;	//diese Gruppe soll angezeigt werden
-var Nutzer= "Jan46z";
+
+var GID;	//diese Gruppe soll angezeigt werden
+var Nutzer; //dieser User hat den Kalender aufgerfen
+
+
+function aktuell(){
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {		//Falls fehler auftretten
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onupgradeneeded = function(event){		//ohne Datenbank auch nicht eingeloggt
+		window.indexedDB.deleteDatabase('Accountdaten');
+		window.location.href = "Login.html";
+	};
+	request.onsuccess = function(event){
+		Db = request.result;
+		transaction = Db.transaction(["aktuell"]);
+		ObjectStore = transaction.objectStore("aktuell");
+		
+		request = ObjectStore.get(1);
+		request.onerror = function(event) {		//Falls fehler auftretten
+			window.indexedDB.deleteDatabase('Accountdaten');
+			window.location.href = "Login.html";
+		};
+		request.onsuccess = function(event) {
+			if (request.result){
+				Nutzer = request.result.user;	//dieser User hat den Kalender aufgerfen
+				GID = request.result.Gruppe; //diese Gruppe soll angezeigt werden
+				if(""+Nutzer=="NaN") {
+					//alert("Biite erst einloggen");
+					window.location.href = "Login.html"
+				}
+				else if(""+GID=="NaN") {
+					//alert("Es wurde kein Kalender ausgewählt");
+					window.location.href = "Eventübersicht.html";
+				}
+				else {
+					alert("Kalender");
+					GruppeKalender()
+					//navKalender(Nutzer)
+				}
+			}else{
+				alter("Fehler: Datensatz nicht gefunden");
+			};
+		}
+	}
+}
 
 function GruppeKalender(){
 	var request = window.indexedDB.open("Accountdaten",1);
@@ -90,22 +139,8 @@ function GruppeKalender(){
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
-	request.onupgradeneeded = function(event){		//Datenbank anlegen, falls noch nicht vorhanden
-		var Db = event.target.result;
-		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
-		for (var u in User){
-			ObjectStore.add(User[u]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
-		for (var t in Termine){
-			ObjectStore.add(Termine[t]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
-		for (var g in Gruppen){
-			ObjectStore.add(Gruppen[g]);
-		}
+	request.onupgradeneeded = function(event){		//ohne Datenbank auch nicht eingeloggt
+		window.location.href = "Login.html";
 	};
 	request.onsuccess = function(event){
 		Db = request.result;
@@ -113,6 +148,10 @@ function GruppeKalender(){
 		store = transaction.objectStore("Gruppe");
 		request = store.get(GID);		// der datensatz mit der entsprechenden GID
 		objectStore = transaction.objectStore("User");
+		request.onerror = function(event) {
+			alert("Biite erst eiloggen");
+			window.location.href = "Eventübersicht.html";
+		}
 		request.onsuccess = function(event) {
 			if (request.result){
 				Gruppenmitglieder =request.result.Mitglieder;	//username der Gruppenmitglieder
@@ -875,7 +914,7 @@ function weekofyear(aDate){
 	}
 }
 function getfromdb(select,from,where0,where1,what0,what1){
-	var request = window.indexedDB.open("Termine",1);
+	var request = window.indexedDB.open("Termine",1);	//? .open("Accountdaten",1);	//öffne indexedDB
 
 	request.onupgradeneeded = function(event) {
 		//Nicht sicher Welche
@@ -891,8 +930,8 @@ function getfromdb(select,from,where0,where1,what0,what1){
 		var db = event.target.result;
 		var transaction = db.transaction(from,'readonly');
 		var store = transaction.objectStore(from);
-		var index = store.index(what0+what1);
-		var request = index.openCursor(IDBKeyRange.only([where0, where1]));
+		var index = store.index(what0+what1);		//?
+		var request = index.openCursor(IDBKeyRange.only([where0, where1]));	//? wird doch direkt überschrieben
 		var request = index.get(IDBKeyRange.only([where0, where1]));
 
 		request.onsuccess = function(event){

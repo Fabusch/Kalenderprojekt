@@ -54,7 +54,7 @@ function init1() {
 function fensterOeffnen2() {
 	window.open('TerminErstellung.html');
 }
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', init1);
 
 
 
