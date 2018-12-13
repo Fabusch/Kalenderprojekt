@@ -73,7 +73,7 @@ function login(){
 						store = transaction.objectStore("aktuell");
 						request = store.put({id:1, user: username, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
 						request.onsuccess = function(event) {
-							window.location.href = "Eventübersicht.html";}	//öffne Startseite
+							window.location.href = "Profilübersicht.html";}	//öffne Startseite
 						request.onerror = function(event) {
 							alert("Einloggen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
 						}
@@ -143,7 +143,7 @@ function registriert(){
 					store = transaction.objectStore("aktuell");	//einlogen
 					request = store.put({id:1, user: nickname, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
 					request.onsuccess = function(event) {
-						window.location.href = "Eventübersicht.html";}	//öffne Startseite
+						window.location.href = "Profilübersicht.html";}	//öffne Startseite
 					request.onerror = function(event) {
 						alert("einloggen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
 					}
@@ -191,3 +191,4 @@ function date(){
 		return""
 	}	
 }
+
