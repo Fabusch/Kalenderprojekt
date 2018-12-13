@@ -76,7 +76,26 @@ function hide(event) {
 }
 
 function Kalender(GID){
-		
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		db = request.result;
+		objectStore = db.transaction(['aktuell'], "readwrite").objectStore('aktuell');
+		objectStoreRequest = objectStore.get(1);
+		objectStoreRequest.onsuccess = function() {
+			Datensatz = objectStoreRequest.result;
+			Datensatz.Gruppe = GID;
+			var updateTitleRequest = objectStore.put(Datensatz);
+			
+			updateTitleRequest.onsuccess = function() {
+				alert('klappt');
+				window.location.href = "Kalender.html";
+			};
+		};
+	}
 }
 
 

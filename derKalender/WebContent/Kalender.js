@@ -149,12 +149,12 @@ function GruppeKalender(){
 		request = store.get(GID);		// der datensatz mit der entsprechenden GID
 		objectStore = transaction.objectStore("User");
 		request.onerror = function(event) {
-			alert("Biite erst eiloggen");
+			alert("Bitte erst einloggen");
 			window.location.href = "Eventübersicht.html";
 		}
 		request.onsuccess = function(event) {
 			if (request.result){
-				Gruppenmitglieder =request.result.Mitglieder;	//username der Gruppenmitglieder
+				Gruppenmitglieder = request.result.Mitglieder;	//username der Gruppenmitglieder
 				
 				Kalender();
 				if(ansicht == 2){
