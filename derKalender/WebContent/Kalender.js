@@ -119,7 +119,7 @@ function aktuell(){
 				}
 				else if(""+GID=="NaN") {
 					//alert("Es wurde kein Kalender ausgewählt");
-					window.location.href = "Eventübersicht.html";
+					window.location.href = "Profilübersicht.html";
 				}
 				else {
 					alert("Kalender");
@@ -913,6 +913,7 @@ function weekofyear(aDate){
 		return weeks;
 	}
 }
+
 function getfromdb(select,from,where0,where1,what0,what1){
 	var request = window.indexedDB.open("Termine",1);	//? .open("Accountdaten",1);	//öffne indexedDB
 
@@ -946,7 +947,6 @@ function getfromdb(select,from,where0,where1,what0,what1){
 		return '';
 	};
 }
-
 function get_termin(Group_Personal,Id,aDate){
 	var result;
 	if(Group_Personal==0){
