@@ -55,7 +55,13 @@ function fensterOeffnen2() {
 }
 window.addEventListener('DOMContentLoaded', init1);
 
-
+function link(element){
+	element.style.color="#FFEB3B";
+}
+function linkout(element){
+	element.style.color="#b05bff";
+}
+//nav-teil
 function Gruppen(event) {
 	var x = document.getElementById('a' +event.id);
 	if (x.style.display === "none") {
@@ -75,6 +81,12 @@ function hide(event) {
 	}
 }
 
+function addGruppen(){
+	var LinkGruppe = document.createElement("a");
+	LinkGruppe.addEventListener('click', function(){	Kalender(GID);	});
+	document.getElementById('aGruppen').appendChild(LinkGruppe);
+}
+
 function Kalender(GID){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
@@ -88,10 +100,9 @@ function Kalender(GID){
 		objectStoreRequest.onsuccess = function() {
 			Datensatz = objectStoreRequest.result;
 			Datensatz.Gruppe = GID;
-			var updateTitleRequest = objectStore.put(Datensatz);
+			updateRequest = objectStore.put(Datensatz);
 			
-			updateTitleRequest.onsuccess = function() {
-				alert('klappt');
+			updateRequest.onsuccess = function(event) {
 				window.location.href = "Kalender.html";
 			};
 		};
