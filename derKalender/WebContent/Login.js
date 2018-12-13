@@ -81,7 +81,7 @@ function login(){
 						request.onsuccess = function(event) {
 							window.location.href = "Eventübersicht.html";}	//öffne Startseite
 						request.onerror = function(event) {
-							alert("einlogen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
+							alert("Einloggen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
 						}
 					}
 					else
@@ -123,7 +123,7 @@ function validate(){
 	}
 }
 
-function regestriren(){
+function registriert(){
 	if(date()){		//überprüfe auf legale Eingaben
 		vorname = document.getElementById("vorname").value
 		nachname = document.getElementById("nachname").value
@@ -144,18 +144,18 @@ function regestriren(){
 			
 			request.onsuccess = function(event) {
 				if (request.result){
-					alert("erfolgreich regestrirt");
+					alert("erfolgreich registriert");
 					
 					store = transaction.objectStore("aktuell");	//einlogen
 					request = store.put({id:1, user: nickname, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
 					request.onsuccess = function(event) {
 						window.location.href = "Eventübersicht.html";}	//öffne Startseite
 					request.onerror = function(event) {
-						alert("einlogen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
+						alert("einloggen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
 					}
 				}
 				else	
-					alert("regestrieren fehlgeschlagen");
+					alert("registrieren fehlgeschlagen");
 			}
 			request.onerror = function(event) {	//Es ist bereits ein User mit diesen nickname vorhanden
 				alert("Der Nickname "+nickname+" wird bereits als Benutzername verwendet");
