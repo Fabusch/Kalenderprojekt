@@ -81,46 +81,45 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 	{ name:"Feunde", Mitglieder: ["Jan46z"] }
 ];
 
-function check(){
-//	if(valiadte()){
-		login(document.getElementById("nickname").value, document.getElementById("passwort").value);
-//	}
-}
 
 function login(username, passwort){
-	var request = window.indexedDB.open("Accountdaten",1);
-	request.onerror = function(event) {
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-	};
-
-	request.onsuccess = function(event){
-		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+	if(validate()){	//überprüfe auf legale Eingaben
+		username = document.getElementById("nickname").value;
+		passwort = document.getElementById("passwort").value;
 		
-		transaction = Db.transaction(["aktuell","User"], "readwrite");
-		objectStore = transaction.objectStore("User");
-		request = objectStore.get(username);	//rufe verlangten User auf
+		request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+		request.onerror = function(event) {
+			console.log("error: ");
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+		request.onsuccess = function(event){
+			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 		
-		request.onsuccess = function(event) {
-			if (request.result){
-				if(passwort == request.result.Passwort){	//Passwort vergleich
-					//alert("erfolgreich eingelogt");
-					store = transaction.objectStore("aktuell");
-					request = store.put({id:1, user: username, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
-					request.onsuccess = function(event) {
-						window.location.href = "Eventübersicht.html";}	//öffne Sartseite
-					request.onerror = function(event) {
-						alert("Benutzername oder Passwort ist falsch");	//interner Fehler beim speicher des aktuellen User
+			transaction = Db.transaction(["aktuell","User"], "readwrite");
+			objectStore = transaction.objectStore("User");
+			request = objectStore.get(username);	//rufe verlangten User auf
+		
+			request.onsuccess = function(event) {
+				if (request.result){
+					if(passwort == request.result.Passwort){	//Passwort vergleich
+						//alert("erfolgreich eingelogt");
+						store = transaction.objectStore("aktuell");
+						request = store.put({id:1, user: username, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
+						request.onsuccess = function(event) {
+							window.location.href = "Eventübersicht.html";}	//öffne Startseite
+						request.onerror = function(event) {
+							alert("einlogen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
+						}
 					}
+					else
+						alert("Benutzername oder Passwort ist falsch");	// Falsches Passwort
 				}
 				else
-					alert("Benutzername oder Passwort ist falsch");	// Falsches Passwort
+					alert("Benutzername oder Passwort ist falsch");	//kein User mit diesen username vorhanden
 			}
-			else
-				alert("Benutzername oder Passwort ist falsch");	//kein User mit diesen username vorhanden
-		}
-		request.onerror = function(event) {	
-			alert("Benutzername oder Passwort ist falsch");
+			request.onerror = function(event) {	
+				alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+			}
 		}
 	}
 }
@@ -140,10 +139,10 @@ function date(){
 		if (field =="") return "Es wurde kein Vorname eingegeben.\n"
 		return""
 	}
-//	function validateNachname(field){
-//		if (field =="") return "Es wurde kein Vorname eingegeben.\n"
-//		return""
-//	}
+	function validateNachname(field){
+		if (field =="") return "Es wurde kein Nachname eingegeben.\n"
+		return""
+	}
 	function validateNickname(field){
 		if (field == "") return "Es wurde kein Nickname eingegeben.\n"
 		else if(field.length < 5)
@@ -163,14 +162,14 @@ function date(){
 }
 
 function regestriren(){
-	if(date()){
+	if(date()){		//überprüfe auf legale Eingaben
 		vorname = document.getElementById("vorname").value
 		nachname = document.getElementById("nachname").value
 		nickname = document.getElementById("nickname").value 
 		passwort = document.getElementById("passwort").value
 		
 		Datensatz = {username:nickname, name:vorname, Passwort:passwort, Gruppen: []}
-		var request = window.indexedDB.open("Accountdaten",1);
+		var request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
 		request.onerror = function(event) {
 			console.log("error: ");
 			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
@@ -178,35 +177,28 @@ function regestriren(){
 		
 		request.onsuccess = function(event){
 			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+			request = Db.transaction(["aktuell","User"], "readwrite")
+			store = request.objectStore("aktuell");
+			request = request.objectStore("User").add(Datensatz);	//Fühge User hinzu
 			
-//			transaction = Db.transaction(["aktuell","User"], "readwrite");
-//			objectStore = transaction.objectStore("User");
-//			request = objectStore.get(username);
-//			
-//			request.onsuccess = function(event) {
-//				if (request.result){
-//					if(passwort == request.result.Passwort){	
-//						//alert("erfolgreich eingelogt");
-//						store = transaction.objectStore("aktuell");
-//						therequest = store.put({id:1, user: username, Gruppe: NaN });
-//						therequest.onsuccess = function(event) {
-//							window.location.href = "Eventübersicht.html";}
-//						therequest.onerror = function(event) {
-//							alert("falsch");
-//						}
-//					}
-//					else
-//						alert("Benutzername oder Passwort ist falsch");
-//				}
-//				else
-//					alert("Benutzername oder Passwort ist falsch");
-//			}
-//			request.onerror = function(event) {
-//				alert("Benutzername oder Passwort ist falsch");
-//			}
+			request.onsuccess = function(event) {
+				if (request.result){
+					alert("erfolgreich regestrirt");
+					
+					//store = transaction.objectStore("aktuell");	//einlogen
+					request = store.put({id:1, user: nickname, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
+					request.onsuccess = function(event) {
+						window.location.href = "Eventübersicht.html";}	//öffne Startseite
+					request.onerror = function(event) {
+						alert("einlogen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
+					}
+				}
+				else	
+					alert("Der Nickname "+nickname+" wird bereits als Benutzername verwendet");
+			}
+			request.onerror = function(event) {	//Es ist bereits ein User mit diesen nickname vorhanden
+				alert("Der Nickname "+nickname+" wird bereits als Benutzername verwendet");
+			}
 		}
-		
-		
 	}
 }
-
