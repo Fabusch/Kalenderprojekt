@@ -45,7 +45,6 @@ const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 	{ name:"Feunde", Mitglieder: ["Jan46z"] }
 ];
 
-
 function login(){
 	if(validate()){	//überprüfe auf legale Eingaben
 		username = document.getElementById("nickname").value;
@@ -191,4 +190,3 @@ function date(){
 		return""
 	}	
 }
-
