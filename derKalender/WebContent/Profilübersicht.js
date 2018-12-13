@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', init);
 
 function init1() {
 	var buttonEins = document.getElementById('zwei');
-	buttonEins.addEventListener('click', fensterOeffnen);
+	buttonEins.addEventListener('click', fensterOeffnen2);
 }
 
 function fensterOeffnen2() {
