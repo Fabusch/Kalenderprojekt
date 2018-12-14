@@ -61,6 +61,7 @@ function link(element){
 function linkout(element){
 	element.style.color="#b05bff";
 }
+
 //nav-teil
 function Gruppen(event) {
 	var x = document.getElementById('a' +event.id);
@@ -109,4 +110,34 @@ function Kalender(GID){
 	}
 }
 
-
+Profil()
+function Profil(){
+	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+	
+		transaction = Db.transaction(["aktuell","User"], "readwrite");
+		objectStore = transaction.objectStore("User");
+		store = transaction.objectStore("aktuell");
+		request = store.get(1);	//eingeloggten User
+	
+		request.onsuccess = function(event) {
+			if (request.result){
+				request = objectStore.get(request.result.user);	//username des eingeloggten User
+				request.onsuccess = function(event) {
+					if (request.result){
+						document.getElementById('vorname').innerHTML = request.result.name;	//trage Namen ein
+						document.getElementById('nachname').innerHTML = request.result.nachname;
+					}
+				}
+			}
+		}
+		request.onerror = function(event) {	
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		}
+	}
+}
