@@ -1,9 +1,14 @@
 @charset "Utf-8";
 
+.signup th{
+	height: auto;
+	font-size: 15px;
+	
+}
 .signup{
 	position:absolute;
 	background: lightgray;
-	color: white;
+	color: black;
 	float:left;
 	margin:200px;
 	margin-bottom: 2px;
@@ -32,7 +37,7 @@ body {
 	width: 100%;
 	margin-right: 100%;
 	margin-left: 40%;
-	color: white; 
+	color: black; 
 }
 	header {	
 	height: 90px;

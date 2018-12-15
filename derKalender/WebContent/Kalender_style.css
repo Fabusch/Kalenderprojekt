@@ -1,11 +1,11 @@
 body {
-    background: white url(img/background.jpg);
+    background: aliceblue;
 	font-family: arial;
 	font-size: 15px;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	color: white; 
+	text-color: black; 
 }
 
 header {	

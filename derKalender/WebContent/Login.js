@@ -116,6 +116,11 @@ function validate(){
 	}
 }
 
+
+
+
+
+
 function registriert(){
 	if(date()){		//überprüfe auf legale Eingaben
 		vorname = document.getElementById("vorname").value
@@ -133,13 +138,13 @@ function registriert(){
 		request.onsuccess = function(event){
 			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 			transaction = Db.transaction(["aktuell","User"], "readwrite");
-			request = transaction.objectStore("User").add(Datensatz);	//Fühge User hinzu
+			request = transaction.objectStore("User").add(Datensatz);	//Füge User hinzu
 			
 			request.onsuccess = function(event) {
 				if (request.result){
 					alert("erfolgreich registriert");
 					
-					store = transaction.objectStore("aktuell");	//einlogen
+					store = transaction.objectStore("aktuell");	//einloggen
 					request = store.put({id:1, user: nickname, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
 					request.onsuccess = function(event) {
 						window.location.href = "Profilübersicht.html";}	//öffne Startseite
