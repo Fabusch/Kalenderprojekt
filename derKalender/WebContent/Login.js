@@ -35,10 +35,10 @@ function db(){
 }
 
 
-const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
-				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
+const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1], Kinder:["Jan46z"]},
+				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2], Kinder:[]}
 ];
-const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
+const Termine =[{ name: "geburtstag", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
 	{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
 ];
 const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
@@ -95,35 +95,17 @@ function validate(){
 	fail += validatePasswort(document.getElementById("passwort").value)
 	if (fail == "") {return true;}
 	else{alert(fail); return false}
-	
-	function validateNickname(field){
-		if (field == "") return "Es wurde kein Nickname eingegeben.\n"
-		else if(field.length < 5)
-			return "Der Nickname muss zwischen 5 und 15 Zeichen haben.\n"
-		else if (/[^a-zA-Z0-9_-]/.test(field))
-			return "Es dürfen nur die Zeichen a-z, A-Z, 0-9, - und _ verwendet werden.\n"
-		return ""
-	}
-	
-	function validatePasswort(field){
-		if(field=="") 
-			return "Es wurde kein Passwort eingegeben.\n"
-		else if(field.length < 5) 
-			return "Das Passwort muss zwischen 5 und 15 Zeichen haben.\n"
-		else if(!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field))
-			return "Dass Passwort muss mindestens aus je einem Zeichen a-z, A-Z und 0-9 beinhalten.\n"
-		return""
-	}
 }
 
 function registriert(){
-	if(date()){		//überprüfe auf legale Eingaben
+	if(date()){
 		vorname = document.getElementById("vorname").value
 		nachname = document.getElementById("nachname").value
 		nickname = document.getElementById("nickname").value 
 		passwort = document.getElementById("passwort").value
 		
-		Datensatz = {username:nickname, name:vorname, nachname:nachname, Passwort:passwort, Gruppen: []}
+		Datensatz={username:nickname, name:vorname, nachname:nachname, Passwort:passwort, Gruppen: [], Kinder:[]}
+	
 		var request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
 		request.onerror = function(event) {
 			console.log("error: ");
@@ -134,21 +116,22 @@ function registriert(){
 			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 			transaction = Db.transaction(["aktuell","User"], "readwrite");
 			request = transaction.objectStore("User").add(Datensatz);	//Fühge User hinzu
-			
+		
 			request.onsuccess = function(event) {
 				if (request.result){
-					alert("erfolgreich registriert");
-					
+					//alert("erfolgreich registriert");
 					store = transaction.objectStore("aktuell");	//einlogen
 					request = store.put({id:1, user: nickname, Gruppe: NaN });	//Speicher aktuellen User  für spätere Aufrufe auf anderen Seiten
 					request.onsuccess = function(event) {
-						window.location.href = "Profilübersicht.html";}	//öffne Startseite
+						eltern();
+					}	
 					request.onerror = function(event) {
 						alert("einloggen ist fehlgeschlagen");	//interner Fehler beim speicher des aktuellen User
 					}
 				}
-				else	
+				else{
 					alert("registrieren fehlgeschlagen");
+				}
 			}
 			request.onerror = function(event) {	//Es ist bereits ein User mit diesen nickname vorhanden
 				alert("Der Nickname "+nickname+" wird bereits als Benutzername verwendet");
@@ -156,37 +139,76 @@ function registriert(){
 		}
 	}
 }
+function eltern(){
+	eltern = document.getElementById("eltern").value;
+	if(eltern=="") {
+		alert("keine Eltern");
+		window.location.href = "Profilübersicht.html";}
+	else{
+		var request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+		request.onerror = function(event) {
+			console.log("error: ");
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+		request.onsuccess = function(event){
+			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+			transaction = Db.transaction(["User"], "readwrite");
+			request = transaction.objectStore("User").get(eltern);	//Fühge User hinzu
+			
+			request.onsuccess = function(event) {
+				if (request.result){
+					kinder= request.result.Kinder;
+					kinder.push(document.getElementById("nickname").value);
+					request.result.Kinder =kinder;
+					//überträgt es nicht in die db//alert(request.result.name+" wurde Kind "+document.getElementById("name").value+" hinzugefügt");
+					window.location.href = "Profilübersicht.html";
+				}else{
+					alert("Elternteil wurde nicht gefunden");
+					window.location.href = "Profilübersicht.html";
+				}
+			}
+		}
+	}
+}
+
+
 function date(){
 	fail  = validateVorname( document.getElementById("vorname").value )
 	fail += validateNachname( document.getElementById("nachname").value )
 	fail += validateNickname( document.getElementById("nickname").value )
 	fail += validatePasswort( document.getElementById("passwort").value )
-	
-	if (fail == "") return true
-	else{alert(fail); return false}
-	
-	function validateVorname(field){
-		if (field =="") return "Es wurde kein Vorname eingegeben.\n"
-		return""
+					
+	if (fail == ""){
+		return true
 	}
-	function validateNachname(field){
-		if (field =="") return "Es wurde kein Nachname eingegeben.\n"
-		return""
+	else{
+		alert(fail); 
+		return false
 	}
-	function validateNickname(field){
-		if (field == "") return "Es wurde kein Nickname eingegeben.\n"
-		else if(field.length < 5)
-			return "Der Nickname muss zwischen 5 und 15 Zeichen haben.\n"
-		else if (/[^a-zA-Z0-9_-]/.test(field))
-			return "Es dürfen nur die Zeichen a-z, A-Z, 0-9, - und _ verwendet werden.\n"
-		return ""
-	}
-	function validatePasswort(field){
-		if(field=="") return "Es wurde kein Passwort eingegeben.\n"
-		else if(field.length < 5) 
-			return "Das Passwort muss zwischen 5 und 15 Zeichen haben.\n"
-		else if(!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field))
-			return "Dass Passwort muss mindestens aus je einem Zeichen a-z, A-Z und 0-9 beinhalten.\n"
-		return""
-	}	
 }
+
+
+function validateVorname(field){
+	if (field =="") return "Es wurde kein Vorname eingegeben.\n"
+	return""
+}
+function validateNachname(field){
+	if (field =="") return "Es wurde kein Nachname eingegeben.\n"
+	return""
+}
+function validateNickname(field){
+	if (field == "") return "Es wurde kein Nickname eingegeben.\n"
+	else if(field.length < 5)
+		return "Der Nickname muss zwischen 5 und 15 Zeichen haben.\n"
+	else if (/[^a-zA-Z0-9_-]/.test(field))
+		return "Es dürfen nur die Zeichen a-z, A-Z, 0-9, - und _ verwendet werden.\n"
+	return ""
+}
+function validatePasswort(field){
+	if(field=="") return "Es wurde kein Passwort eingegeben.\n"
+	else if(field.length < 5) 
+		return "Das Passwort muss zwischen 5 und 15 Zeichen haben.\n"
+	else if(!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field))
+		return "Dass Passwort muss mindestens aus je einem Zeichen a-z, A-Z und 0-9 beinhalten.\n"
+	return""
+}	
