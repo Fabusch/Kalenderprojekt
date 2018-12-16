@@ -138,7 +138,7 @@ function GruppeKalender(){
 						}
 					}
 				}else{
-					alter("Fehler: Datensatz nicht gefunden");
+					alert("Fehler: Datensatz nicht gefunden");
 					Kalender();
 					if(ansicht == 2){
 						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];

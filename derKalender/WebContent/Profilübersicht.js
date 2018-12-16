@@ -133,8 +133,7 @@ function addGruppe(object, Grupp, i){
 		
 		LinkGruppe = document.createElement("a");
 		LinkGruppe.innerHTML = name;
-		LinkGruppe.id = i
-		LinkGruppe.addEventListener('click', function(){	Kalender(this.id);	});
+		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
 		object.appendChild(LinkGruppe);
 		
 		br = document.createElement("br");
