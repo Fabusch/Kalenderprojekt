@@ -1,4 +1,5 @@
 
+
 const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
 				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
 			];
@@ -8,34 +9,6 @@ const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 
 const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
 				{ name:"Feunde", Mitglieder: ["Jan46z"] }
 			];
-
-//var request = window.indexedDB.open("Accountdaten",1);	
-//request.onerror = function(event) {	
-//	console.log("error: ");
-//	alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-//};
-//request.onsuccess = function(event){
-//	Db = request.result;	
-//}
-//request.onupgradeneeded = function(event){
-//	var Db = event.target.result;
-//	var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
-//	for (var u in User){
-//		ObjectStore.add(User[u]);
-//	}
-//	var Db = event.target.result;
-//	ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
-//	for (var t in Termine){
-//		ObjectStore.add(Termine[t]);
-//	}
-//	var Db = event.target.result;
-//	ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
-//	for (var g in Gruppen){
-//		ObjectStore.add(Gruppen[g]);
-//	}
-//	//alert("Die Datenbank wurde angelegt");
-//}
-
 
 //einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: [3]});
 //einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
@@ -120,8 +93,7 @@ function aktuell(){
 					//alert("Es wurde kein Kalender ausgewählt");
 					window.location.href = "Profilübersicht.html";
 				}
-				else {
-					alert("Kalender");
+				else { //Kalenderr erstellen, nur wenn Nutzer und GID gesetzt sind
 					GruppeKalender()
 					//navKalender(Nutzer)
 				}
@@ -144,39 +116,60 @@ function GruppeKalender(){
 	request.onsuccess = function(event){
 		Db = request.result;
 		transaction = Db.transaction(["Gruppe","User"]);
-		store = transaction.objectStore("Gruppe");
-		request = store.get(GID);		// der datensatz mit der entsprechenden GID
 		objectStore = transaction.objectStore("User");
-		request.onerror = function(event) {
-			alert("Bitte erst einloggen");
-			window.location.href = "Eventübersicht.html";
-		}
-		request.onsuccess = function(event) {
-			if (request.result){
-				Gruppenmitglieder = request.result.Mitglieder;	//username der Gruppenmitglieder
-				
-				Kalender();
-				if(ansicht == 2){
-					tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+		store = transaction.objectStore("Gruppe");
+		if(GID != 0){
+			request = store.get(GID);		// der datensatz mit der entsprechenden GID
+			request.onerror = function(event) {
+				alert("Bitte erst einloggen");
+				window.location.href = "Eventübersicht.html";
+			}
+			request.onsuccess = function(event) {
+				if (request.result){
+					Gruppenmitglieder = request.result.Mitglieder;	//username der Gruppenmitglieder
 					
-					for (var p=0; p<Gruppenmitglieder.length;p++) {		//Eine Spallte für jedes Gruppenmitglied
-						eintragMitglieder(objectStore,p);
-						request = objectStore.get(Gruppenmitglieder[p]);
+					Kalender();
+					if(ansicht == 2){
+						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+						
+						for (var p=0; p<Gruppenmitglieder.length;p++) {		//Eine Spallte für jedes Gruppenmitglied
+							eintragMitglieder(objectStore,p);
+							request = objectStore.get(Gruppenmitglieder[p]);
+						}
 					}
+				}else{
+					alter("Fehler: Datensatz nicht gefunden");
+					Kalender();
+					if(ansicht == 2){
+						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+						
+						for (var p=0; p<Gruppenmitglieder.length;p++) {		//Eine Spallte für jedes Gruppenmitglied
+							eintragMitglieder(objectStore,p);
+							request = objectStore.get(Gruppenmitglieder[p]);
+						}
+					}
+				};
+			}
+		}
+		else{	//GID = 0 nur bei privaten Kalender
+			Gruppenmitglieder = [Nutzer];
+			Kalender();
+			if(ansicht == 2){
+				tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
+				
+				for (var p=0; p<Gruppenmitglieder.length;p++) {		//Eine Spallte für jedes Gruppenmitglied
+					eintragMitglieder(objectStore,p);
+					request = objectStore.get(Gruppenmitglieder[p]);
 				}
-			}else{
-				alter("Fehler: Datensatz nicht gefunden");
-			};
-		};
+			}
+		}
 	}
 }
 function eintragMitglieder(objectStore, p){
 	var request = objectStore.get(Gruppenmitglieder[p]);
 	request.onsuccess = function(event) {
-		if (request.result){
+		if (request.result){		//Gruppenmitglieder werden mit ihren namen(Vorname) in die Tabelle eingetragen
 			tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
-			var t1 = document.getElementById('kOverHead').getElementsByTagName("a")[0];
-		
 			tabelle.rows[0].cells[2+p].innerHTML = request.result.name;
 		}else{
 			alter("Fehler: Datensatz nicht gefunden");
@@ -552,11 +545,13 @@ function MonatsKalender(aDate) {
 	
 	var table = document.createElement("table");
 	
-	var Kopf = Monatsname[aDate.getMonth()];	//Tabellenüberschrift
+	//Tabellenüberschrift
+	var Kopf = Monatsname[aDate.getMonth()];	
 	var caption = table.createCaption();
 	caption.innerHTML = Kopf;
 	
-	var zeile = table.insertRow(0);		//Tabellenkopf
+	//Tabellenkopf
+	var zeile = table.insertRow(0);	
 	zeile.className = 'thead';
 	var cell = zeile.insertCell(0);
 	cell.innerHTML = "Datum";
@@ -569,7 +564,7 @@ function MonatsKalender(aDate) {
 	var cell = zeile.insertCell(2+ Gruppenmitglieder.length);
 	cell.innerHTML = "KW";
 	
-			//Tabellenbody
+	//Tabellenbody
 	for (var i = 0; i < ende; i++) {		//bis Monatsende
 		var zeile = table.insertRow(i+1);
 		
