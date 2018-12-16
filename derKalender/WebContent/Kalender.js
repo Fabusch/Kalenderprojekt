@@ -1,4 +1,4 @@
-
+﻿
 
 const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
 				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
@@ -658,11 +658,25 @@ function makedata (aDate,table) {
 	//var table = document.getElementById(month);	  
 	//6 Rows = Max for one Month
 	var lastday = false;
-	for (var i = 0; i <= 5;i++){
+	Days = new Array("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So");
+	for (var i = 0; i <= 6;i++){
 		//insert Row
 		var row = table.insertRow();
 		//first row
-		if (i == 0){
+		if (i==0){
+			for (var j = 0; j <= 7;j++){
+				var cell = row.insertCell();
+				if(j==0){
+					cell.className = 'week';
+					continue;
+				}
+				else{
+					cell.className = 'week';
+					cell.innerHTML=Days[j-1];
+				}
+			}
+		}
+		else if (i == 1){
 			for (var j = 0; j <= 7;j++){
 		    	var cell = row.insertCell();
 		    	//week
@@ -730,7 +744,7 @@ function makedata (aDate,table) {
 			    	
 					}
 					else{
-						cell.className = 'notinmonth'
+						cell.className = 'notinmonth';
 					}
 			    }
 			}	
@@ -907,66 +921,162 @@ function weekofyear(aDate){
 		return weeks;
 	}
 }
-
-function getfromdb(select,from,where0,where1,what0,what1){
-	var request = window.indexedDB.open("Termine",1);	//? .open("Accountdaten",1);	//öffne indexedDB
-
-	request.onupgradeneeded = function(event) {
-		//Nicht sicher Welche
-		var db = event.target.result;
-		var store = db.createObjectStore(select+what0+what1);
-		//for (var t in Termine){
-		//	ObjectStore.add(Termine[t]);
-		//}
-		store.createIndex(what0+what1, [what0,what1],{unique:false});
-	}
-
-	request.onsuccess = function(event){	
-		var db = event.target.result;
-		var transaction = db.transaction(from,'readonly');
-		var store = transaction.objectStore(from);
-		var index = store.index(what0+what1);		//?
-		var request = index.openCursor(IDBKeyRange.only([where0, where1]));	//? wird doch direkt überschrieben
-		var request = index.get(IDBKeyRange.only([where0, where1]));
-
-		request.onsuccess = function(event){
-			return request.get(select);
-		}
-
-		request.onerror = function(event) {
-			return '';
+function add_termine(Group_Personal){
+	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+ 	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		db = event.target.result;
+		var transaction = db.transaction(['Termin'], "readonly");
+		var objectStore = transaction.objectStore('Termin');
+		objectStore.openCursor().onsuccess = function(event) {
+		  var cursor = event.target.result;
+		  if(cursor) {
+			addtooltiptermin(Group_Personal,cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID);
+			cursor.continue();
+		  } 
 		};
 	};
-	request.onerror = function(event) {
-		return '';
-	};
 }
-function get_termin(Group_Personal,Id,aDate){
-	var result;
-	if(Group_Personal==0){
-		result = getfromdb('name','Termine',Id,aDate,'username','Date');
+//Convert monthname to monthnumber
+function month_to_number(month){
+	switch(month){
+		case "Januar":
+			return 0;
+		case "Februar":
+			return 1;
+		case "März":
+			return 2;
+		case "April":
+			return 3;
+		case "Mai":
+			return 4;
+		case "Juni":
+			return 5;
+		case "Juli":
+			return 6;
+		case "August":
+			return 7;
+		case "September":
+			return 8
+		case "Oktober":
+			return 9;
+		case "November":
+			return 10;
+		case "Dezember":
+			return 11;
 	}
-	else{
-		result = getfromdb('name','Termine',GID,aDate,'GID','Date');
-	}
-	return result;
+	return 0;
 }
+function addtooltiptermin(Group_Personal,start,ende,name,un,GD){
+	//if((Group_Personal == 1 && un == username)||(Group_Personal == 0 && GD == GID)){
+		if(ansicht==1){
+			var Kalender = document.getElementById('kalender').childNodes[3].rows;
+			Woche = Kalender[1].cells;
+			kOverHead = document.getElementById('kOverHead');
+			for(i=1; i<Woche.length; i+=1) {
+				Tag = Woche[i];
+				for(j=2; j<Kalender.length; j+=1) {
+					Stunde=Kalender[j].cells[0];
+					Now = Kalender[j].cells[i];
+					DataDate = Tag.innerHTML.split('.');
+					DataTime = Stunde.innerHTML.split(":")
+					aDate = new Date(DataDate[2],DataDate[1]-1,DataDate[0],DataTime[0],DataTime[1]);
+					if(isinrange(start,ende,aDate)){
+						Now.innerHTML=name;
+					}
+				}
+			}
 
-function addtooltiptermin(Group_Personal,aDate, cell){
-	var termin_on_date = get_termin(Group_Personal,username,aDate)
-	if (termin_on_date.name != ""){
-		addtooltip(termin_on_date.name,cell);
+			var year = kOverHead.childNodes[1].childNodes[0].data;
+			var month = month_to_number(kOverHead.childNodes[6].childNodes[0].data);
+		}
+		else if(ansicht==2){
+			var Kalender = document.getElementById('kalender').childNodes[3];
+			kOverHead = document.getElementById('kOverHead');
+			var year = kOverHead.childNodes[1].childNodes[0].data;
+			var month = month_to_number(Kalender.caption.innerHTML);
+			var Wochen = Kalender.rows;
+			for(i=1;i<Wochen.length;i+=1){
+				var day = Wochen[i].cells[0].innerHTML;
+				var aDate = new Date(year,month,day,0,0)
+				Now=Wochen[i].cells[2];
+
+				start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
+				ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
+
+				if(isinrange(start,ende,aDate)){
+					Now.innerHTML=name;
+				}
+			}
+
+		}
+		else if(ansicht == 3){
+			var Kalender = document.getElementById('kalender').childNodes[3];
+			var year = Kalender.caption.innerHTML;
+			Kalender = Kalender.rows;
+			for(i=0; i<Kalender.length; i+=1) {
+				var Monate = Kalender[i].cells;
+				for(j=0; j<Monate.length; j+=1) {
+					var Monat = Monate[j];
+					Monat = Monat.childNodes[0].childNodes[0];
+					var month = j+i*Monate.length;
+					var Wochen = Monat.rows;
+					for(k=1; k<Wochen.length; k+=1){
+						var Woche = Wochen[k].cells;
+						for(l=1; l<Woche.length; l+=1){
+							var day = 0;
+							var childs = Woche[l].childElementCount; 
+							if(childs > 0){
+								day = Woche[l].childNodes[0].innerText;
+							}
+							else{
+								day = Woche[l].innerHTML;
+							}
+							start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
+							ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
+							
+							var aDate = new Date(year,month,day,0,0);
+							if(isinrange(start,ende,aDate)){
+								addtooltip(name,Woche[l]);
+							}
+					}	}
+				}
+			}
+		}
+	//}
+}
+function isinrange(start,ende,aDate){
+	if ((aDate.getTime() >= start.getTime()) && (aDate.getTime() <= ende.getTime()))
+		return true;
+	else{
+		return false;
 	}
 }
 
 function addtooltip(text,cell){
-	var tooltip = document.createElement("div");
-	var span = document.createElement("span");
-	tooltip.setAttribute("class","tooltip");
-	span.setAttribute("class","tooltiptext");
-	tooltip.innerHTML = cell.innerHTML;
-	cell.innerHTML = "";
-	span.innerText = text;
-	tooltip.appendChild(span);
-	cell.appendChild(tooltip);
+	//Hat noch keinen Tooltip
+	var childs = cell.childElementCount; 
+	if(childs == 0){
+		var tooltip = document.createElement("div");
+		var span = document.createElement("span");
+		tooltip.setAttribute("class","tooltip");
+		span.setAttribute("class","tooltiptext");
+		tooltip.innerHTML = cell.innerHTML;
+		cell.innerHTML = "";
+		span.innerText = text;
+		tooltip.appendChild(span);
+		cell.appendChild(tooltip);
+	}
+	//hat schon einen
+	else{
+		var span = cell.childNodes[0].childNodes[1];
+		if (span.innerHTML != text){
+			span.innerHTML = span.innerHTML + '\n' + text;
+		}
+	}
 }
