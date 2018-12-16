@@ -153,15 +153,19 @@ function eltern(){
 		request.onsuccess = function(event){
 			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
 			transaction = Db.transaction(["User"], "readwrite");
-			request = transaction.objectStore("User").get(eltern);	//Fühge User hinzu
+			objectStore = transaction.objectStore("User")
+			request = objectStore.get(eltern);	//Fühge User hinzu
 			
 			request.onsuccess = function(event) {
 				if (request.result){
-					kinder= request.result.Kinder;
-					kinder.push(document.getElementById("nickname").value);
-					request.result.Kinder =kinder;
-					//überträgt es nicht in die db//alert(request.result.name+" wurde Kind "+document.getElementById("name").value+" hinzugefügt");
-					window.location.href = "Profilübersicht.html";
+					user= request.result
+					user.Kinder = user.Kinder.push(document.getElementById("nickname").value);
+					
+					updateRequest = objectStore.put(user);
+					updateTitleRequest.onsuccess = function() {
+						alert("das Kind "+document.getElementById("name").value+" wurfe hinzugefügt");
+						window.location.href = "Profilübersicht.html";
+					};
 				}else{
 					alert("Elternteil wurde nicht gefunden");
 					window.location.href = "Profilübersicht.html";
@@ -170,7 +174,37 @@ function eltern(){
 		}
 	}
 }
+function dbAendern(store, Id, schluessel, Wert){	//schluessel bleib noch undefined
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
 
+	request.onsuccess = function(event){
+		db = request.result;
+		objectStore = db.transaction([store], "readwrite").objectStore(store);
+
+		// Get the to-do list object that has this title as it's title
+		objectStoreRequest = objectStore.get(Id);
+		
+		objectStoreRequest.onsuccess = function() {
+			// Grab the data object returned as the result
+			var data = objectStoreRequest.result;
+			// Update the notified value in the object to "yes"
+			data.schluessel = Wert;
+			// Create another request that inserts the item back into the database
+			var updateTitleRequest = objectStore.put(data);
+			
+			// Log the transaction that originated this request
+			console.log("The transaction that originated this request is " + updateTitleRequest.transaction);
+			// When this new request succeeds, run the displayData() function again to update the display
+			updateTitleRequest.onsuccess = function() {
+				displayData();
+			};
+		};
+	}
+}
 
 function date(){
 	fail  = validateVorname( document.getElementById("vorname").value )
