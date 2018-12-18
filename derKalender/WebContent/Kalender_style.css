@@ -41,13 +41,13 @@ nav{
 	width: 14%;
 	float: left;
 	text-align: left;
+	color: black;
 	
 	overflow-x: hidden;
 	overflow-y: visible;
 }
 .kasten{
-	background: gray;
-	color: #fff;
+	background: burlywood;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -65,9 +65,11 @@ nav{
 	left: 10px;
 }
 a{
-	color: white;
+	color: black;
 	text-decoration: none;
 }
+
+inhalt a{ color: black}
 
 inhalt{	
 	position: relative;
@@ -273,3 +275,5 @@ table{
     visibility: visible;
     opacity: 1;
 }
+
+

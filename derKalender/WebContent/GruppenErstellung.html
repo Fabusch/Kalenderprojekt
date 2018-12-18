@@ -58,38 +58,37 @@
 				</section>
 			</nav>
             <inhalt>
-                <h1>Gruppenerstellung</h1>
-                <div>
-                    <img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
-                    <form method="post" enctype="multipart/form-data">
-                      <label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
-                        <input name="datei" type="file" size="50" accept="image/*"> 
-                      </label>  
-                    </form>
-                    <form>
-                        <h2>Name: <input type="text" name="gruppenname" autofocus="true" required="on"></h2><br>
-                    </form>
-                </div>
-                <div>
-                    <h2>Mitglieder</h2>
-                    <ol>
-                        <li>Mitglied</li>
-                        <li>Mitglied</li>
-                        <li>Mitglied</li>
-                        <li>Mitglied</li>
-                        <li>Mitglied</li>
-                    </ol>
-                    <form>
-                        <input type="submit" value="Hinzufügen"><br>
-                    </form>
-                </div>
-                <div>
+            	<div class=kasten>
+	                <h1>Gruppenerstellung</h1>
+	                <div>
+	                    <img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
+	                    <form method="post" enctype="multipart/form-data">
+    	                  <label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
+        	                <input name="datei" type="file" size="50" accept="image/*"> 
+            	          </label>  
+                	    </form>
+                	    <form>
+           	            	<h2>Name: <input id="name" type="text" name="gruppenname" autofocus="true" required="on"></h2><br>
+           	            </form>
+                	</div>
+                	<div id="mitglieder">
+                    	<h2>Mitglieder</h2>
+                    	<ol>
+                        	<li>Mitglied</li>
+                        	<li>Mitglied</li>
+                    	</ol>
+                    	<form>
+                        	<input type="submit" value="Hinzufügen"><br>
+                    	</form>
+                	</div>
+                	<div>
 
-                </div>
-                <div>
-                    <form>
-                        <input type="submit" value="Gruppe erstellen">
-                    </form>
+                	</div>
+                	<div>
+                    	<form>
+                    	    <input type="submit" value="Gruppe erstellen" onclick="erstellGruppe()">
+                    	</form>
+                	</div>
                 </div>
             </inhalt>
         </div>

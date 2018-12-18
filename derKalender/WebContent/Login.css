@@ -1,7 +1,7 @@
 .signup{
-position:absolute;
-	background: lightgray;
-	color: white;
+	position:absolute;
+	background: burlywood;;
+	color: black;
 	float:left;
 	margin:200px;
 	margin-bottom: 2px;
@@ -13,8 +13,6 @@ position:absolute;
 	  padding-left: 15px;
 	  background-attachment: fixed;
 	transform: scale(1.25);
-	  
-	  
 }
 .Inhaltskasten header {
 	position: relative;
@@ -31,7 +29,7 @@ body {
 	margin-left: 40%;
 	color: white; 
 }
-	header {	
+header {	
 	height: 90px;
 	width: 100%;
 	text-align: center;

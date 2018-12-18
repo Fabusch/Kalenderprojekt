@@ -33,22 +33,55 @@ function dbAendern(store, Id, schluessel, Wert){	//schluessel bleib noch undefin
 		db = request.result;
 		objectStore = db.transaction([store], "readwrite").objectStore(store);
 
-		// Get the to-do list object that has this title as it's title
-		objectStoreRequest = objectStore.get(Id);
+		objectStoreRequest = objectStore.get(Id);	//nehme Datensatz
+		
 		objectStoreRequest.onsuccess = function() {
-			// Grab the data object returned as the result
 			var data = objectStoreRequest.result;
-			// Update the notified value in the object to "yes"
-			data.schluessel = Wert;
-			// Create another request that inserts the item back into the database
-			var updateTitleRequest = objectStore.put(data);
+			data.schluessel = Wert;	//ändere den Wert
 			
-			// Log the transaction that originated this request
+			var updateTitleRequest = objectStore.put(data);	//trage Werte ein
+			
 			console.log("The transaction that originated this request is " + updateTitleRequest.transaction);
-			// When this new request succeeds, run the displayData() function again to update the display
 			updateTitleRequest.onsuccess = function() {
-				displayData();
+				alert("geändert");
 			};
 		};
 	}
 }
+
+function erstellGruppe(){
+	name= document.getElementById('name').value;
+	
+	Gruppe= []
+	Mitglieder= document.getElementById('mitglieder').getElementsByTagName('li');
+	for(x=0; x <Mitglieder.length; x++){
+		Gruppe.push(Mitglieder[x].innerHTML);
+	}
+	alert(Gruppe);
+	
+	einfügen("Gruppe",	{name: name, Mitglieder: Gruppe}); //Gruppe erstellen
+	
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){//id identifizieren
+		Db = request.result;	
+		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
+		
+		request.onsuccess = function(event) {
+			if (request.result){
+				//
+				id = objectStore.getKey( Schlüssel );
+			}
+		}
+	}
+	for(x=0; x <Gruppe.length; x++){
+		dbAendern('User', Gruppe[x], Gruppen, 'id')
+	}
+}
+
+
+
+
