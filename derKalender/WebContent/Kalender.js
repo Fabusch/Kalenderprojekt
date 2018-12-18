@@ -1,4 +1,71 @@
-﻿
+﻿function Gruppen(event) {
+	var x = document.getElementById('a' +event.id);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+
+		addGruppen(x);
+		event.innerHTML= "Gruppen verstecken v";
+	} else {
+		x.style.display = "none";
+		event.innerHTML= "Gruppen Anzeigen >"
+	}
+}
+function addGruppen(object){
+	links = object.getElementsByTagName('a');
+	if(links.length != 0){			//links löschen
+			links[0].remove();
+	}
+	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+		
+		transaction = Db.transaction(["aktuell","User", "Gruppe"], "readwrite");
+		Users = transaction.objectStore("User");
+		Gruppe = transaction.objectStore("Gruppe");
+		store = transaction.objectStore("aktuell");
+		request = store.get(1);	//eingeloggten User
+	
+		request.onsuccess = function(event) {
+			if (request.result){
+				request = Users.get(request.result.user);	//username des eingeloggten User
+				request.onsuccess = function(event) {
+					if (request.result){
+						x = request.result.Gruppen
+						for(i=0; i<x.length; i++){
+							addGruppe(object, Gruppe,x[i]); //link erstellen und einfügen 
+						}
+					}else alert("fehler3");
+				}
+				request.onerror = function(event) {	
+					alert("fehler2");
+				}
+			}else{alert("fehler1")}
+		}
+		request.onerror = function(event) {	
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		}
+	}
+}
+function addGruppe(object, Grupp, i){
+	alert(i)
+	request = Grupp.get(i);	//Gruppen Datensatz
+	
+	request.onsuccess = function(event) {
+		name= request.result.name;	//Name der Gruppe
+		
+		LinkGruppe = document.createElement("a");
+		LinkGruppe.innerHTML = name;
+		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
+		object.appendChild(LinkGruppe);
+		
+		br = document.createElement("br");
+		object.appendChild(br);
+	}
+}
 
 const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
 				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
@@ -59,7 +126,6 @@ function einfügen(store, Werte){
 
 var GID;	//diese Gruppe soll angezeigt werden
 var Nutzer; //dieser User hat den Kalender aufgerfen
-
 
 function aktuell(){
 	var request = window.indexedDB.open("Accountdaten",1);

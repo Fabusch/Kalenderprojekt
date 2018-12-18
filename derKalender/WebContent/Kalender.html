@@ -24,15 +24,20 @@
 					</div>
 				</section>
 				<section class=kasten>
-					<header id="Kalender" onclick="hide(this)">
-						<h1>Alle Kalender</h1>
+					<header>
+						<h1>Kalender</h1>
 					</header>
 					<hr>
-					<div id="aKalender" style="display: none;">
-						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" ><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender X</a><br>
+					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
+					<br>
+					<a id="Gruppen" onclick="Gruppen(this)" >
+						<p>Gruppen Anzeigen ></p>
+					</a>
+					<div id="aGruppen" style="display: none">
+						<br>
+						<a>hier stehen nachher alle Gruppen</a>
 					</div>
+					
 				</section>
 				<section class=kasten>
 					<header>

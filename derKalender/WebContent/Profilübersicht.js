@@ -59,7 +59,7 @@ function link(element){
 	element.style.color="#FFEB3B";
 }
 function linkout(element){
-	element.style.color="#b05bff";
+	element.style.color= "black";
 }
 
 //nav-teil
