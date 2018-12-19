@@ -84,11 +84,11 @@ function erstellGruppe(){
 function erstellTermin(){
 	name= document.getElementById('terminname').value;
 	
-	aDatum= document.getElementById('Datum').value;
-	aDatum= aDatum.setTime(document.getElementById('uhrzeit').value);
+	aDatum= new Date( document.getElementById('Datum').value);
+	//aDatum.setTime (document.getElementById('uhrzeit').time);
 	
-	eDatum= document.getElementById('EndDatum').value;
-	eTime= document.getElementById('Enduhrzeit').value;
+	eDatum= new Date(document.getElementById('EndDatum').value);
+	//eTime= document.getElementById('Enduhrzeit').time;
 	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {	
@@ -103,7 +103,7 @@ function erstellTermin(){
 		request.onsuccess = function(event) {
 			if (request.result){
 				user = request.result.user
-				einfügen("Termin",	{name: name, username: user, start: new Date(aDatum), ende: new Date(eDatum) });
+				einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
 				
 				alert("Termin erfolgreich erstellt")
 			}
