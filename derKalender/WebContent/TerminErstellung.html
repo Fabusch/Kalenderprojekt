@@ -47,52 +47,55 @@
 				</section>
 			</nav>
             <inhalt>
-                <div>
-                    <h1>Terminverwaltung</h1>
-                    <img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
-                    <form method="post" enctype="multipart/form-data">
-                      <label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
-                        <input name="datei" type="file" size="50" accept="image/*"> 
-                      </label>  
-                    </form>
-                    <form>
-                        <h2>Name: <input type="text" id="terminname" name="terminname" autofocus="true" required="on"></h2><br>
-                    </form>
-                </div>
-                <h2>Mitglieder</h2>
-                <div id="Mitglieder">
-                    <ul>
-                       <li>Schinken</li>
-                       <li>und Käse</li>
-                       <li>Pilze</li>
-                    </ul>
-
-                    <form>
-                        <input type="submit" value="Hinzufügen">
-                    </form>
-                </div>
-                <div>
-                    <h2>Zeitpunkt festlegen</h2>
-                    <h4>Start Zeitpunkt</h4>
-                    <form>
-                        <input type="date" id="Datum"><br>
-                        <input type="submit" value="Bestätigen"> <br>
-                        <input type="submit" value="Termin erstellen">
-                    </form>
-                    <label>
-                        Geben Sie bitte die Uhrzeit ein:
-                        <input type="time" id="uhrzeit">
-                    </label>
-                    <h4>End Zeitpunkt</h4>
-                    <form>
-                        <input type="date" name="Datum"><br>
-                        <input type="submit" value="Bestätigen"> <br>
-                        <input type="submit" value="Termin erstellen">
-                    </form>
-                    <label>
-                        Geben Sie bitte die Uhrzeit ein:
-                        <input type="time" id="uhrzeit">
-                    </label>
+                <div class=kasten>	
+                	<div>
+                    	<h1>Terminverwaltung</h1>
+                    	<img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
+                    	<form method="post" enctype="multipart/form-data">
+                      		<label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
+                        	<input name="datei" type="file" size="50" accept="image/*"> 
+        	            
+        	            	</label>  
+    	                </form>
+    	                <form>
+    	                	<h2>Name: <input type="text" id="terminname" name="terminname" autofocus="true" required="on"></h2><br>
+	                	</form>	
+	                </div>
+	                <h2>Mitglieder</h2>
+	                <div id="Mitglieder">
+	                    <ul>
+	                       <li>Schinken</li>
+	                       <li>und Käse</li>
+	                       <li>Pilze</li>
+	                    </ul>
+	
+                	    <form>
+                	        <input type="submit" value="Hinzufügen">
+                	    </form>
+                	</div>
+                	<div>
+                	    <h2>Zeitpunkt festlegen</h2>
+                	    <h4>Start Zeitpunkt</h4>
+                	    <form>
+                	        <input type="date" id="Datum"><br>
+                	        <input type="submit" value="Bestätigen"> <br>
+                	    </form>
+                	    <label>
+                	        Geben Sie bitte die Uhrzeit ein:
+                	        <input type="time" id="uhrzeit">
+                	    </label>
+                	    <h4>End Zeitpunkt</h4>
+                	    <form>
+                	        <input type="date" id="EndDatum"><br>
+                	        <input type="submit" value="Bestätigen"> <br>
+            	        </form>
+        	            <label>
+    	                    Geben Sie bitte die Uhrzeit ein:
+	                        <input type="time" id="Enduhrzeit">
+                    	</label>
+                    	<br>
+                        <input type="submit" value="Termin erstellen" onclick="erstellTermin()">
+                	</div>
                 </div>
             </inhalt>
         </div>
