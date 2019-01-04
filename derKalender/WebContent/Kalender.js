@@ -1,61 +1,4 @@
 ﻿
-const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1]},
-				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2]}
-			];
-const Termine =[{ name: "Ostern", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
-				{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
-			];
-const Grupp =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
-				{ name:"Feunde", Mitglieder: ["Jan46z"] }
-			];
-
-//einfügen("User",	{username: "Lili", name:"lili", Passwort:"123456", Gruppen: [3]});
-//einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
-//einfügen("Gruppe",	{name: "AG", Mitglieder: ["Lili"]});
-
-function einfügen(store, Werte){
-	var request = window.indexedDB.open("Accountdaten",1);
-	request.onupgradeneeded = function(event){
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
-		ObjectStore.add({id:1, user:"Jan46z", Gruppe: 1 });
-		
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
-		for (var u in User){
-			ObjectStore.add(User[u]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Termin", {keyPath: "TID",autoIncrement: true});
-		for (var t in Termine){
-			ObjectStore.add(Termine[t]);
-		}
-		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("Gruppe", {keyPath: "GID",autoIncrement: true});
-		for (var g in Grupp){
-			ObjectStore.add(Grupp[g]);        // Datenbank wird erstellt wenn diese noch nicht vorhanden ist
-		}
-	};
-	request.onerror = function(event) {	
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-	};
-	request.onsuccess = function(event){
-		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
-		request = Db.transaction([store], "readwrite")
-			.objectStore(store)
-			.add(Werte);
-		
-		request.onsuccess = function(event) {
-			//alert("Der "+store+" Datensatz wurde hinzugefügt.");
-		};
-		request.onerror = function(event) {
-			//alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.!!!!!!");
-		}
-	}
-}
-
-
 var GID;	//diese Gruppe soll angezeigt werden
 var Nutzer; //dieser User hat den Kalender aufgerfen
 
@@ -163,13 +106,14 @@ function addGruppe(object, Grupp, i){
 		
 		LinkGruppe = document.createElement("a");
 		LinkGruppe.innerHTML = name;
-		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
+		LinkGruppe.addEventListener('click', function(){	setGruppe(i);	});
 		object.appendChild(LinkGruppe);
 		
 		br = document.createElement("br");
 		object.appendChild(br);
 	}
 }
+
 
 function GruppeKalender(){
 	var request = window.indexedDB.open("Accountdaten",1);
@@ -315,7 +259,25 @@ function setAnsicht(sicht){
 }
 function setGruppe(ID){
 	GID = ID;
-	GruppeKalender();
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		db = request.result;
+		objectStore = db.transaction(['aktuell'], "readwrite").objectStore('aktuell');
+		objectStoreRequest = objectStore.get(1);
+		objectStoreRequest.onsuccess = function() {
+			Datensatz = objectStoreRequest.result;
+			Datensatz.Gruppe = GID;
+			updateRequest = objectStore.put(Datensatz);
+			
+			updateRequest.onsuccess = function(event) {
+				GruppeKalender();
+			};
+		};
+	}
 }
 
 function wechsel(vor){
