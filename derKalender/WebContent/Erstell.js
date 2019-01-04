@@ -85,10 +85,18 @@ function erstellTermin(){
 	name= document.getElementById('terminname').value;
 	
 	aDatum= new Date( document.getElementById('Datum').value);
-	//aDatum.setTime (document.getElementById('uhrzeit').time);
+	aTime = ""+document.getElementById('uhrzeit').value
+	aHour = parseInt(aTime[0]+aTime[1])
+	aMin = parseInt(aTime[3]+aTime[4])
+	aDatum.setHours(aHour)
+	aDatum.setMinutes(aMin)
 	
 	eDatum= new Date(document.getElementById('EndDatum').value);
-	//eTime= document.getElementById('Enduhrzeit').time;
+	eTime = ""+document.getElementById('Enduhrzeit').value
+	eHour = parseInt(eTime[0]+eTime[1])
+	eMin = parseInt(eTime[3]+eTime[4])
+	eDatum.setHours(eHour)
+	eDatum.setMinutes(eMin)
 	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {	
