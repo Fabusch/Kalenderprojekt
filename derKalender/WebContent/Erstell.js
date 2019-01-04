@@ -14,7 +14,7 @@ function einfügen(store, Werte){
 			.add(Werte);
 		
 		request.onsuccess = function(event) {
-			alert("Der "+store+" Datensatz wurde hinzugefügt.");
+//			alert("Der "+store+" Datensatz wurde hinzugefügt.");
 		};
 		request.onerror = function(event) {
 			alert("Der "+store+" Datensatz wurde NICHT hinzugefügt.");
@@ -105,7 +105,7 @@ function erstellTermin(){
 				user = request.result.user
 				einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
 				
-				alert("Termin erfolgreich erstellt")
+//				alert("Termin erfolgreich erstellt")
 			}
 		}
 	}	
