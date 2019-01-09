@@ -35,14 +35,19 @@ function db(){
 }
 
 
-const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1], Kinder:["Jan46z"]},
-				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2], Kinder:[]}
+const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [2], Kinder:["Jan46z"]},
+				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2, 3], Kinder:[]},
+				{ username: "Freed", name:"Fred", nachname:'Lauch', Passwort:"aA1234", Gruppen: [1], Kinder:[]},
+				{ username: "Annas", name:"Anna", nachname:'Lauch', Passwort:"aA1234", Gruppen: [1, 3], Kinder:[]},
+				{ username: "Saras", name:"Sara", nachname:'Lauch', Passwort:"aA1234", Gruppen: [1], Kinder:[]},
+				{ username: "Pudding", name:"Pudding", nachname:'Müller', Passwort:"aB1234", Gruppen: [2,3], Kinder:[]}
 ];
 const Termine =[{ name: "Geburtstag", username: "Jan46z", start: new Date(2018, 9, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
 				{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
 ];
-const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
-				{ name:"Feunde", Mitglieder: ["Jan46z"] }
+const Gruppen =[{ name:"Familie", Mitglieder: ["Jan46z","Freed", "Annas", "Saras"] },
+				{ name:"Feunde", Mitglieder: ["Max75", "Jan46z", "Pudding"] },
+				{ name:"Klasse", Mitglieder: ["Jan46z","Annas","Pudding"] }
 ];
 
 function loggin(){
