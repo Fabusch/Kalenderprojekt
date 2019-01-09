@@ -47,7 +47,7 @@ nav{
 	overflow-y: visible;
 }
 .kasten{
-	background: burlywood;
+	background: #CEF6CE;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -210,7 +210,7 @@ table{
 	border-collapse: collapse;
 	padding: 0.4em;
 	text-align: center;
-	background: black;
+	background: #0947DC;
 }
 .JA caption {
 	background: #666;
@@ -219,7 +219,7 @@ table{
 }
 
 .JA td.notinmonth{
-	background: #666;
+	background: #ffffff;
 	color: #c4ced3;
 	font-weight: bold;
 	}
@@ -231,6 +231,10 @@ table{
 .JA td.holidayorweekend{
 	background: #ebf5d7;
 	color: #666;
+}
+.JA td.calendarday{
+	background: #ffffff;
+	color: rgb(0, 0, 0);
 }
 .JA td.today {
 	color: red;

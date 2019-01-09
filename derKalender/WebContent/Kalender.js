@@ -398,7 +398,7 @@ function Kalender(){
 			t2.style.fontSize = "0px";
 			break;
 	}
-//	dieTermine();
+	add_termine();
 }
 function WochenKalender(aDate) {
 	var jetzt = new Date();		// aktuelles Datum
@@ -574,7 +574,8 @@ function createmonth (month,year) {	//creates a month table
     table.style.marginLeft= 0;
     table.style.marginRight= 'auto';
     var div = document.createElement("div");
-    div.style.height= '245px';
+	div.style.height= '300px';
+	div.style.width= '375px';
     div.appendChild(table);
     return div;
     //makedata(aDate,monthtable);
@@ -590,106 +591,65 @@ function maketitle(month,table) {
 	  caption.addEventListener('mouseover', function(){	link(this);	});
 	  caption.addEventListener('mouseout', function(){	linkout(this);	});
 }
+
+function checkcell(cell,i,j,aDate,month){
+	//First Cell in Row
+	if (j == 0){
+		week = weekofyear(aDate);
+		//Displayed Value
+		cell.innerHTML = week;
+		cell.className = 'week';
+		//Link to other Kalendars
+		cell.addEventListener('click', function(){	click_wechsel( 1, (aDate.getDate() + '.'+ (aDate.getMonth()) +'.'+ (aDate.getYear()+1900)) )	});
+		cell.addEventListener('mouseover', function(){	link(this);	});
+		cell.addEventListener('mouseout', function(){	linkout(this);	});
+	}
+	else if (j<weekday(aDate)&& i == 0){
+		cell.className = 'notinmonth';
+	}
+	else if(aDate.getDate()<=Monatsende(aDate)&& aDate.getMonth()==month){
+		cell.innerHTML = aDate.getDate();
+		if(j==6 || j==7||isholiday(aDate,cell)){
+			cell.className = 'holidayorweekend';
+			cell.className = cell.className+' '+' Tag';
+		}
+		else{
+			cell.className = 'calendarday';
+			cell.className = cell.className+' '+' Tag';
+		}
+		aDate.setDate(aDate.getDate() + 1);
+	}	
+	else{
+		cell.className = 'notinmonth';
+	}
+}
+function makeframe(table){
+	var row = table.insertRow();
+	var Days = new Array("","Mo", "Di", "Mi", "Do", "Fr", "Sa", "So");
+	Days.forEach(function(element){
+		cell = row.insertCell();
+		cell.className = 'week';
+		cell.innerHTML = element
+	})
+
+
+}
 function makedata (aDate,table) {
 	//var table = document.getElementById(month);	  
 	//6 Rows = Max for one Month
-	var lastday = false;
-	Days = new Array("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So");
-	for (var i = 0; i <= 6;i++){
+	var month = aDate.getMonth();
+	makeframe(table);
+	for (var i = 0; i <= 5;i++){
 		//insert Row
 		var row = table.insertRow();
-		//first row
-		if (i==0){
-			for (var j = 0; j <= 7;j++){
-				var cell = row.insertCell();
-				if(j==0){
-					cell.className = 'week';
-					continue;
-				}
-				else{
-					cell.className = 'week';
-					cell.innerHTML=Days[j-1];
-				}
-			}
+		for (var j = 0; j <= 7;j++){
+			//Erstes Feld = Woche
+			var cell = row.insertCell();
+			checkcell(cell,i,j,aDate,month);
+			
 		}
-		else if (i == 1){
-			for (var j = 0; j <= 7;j++){
-		    	var cell = row.insertCell();
-		    	//week
-		    	if (j == 0){
-		    		
-		    		week = weekofyear(aDate);
-		    		cell.innerHTML = week;
-		    		cell.className = 'week';
-		    		cell.addEventListener('click', function(){	click_wechsel( 1, (aDate.getDate() + '.'+ (aDate.getMonth()) +'.'+ (aDate.getYear()+1900)) )	});
-		    		cell.addEventListener('mouseover', function(){	link(this);	});
-		    		cell.addEventListener('mouseout', function(){	linkout(this);	});
-		    	}
-		    	//weekday not in month
-		    	else if (j<weekday(aDate)){
-		    		cell.className = 'notinmonth';
-		    	}
-		    	else{
-		    		cell.innerHTML = aDate.getDate();
-		    		if(j==6 || j==7||isholiday(aDate,cell)){
-						cell.className = 'holidayorweekend';
-						cell.className = cell.className+' '+' Tag';
-					}
-		    		else{
-		    			cell.className = 'calendarday';
-		    			cell.className = cell.className+' '+' Tag';
-					}
-					//Group_Personal 1 = Group 0 = Person
-					//addtooltiptermin(Group_Personal,aDate, cell);
-		    		aDate.setDate(aDate.getDate() + 1);
-		    	}
-			}
-		}
-		
-		//Not first Week
-		else{
-			if (lastday == false){
-			    for (var j = 0; j <= 7;j++){
-			    	//Erstes Feld = Woche
-			    	var cell = row.insertCell();
-				    if (j == 0){
-						week = weekofyear(aDate);
-			    		cell.innerHTML = week;
-			    		cell.className = 'week';
-			    		cell.addEventListener('click', function(){	click_wechsel( 1, (aDate.getDate() + '.'+ (aDate.getMonth()) +'.'+ (aDate.getYear()+1900)) )	});
-			    		cell.addEventListener('mouseover', function(){	link(this);	});
-			    		cell.addEventListener('mouseout', function(){	linkout(this);	});
-			    	}
-					//is it in month
-				    else if(aDate.getDate()<=Monatsende(aDate)&& lastday==false){
-						cell.innerHTML = aDate.getDate();
-			    		if(j==6 || j==7||isholiday(aDate,cell)){
-							cell.className = 'holidayorweekend';
-			    			cell.className = cell.className+' '+' Tag';
-						}
-			    		else{
-			    			cell.className = 'calendarday';
-			    			cell.className = cell.className+' '+' Tag';
-						}
-			    		if (Monatsende(aDate)==aDate.getDate()){
-			    			lastday = true;
-						}
-						//Group_Personal 1 = Group 0 = Person
-						//addtooltiptermin(Group_Personal,aDate, cell);
-						aDate.setDate(aDate.getDate() + 1);
-			    	
-					}
-					else{
-						cell.className = 'notinmonth';
-					}
-			    }
-			}	
-		}
-	}
-			  
+	}	  
 }
-
-
 
 function eastern(aDate){
 	var K = Math.trunc(aDate.getFullYear() /100);
@@ -857,7 +817,10 @@ function weekofyear(aDate){
 		return weeks;
 	}
 }
-function add_termine(Group_Personal){
+
+Group_Personal = false;
+
+function add_termine(){
 	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
   	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
  	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
@@ -872,11 +835,40 @@ function add_termine(Group_Personal){
 		objectStore.openCursor().onsuccess = function(event) {
 		  var cursor = event.target.result;
 		  if(cursor) {
-			addtooltiptermin(Group_Personal,cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID);
+			addtooltiptermin(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID);
+			addtoselect(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID,cursor.value.TID);
 			cursor.continue();
 		  } 
 		};
 	};
+}
+function userischild(kind){
+	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+	 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+	 
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		db = event.target.result;
+		var transaction = db.transaction(['User'], "readwrite");
+		var objectStore = transaction.objectStore('User');
+		var request = objectStore.get(window.Nutzer);
+		request.onsuccess= function(event){
+			if (request.Kinder != null){
+				if (request.Kinder.includes(kind)){
+					return true;
+				}
+		}
+			return false;
+
+		};
+		request.onerror = function(event){
+			alert("fehlschlag");
+		}
+	}
 }
 //Convert monthname to monthnumber
 function month_to_number(month){
@@ -908,84 +900,96 @@ function month_to_number(month){
 	}
 	return 0;
 }
-function addtooltiptermin(Group_Personal,start,ende,name,un,GD){
-	//if((Group_Personal == 1 && un == username)||(Group_Personal == 0 && GD == GID)){
+function addtooltiptermin(start,ende,name,username,GID){
+	//if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
 		if(ansicht==1){
-			var Kalender = document.getElementById('kalender').childNodes[3].rows;
-			Woche = Kalender[1].cells;
-			kOverHead = document.getElementById('kOverHead');
-			for(i=1; i<Woche.length; i+=1) {
-				Tag = Woche[i];
-				for(j=2; j<Kalender.length; j+=1) {
-					Stunde=Kalender[j].cells[0];
-					Now = Kalender[j].cells[i];
-					DataDate = Tag.innerHTML.split('.');
-					DataTime = Stunde.innerHTML.split(":")
-					aDate = new Date(DataDate[2],DataDate[1]-1,DataDate[0],DataTime[0],DataTime[1]);
-					if(isinrange(start,ende,aDate)){
-						Now.innerHTML=name;
-					}
-				}
-			}
-
-			var year = kOverHead.childNodes[1].childNodes[0].data;
-			var month = month_to_number(kOverHead.childNodes[6].childNodes[0].data);
+			addtooltip_week(start,ende,name);
 		}
 		else if(ansicht==2){
-			var Kalender = document.getElementById('kalender').childNodes[3];
-			kOverHead = document.getElementById('kOverHead');
-			var year = kOverHead.childNodes[1].childNodes[0].data;
-			var month = month_to_number(Kalender.caption.innerHTML);
-			var Wochen = Kalender.rows;
-			for(i=1;i<Wochen.length;i+=1){
-				var day = Wochen[i].cells[0].innerHTML;
-				var aDate = new Date(year,month,day,0,0)
-				Now=Wochen[i].cells[2];
-
-				start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
-				ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
-
-				if(isinrange(start,ende,aDate)){
-					Now.innerHTML=name;
-				}
-			}
-
+			addtooltip_month(start,ende,name);
 		}
 		else if(ansicht == 3){
-			var Kalender = document.getElementById('kalender').childNodes[3];
-			var year = Kalender.caption.innerHTML;
-			Kalender = Kalender.rows;
-			for(i=0; i<Kalender.length; i+=1) {
-				var Monate = Kalender[i].cells;
-				for(j=0; j<Monate.length; j+=1) {
-					var Monat = Monate[j];
-					Monat = Monat.childNodes[0].childNodes[0];
-					var month = j+i*Monate.length;
-					var Wochen = Monat.rows;
-					for(k=1; k<Wochen.length; k+=1){
-						var Woche = Wochen[k].cells;
-						for(l=1; l<Woche.length; l+=1){
-							var day = 0;
-							var childs = Woche[l].childElementCount; 
-							if(childs > 0){
-								day = Woche[l].childNodes[0].innerText;
-							}
-							else{
-								day = Woche[l].innerHTML;
-							}
-							start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
-							ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
-							
-							var aDate = new Date(year,month,day,0,0);
-							if(isinrange(start,ende,aDate)){
-								addtooltip(name,Woche[l]);
-							}
-					}	}
-				}
-			}
+			addtooltip_year(start,ende,name);
 		}
 	//}
 }
+
+function addtooltip_week(start,ende,name){
+	var Kalender = Array.from(document.getElementById('kalender').childNodes[3].rows);
+	var Woche = Array.from(Kalender[1].cells).slice(1);
+	var i = 1;
+	kOverHead = document.getElementById('kOverHead');
+	Woche.forEach(function(Tag){
+		Kalender.forEach(function(row){
+			Stunde=row.cells[0];
+			Now = row.cells[i];
+			DataDate = Tag.innerHTML.split('.');
+			DataTime = Stunde.innerHTML.split(":")
+			aDate = new Date(DataDate[2],DataDate[1]-1,DataDate[0],DataTime[0],DataTime[1]);
+			if(isinrange(start,ende,aDate)){
+				Now.innerHTML=name;
+			}
+		})
+		i = i + 1;
+	})
+}
+
+function addtooltip_month(start,ende,name){
+	var Kalender = document.getElementById('kalender').childNodes[3];
+	kOverHead = document.getElementById('kOverHead');
+	var year = kOverHead.childNodes[1].childNodes[0].data;
+	var month = month_to_number(Kalender.caption.innerHTML);
+	var Wochen = Array.from(Kalender.rows);
+	Wochen.slice(1);
+	Wochen.forEach(function(Tag){
+		var day = Tag.cells[0].innerHTML;
+		var aDate = new Date(year,month,day,0,0)
+		var Now=Tag.cells[2];
+
+		start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
+		ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
+
+		if(isinrange(start,ende,aDate)){
+			Now.innerHTML=name;
+		}
+
+	})
+}
+function addtooltip_year(start,ende,name){
+	var Kalender = document.getElementById('kalender').childNodes[3];
+	var year = Kalender.caption.innerHTML;
+	var Quartale = Array.from(Kalender.rows);
+	var month = 0;
+	Quartale.forEach(function(Quartal) {
+		var Monate = Array.from(Quartal.cells);
+		Monate.forEach(function(Monat){
+			Monat = Monat.firstElementChild.firstElementChild;
+			var Wochen = Array.from(Monat.rows);
+			Wochen.slice(1);
+			Wochen.forEach(function(Woche){
+				var Woche = Array.from(Woche.cells);
+				Woche.forEach(function(Tag){
+					var childs = Tag.childElementCount; 
+					if(childs > 0){
+						day = Tag.firstElementChild.innerText;
+					}
+					else{
+						day = Tag.innerHTML;
+					}
+					start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
+					ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
+					
+					var aDate = new Date(year,month,day,0,0);
+					if(isinrange(start,ende,aDate)){
+						addtooltip(name,Tag);
+					}
+				}) 
+			})
+			month = month + 1;
+		})
+	})
+}
+
 function isinrange(start,ende,aDate){
 	if ((aDate.getTime() >= start.getTime()) && (aDate.getTime() <= ende.getTime()))
 		return true;
@@ -1015,4 +1019,43 @@ function addtooltip(text,cell){
 			span.innerHTML = span.innerHTML + '\n' + text;
 		}
 	}
+}
+function addtoselect(start,ende,name,username,GID,TD){
+	//if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
+		var select = document.getElementById("todelete");
+		var option = document.createElement("option");
+		option.innerHTML=name+'\n\r';
+		option.innerHTML = option.innerHTML + start.getDate() + '.' + (start.getMonth()+1)+'.'+start.getFullYear()+'-';
+		option.innerHTML = option.innerHTML + ende.getDate() + '.' + (ende.getMonth()+1)+'.'+ende.getFullYear()+'|'
+		option.innerHTML = option.innerHTML +TD
+		select.appendChild(option);
+	//}
+
+}
+function deleteTermin(){
+	var select = document.getElementById("todelete");
+	var TD = select.value.split('|').pop();
+	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+ 	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		db = event.target.result;
+		var transaction = db.transaction(['Termin'], "readwrite");
+		var objectStore = transaction.objectStore('Termin');
+		var request = objectStore.delete(TD);
+		request.onsuccess= function(event){
+			select.options[select.selectedIndex].remove();
+		};
+		request.onerror = function(event){
+			alert("fehlschlag");
+		}
+	}
+}
+function wechsle_Gruppe(){
+	window.Group_Personal = !window.Group_Personal;
+	Kalender();
 }
