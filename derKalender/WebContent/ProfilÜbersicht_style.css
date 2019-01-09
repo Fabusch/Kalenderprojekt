@@ -40,7 +40,7 @@ nav{
 	overflow-x: hidden;
 }
 .kasten{
-	background: burlywood;;;
+	background: #CEF6CE;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -62,7 +62,7 @@ nav{
 }
 
 .Gruppe{
-	background: burlywood;
+	background: #CEF6CE;;
 	margin: 5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -82,7 +82,7 @@ nav{
 
 
 .Hintergrundkasten{
-	background: #CEF6CE;
+	background: #CEF6CE;;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
@@ -101,7 +101,7 @@ nav{
 }
 
 .Inhaltskasten{
-	background: burlywood;;
+	background: #CEF6CE;;;
 	margin:5px;
 	margin-bottom: 10px;
     border-width: 1px;
