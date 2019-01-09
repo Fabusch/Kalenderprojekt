@@ -19,9 +19,11 @@
 					</header>
 					<hr>
 					<div>							
-						<a href="Eventübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Event Übersicht</a><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
-						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
+						<a href="Profilübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Pofil Übersicht</a><br>
+						<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
+						
+						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
+						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>	
 					</div>
 				</section>
 				<section class=kasten>
@@ -29,32 +31,17 @@
 						<h1>Kalender</h1>
 					</header>
 					<hr>
-					<div>
-						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">Kalender X</a><br>
+					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
+					<br>
+					<a id="Gruppen" onclick="Gruppen(this)" >
+						<p>Gruppen Anzeigen ></p>
+					</a>
+					<div id="aGruppen" style="display: none">
+						<br>
+						<a>hier stehen nachher alle Gruppen</a>
 					</div>
-				</section>
-				<section class=kasten>
-					<header>
-						<h1>Ansicht</h1>
-					</header>
-					<hr>
-					<div>
-						<a onclick=" setAnsicht(1)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Wochenansicht</a><br>
-						<a onclick=" setAnsicht(2)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Monatsansicht</a><br>
-						<a onclick=" setAnsicht(3)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">Jahresansicht</a><br>
-					</div>
-				</section>
-				<section class=kasten>
-					<header>
-						<h1>Kalender Hintergrund</h1>
-					</header>
-					<hr>
-					<div>
-						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Neptune</a><br>
-						<a onclick="background(this)" href="#"  onmouseover="link(this)" onmouseout="linkout(this)">Star-Wars Clone</a>
-					</div>
+					<br>
+					<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
 				</section>
 			</nav>
             <inhalt>
