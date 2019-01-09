@@ -31,8 +31,8 @@ function aktuell(){
 					window.location.href = "Login.html"
 				}
 				else if(""+GID=="NaN") {
-					//alert("Es wurde kein Kalender ausgewählt");
-					window.location.href = "Profilübersicht.html";
+					GID=0
+					GruppeKalender()
 				}
 				else { //Kalenderr erstellen, nur wenn Nutzer und GID gesetzt sind
 					GruppeKalender()
@@ -129,7 +129,7 @@ function GruppeKalender(){
 		transaction = Db.transaction(["Gruppe","User"]);
 		objectStore = transaction.objectStore("User");
 		store = transaction.objectStore("Gruppe");
-		if(GID != 0){
+		if(GID!=0 ){
 			request = store.get(GID);		// der datensatz mit der entsprechenden GID
 			request.onerror = function(event) {
 				alert("Bitte erst einloggen");
@@ -150,6 +150,7 @@ function GruppeKalender(){
 					}
 				}else{
 					alert("Fehler: Datensatz nicht gefunden");
+					GID=0
 					Kalender();
 					if(ansicht == 2){
 						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
@@ -268,9 +269,11 @@ function setGruppe(ID){
 		db = request.result;
 		objectStore = db.transaction(['aktuell'], "readwrite").objectStore('aktuell');
 		objectStoreRequest = objectStore.get(1);
+		
 		objectStoreRequest.onsuccess = function() {
 			Datensatz = objectStoreRequest.result;
 			Datensatz.Gruppe = GID;
+			if(GID+""=="NaN") GID=0;
 			updateRequest = objectStore.put(Datensatz);
 			
 			updateRequest.onsuccess = function(event) {
@@ -357,7 +360,7 @@ function link(element){
 	element.style.color="#FFEB3B";
 }
 function linkout(element){
-	element.style.color="white";
+	element.style.color="black";
 }
 
 function Kalender(){

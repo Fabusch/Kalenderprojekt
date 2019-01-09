@@ -19,7 +19,7 @@
 					<hr>
 					<div>							
 						<a href="Profilübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Pofil Übersicht</a><br>
-						<a href="index.html" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
+						<a href="#" onclick="setGruppe(NaN)" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
 						<a href="#" onmouseover="wechsle_Gruppe()" onmouseout="linkout(this)">Wechsle Eigener Kalender/Gruppenkalender</a><br>
 						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
 						<select id = "todelete"></select><br>
@@ -31,7 +31,7 @@
 						<h1>Kalender</h1>
 					</header>
 					<hr>
-					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
+					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="setGruppe(NaN)" href="#">mein Kalender</a><br>
 					<br>
 					<a id="Gruppen" onclick="Gruppen(this)" >
 						<p>Gruppen Anzeigen ></p>
@@ -84,16 +84,10 @@
 				<input type="button" value="Abmelden" onclick="window.location.href='Login.html'" >
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
-							<img src="img/icon/left.png">
-							zurück
-						</a>
+						<button onclick=" wechsel(false)">zurück</button>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
-							vor
-							<img src="img/icon/right.png">
-						</a>
+						<button onclick=" wechsel(true)">vor</button>
 					</div>						
 				</div>
 				
@@ -109,17 +103,11 @@
 				
 				<div class=pfeile>
 					<div id=pfeil_zurueck>
-						<a onclick=" wechsel(false)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
-							<img src="img/icon/left.png">
-							zurück
-						</a>
+						<button onclick=" wechsel(false)">zurück</button>
 					</div>
 					<div id=pfeil_vor>
-						<a onclick=" wechsel(true)" href="#" onmouseover="link(this)" onmouseout="linkout(this)">
-							vor
-							<img src="img/icon/right.png">
-						</a>
-					</div>					
+						<button onclick=" wechsel(true)">vor</button>
+					</div>						
 				</div>
 				<br>
 				<br>
