@@ -135,7 +135,12 @@ function logout(){
 		};
 	}
 }
-
+function link(element){
+	element.style.color="#FFEB3B";
+}
+function linkout(element){
+	element.style.color= "black";
+}
 //nav
 function Gruppen(event) {
 	var x = document.getElementById('a' +event.id);
