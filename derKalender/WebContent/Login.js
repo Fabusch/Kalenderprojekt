@@ -38,11 +38,11 @@ function db(){
 const User =[	{ username: "Max75", name:"Maxi", nachname:'Fischer', Passwort:"fzrEm7dr", Gruppen: [1], Kinder:["Jan46z"]},
 				{ username: "Jan46z", name:"Jan", nachname:'Lauch', Passwort:"jfgJ56gxk", Gruppen: [1, 2], Kinder:[]}
 ];
-const Termine =[{ name: "geburtstag", username: "Jan46z", start: new Date(2018, 10, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
-	{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
+const Termine =[{ name: "Geburtstag", username: "Jan46z", start: new Date(2018, 9, 12, 0, 0), ende: new Date("October 12, 2018 11:13:00")},
+				{ name: "Weinachten", username: "Jan46z", start: new Date(2018, 11, 24, 5, 30), ende: new Date(2018, 11, 26, 8, 30)}
 ];
 const Gruppen =[{ name:"Familie", Mitglieder: ["Max75", "Jan46z"] },
-	{ name:"Feunde", Mitglieder: ["Jan46z"] }
+				{ name:"Feunde", Mitglieder: ["Jan46z"] }
 ];
 
 function loggin(){
