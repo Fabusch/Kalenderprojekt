@@ -152,7 +152,6 @@ function registriert(){
 function eltern(){
 	eltern = document.getElementById("eltern").value;
 	if(eltern=="") {
-		alert("keine Eltern");
 		window.location.href = "Profilübersicht.html";}
 	else{
 		var request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
@@ -169,11 +168,23 @@ function eltern(){
 			request.onsuccess = function(event) {
 				if (request.result){
 					user= request.result
-					user.Kinder = user.Kinder.push(document.getElementById("nickname").value);
+					
+					gr = user.Kinder;
+					liste = [document.getElementById("nickname").value]
+					for(x in gr){
+						liste.push(gr[x])
+					}
+					
+					data.Gruppen = liste	//ändere den Wert
+					updateTitleRequest = objectStore.put(data);	//trage Werte ein
+					updateTitleRequest.onsuccess = function() {
+//						alert("geändert");
+						window.location.href='Profilübersicht.html';
+					};
 					
 					updateRequest = objectStore.put(user);
 					updateRequest.onsuccess = function() {
-						alert("Als Kind hinzugefügt");
+//						alert("Als Kind hinzugefügt");
 						window.location.href = "Profilübersicht.html";
 					};
 				}else{
@@ -181,6 +192,36 @@ function eltern(){
 					window.location.href = "Profilübersicht.html";
 				}
 			}
+		}
+	}
+	function dbAendern(Id, Wert){	
+		var request = window.indexedDB.open("Accountdaten",1);
+		request.onerror = function(event) {
+			console.log("error: ");
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+
+		request.onsuccess = function(event){
+			db = request.result;
+			objectStore = db.transaction(['User'], "readwrite").objectStore('User');
+
+			objectStoreRequest = objectStore.get(Id);	//nehme Datensatz
+			
+			objectStoreRequest.onsuccess = function() {
+				var data = objectStoreRequest.result;
+				gr = data.Gruppen;
+				liste = [Wert]
+				for(x in gr){
+					liste.push(gr[x])
+				}
+				
+				data.Gruppen = liste	//ändere den Wert
+				updateTitleRequest = objectStore.put(data);	//trage Werte ein
+				updateTitleRequest.onsuccess = function() {
+//					alert("geändert");
+					window.location.href='Profilübersicht.html';
+				};
+			};
 		}
 	}
 }
