@@ -60,7 +60,7 @@ function init() {
 }
 
 function fensterOeffnen() {
-	window.open('GruppenErstellung.html');
+	window.location.href='GruppenErstellung.html'
 }
 window.addEventListener('DOMContentLoaded', init);
 
@@ -71,7 +71,7 @@ function init1() {
 }
 
 function fensterOeffnen2() {
-	window.open('TerminErstellung.html');
+	window.location.href='TerminErstellung.html'
 }
 window.addEventListener('DOMContentLoaded', init1);
 
