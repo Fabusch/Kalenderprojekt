@@ -14,6 +14,8 @@ function einfügen(store, Werte){
 			.add(Werte);
 		
 		request.onsuccess = function(event) {
+			data = request.result;
+			return data.id
 //			alert("Der "+store+" Datensatz wurde hinzugefügt.");
 		};
 		request.onerror = function(event) {
@@ -37,7 +39,9 @@ function dbAendern(store, Id, schluessel, Wert){	//schluessel bleib noch undefin
 		
 		objectStoreRequest.onsuccess = function() {
 			var data = objectStoreRequest.result;
-			data.schluessel = Wert;	//ändere den Wert
+			gr = data.schluessel
+			liste = gr.push(Wert);
+			data.schluessel = liste	//ändere den Wert
 			
 			var updateTitleRequest = objectStore.put(data);	//trage Werte ein
 			
@@ -58,27 +62,24 @@ function erstellGruppe(){
 		Gruppe.push(Mitglieder[x].innerHTML);
 	}
 	
-	einfügen("Gruppe",	{name: name, Mitglieder: Gruppe}); //Gruppe erstellen
+	GID = einfügen("Gruppe",	{name: name, Mitglieder: Gruppe}); //Gruppe erstellen
 	
-//	var request = window.indexedDB.open("Accountdaten",1);
-//	request.onerror = function(event) {	
-//		console.log("error: ");
-//		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-//	};
-//	request.onsuccess = function(event){//id identifizieren
-//		Db = request.result;	
-//		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
-//		
-//		request.onsuccess = function(event) {
-//			if (request.result){
-//				//
-//				id = objectStore.getKey( Schlüssel );
-//			}
-//		}
-//	}
-//	for(x=0; x <Gruppe.length; x++){
-//		dbAendern('User', Gruppe[x], Gruppen, 'id')
-//	}
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {	
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){//id identifizieren
+		
+		Db = request.result;	
+		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
+		
+		request.onsuccess = function(event) {
+			for(x=0; x <Gruppe.length; x++){
+				dbAendern('User', Gruppe[x], Gruppen, GID)
+			}
+		}
+	}
 }
 
 function erstellTermin(){

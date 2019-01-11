@@ -44,7 +44,6 @@
 					<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
 				</section>
 			</nav>
-            <input type="button" value="Abmelden" onclick="logout()" >
             <inhalt>
             	<input type="button" value="Abmelden" onclick="logout()" >
                 <div class=kasten>	
@@ -61,24 +60,17 @@
     	                	<h2>Name: <input type="text" id="terminname" name="terminname" autofocus="true" required="on"></h2><br>
 	                	</form>	
 	                </div>
-	                <h2>Mitglieder</h2>
+	                <h2>Teilnehmer</h2>
 	                <div id="Mitglieder">
-	                    <ul>
-	                       <li>Schinken</li>
-	                       <li>und Käse</li>
-	                       <li>Pilze</li>
-	                    </ul>
-	
-                	    <form>
-                	        <input type="submit" value="Hinzufügen">
-                	    </form>
+	                    <a>ich</a><br>
+	                    Person: <input type="text" id="Person">
+	                    <input type="button" value="Hinzufügen" onclick="Person(this)" >
                 	</div>
                 	<div>
                 	    <h2>Zeitpunkt festlegen</h2>
                 	    <h4>Start Zeitpunkt</h4>
                 	    <form>
                 	        <input type="date" id="Datum"><br>
-                	        <input type="submit" value="Bestätigen"> <br>
                 	    </form>
                 	    <label>
                 	        Geben Sie bitte die Uhrzeit ein:
@@ -87,7 +79,6 @@
                 	    <h4>End Zeitpunkt</h4>
                 	    <form>
                 	        <input type="date" id="EndDatum"><br>
-                	        <input type="submit" value="Bestätigen"> <br>
             	        </form>
         	            <label>
     	                    Geben Sie bitte die Uhrzeit ein:
