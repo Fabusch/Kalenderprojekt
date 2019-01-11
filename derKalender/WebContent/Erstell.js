@@ -48,7 +48,6 @@ function einfügen(store, Werte){
 		}
 	}
 }
-
 function dbAendern(Id, Wert){	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
@@ -113,20 +112,7 @@ function erstellGruppe(){
 			alert("Der "+"Gruppe"+" Datensatz wurde NICHT hinzugefügt.");
 		}
 	}
-	
-//	request.onsuccess = function(event){//id identifizieren
-//		
-//		Db = request.result;	
-//		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
-//		
-//		request.onsuccess = function(event) {
-//			for(x=0; x <Gruppe.length; x++){
-//				dbAendern('User', Gruppe[x], Gruppen, GID)
-//			}
-//		}
-//	}
 }
-
 function erstellTermin(){
 	name= document.getElementById('terminname').value;
 	
@@ -287,4 +273,9 @@ function Kalender(GID){
 			};
 		};
 	}
+}
+
+
+function Person(object){
+	
 }
