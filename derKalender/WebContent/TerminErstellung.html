@@ -5,7 +5,8 @@
         <meta charset="utf-8" />
         <title>Terminverwaltung</title>
         <link rel="stylesheet" type="text/css" href="Kalender_style.css">
-        <script src="Erstell.js"> </script>
+		<script src="Erstell.js"> </script>
+		<script  type="text/javascript" src="Bild.js"></script>
     </head>
     <body>
         <div>
@@ -18,7 +19,7 @@
 						<h1>Home</h1>
 					</header>
 					<hr>
-					<div>							
+					<div>						
 						<a href="Profilübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Pofil Übersicht</a><br>
 						<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
 						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
@@ -48,11 +49,11 @@
                 <div class=kasten>	
                 	<div>
                     	<h1>Terminverwaltung</h1>
-                    	<img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200"><br>
+                    	<img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="200" height="200" id = "profilbild"><script>loadall();</script><br>
                     	<form method="post" enctype="multipart/form-data">
                       		<label>Wählen Sie eine Bilddatei (*.png, *.jpg usw.) von Ihrem Rechner aus.
-                        	<input name="datei" type="file" size="50" accept="image/*"> 
-        	            
+                        	<input name="datei" type="file" size="50" accept="image/*" id = 'input' onchange="picture()"> 
+			
         	            	</label>  
     	                </form>
     	                <form>
@@ -97,5 +98,5 @@
                 </div>
             </inhalt>
         </div>
-    </body>
+	</body>
 </html>

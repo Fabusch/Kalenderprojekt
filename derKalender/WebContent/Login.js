@@ -22,6 +22,11 @@ function db(){
 		for (var g in Gruppen){
 			ObjectStore.add(Gruppen[g]);        // Datenbank wird erstellt wenn diese noch nicht vorhanden ist
 		}
+		var Db = event.target.result;
+		var ObjectStore = Db.createObjectStore("Bild", {keyPath: "username"});
+		for (var u in User){
+			ObjectStore.add(User[u]);
+		}
 	};
 	request.onerror = function(event) {	
 		console.log("error: ");

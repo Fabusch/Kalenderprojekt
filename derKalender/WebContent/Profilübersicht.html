@@ -5,6 +5,7 @@
 		<link rel="stylesheet" href="ProfilÜbersicht_style.css" type="text/css">
 		<title>Profilübersicht</title>
 		<script src="Profilübersicht.js"> </script>
+		<script  type="text/javascript" src="Bild.js"></script>
 	</head>
 	<body>
 		<div>
@@ -19,13 +20,10 @@
 					<div>	
 					<h6 id= 'vorname'> Name</h6>
 					<h6 id= 'nachname'> Familiename</h6>
-					<form name="uploadformular" enctype="multipart/form-data" action="Fotoupload.php" method="post">
-
-						<input type="file" name="uploaddatei" size="60" maxlength="255">
-
-						<input type="Submit" name="submit" value="Datei hochladen">
-
-					</form>	
+					<img src="img/dummy-mann.png" alt="Bildanzeige deaktiviert." width="100" height="100" id = "profilbild"><script>loadall();</script><br>
+					<form method="post" enctype="multipart/form-data">
+						<input name="datei" type="file" size="50" accept="image/*" id = 'input' onchange="picture()">  
+					</form>
 					
 					<button id="eins">Gruppen erstellen</button>
 					<button id="zwei">Termine erstellen</button>				

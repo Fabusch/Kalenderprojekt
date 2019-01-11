@@ -39,7 +39,7 @@ function aktuell(){
 					//navKalender(Nutzer)
 				}
 			}else{
-				alter("Fehler: Datensatz nicht gefunden");
+				alert("Fehler: Datensatz nicht gefunden");
 			};
 		}
 	}
@@ -920,7 +920,7 @@ function month_to_number(month){
 	return 0;
 }
 function addtooltiptermin(start,ende,name,username,GID){
-	//if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
+	if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
 		if(ansicht==1){
 			addtooltip_week(start,ende,name);
 		}
@@ -930,7 +930,7 @@ function addtooltiptermin(start,ende,name,username,GID){
 		else if(ansicht == 3){
 			addtooltip_year(start,ende,name);
 		}
-	//}
+	}
 }
 
 function addtooltip_week(start,ende,name){
@@ -1040,7 +1040,7 @@ function addtooltip(text,cell){
 	}
 }
 function addtoselect(start,ende,name,username,GID,TD){
-	//if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
+	if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
 		var select = document.getElementById("todelete");
 		var option = document.createElement("option");
 		option.innerHTML=name+'\n\r';
@@ -1048,7 +1048,7 @@ function addtoselect(start,ende,name,username,GID,TD){
 		option.innerHTML = option.innerHTML + ende.getDate() + '.' + (ende.getMonth()+1)+'.'+ende.getFullYear()+'|'
 		option.innerHTML = option.innerHTML +TD
 		select.appendChild(option);
-	//}
+	}
 
 }
 function deleteTermin(){
