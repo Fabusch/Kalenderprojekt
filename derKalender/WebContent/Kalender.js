@@ -837,7 +837,7 @@ function weekofyear(aDate){
 	}
 }
 
-Group_Personal = false;
+Group_Personal = true;
 
 function add_termine(){
 	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;

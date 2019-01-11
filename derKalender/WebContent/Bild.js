@@ -6,8 +6,6 @@ const Bild =[	{ username: "Max75", picture: ""}
 function loadall(){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {		//Falls fehler auftretten
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
 	request.onupgradeneeded = function(event){		//ohne Datenbank auch nicht eingeloggt
 		window.indexedDB.deleteDatabase('Accountdaten');
@@ -40,10 +38,6 @@ function loadall(){
 			};
 		}
 	}
-}
-function picture(){
-	 getpicture();
-	
 }
 function loadpicture(){
 	// Create/open database
