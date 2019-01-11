@@ -75,6 +75,7 @@ function Gruppen(event) {
 		event.innerHTML= "Gruppen Anzeigen >"
 	}
 }
+
 function hide(event) {
 	var x = document.getElementById('a'+event.id);
 	if (x.style.display === "none") {

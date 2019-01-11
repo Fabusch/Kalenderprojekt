@@ -74,6 +74,7 @@ function dbAendern(Id, Wert){
 			updateTitleRequest = objectStore.put(data);	//trage Werte ein
 			updateTitleRequest.onsuccess = function() {
 //				alert("geändert");
+				window.location.href='Profilübersicht.html';
 			};
 		};
 	}
