@@ -1,6 +1,33 @@
 //einfügen("Termin",	{name: "Geburtstag", username: "Jan46z", start: new Date(2019, 1, 5, 8, 30), ende: new Date(2019, 1, 7, 9, 30) });	
 //einfügen("Gruppe",	{name: "AG", Mitglieder: ["lol"]});
 
+Profil()
+function Profil(){
+	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+	
+		transaction = Db.transaction(["aktuell","User"], "readwrite");
+		objectStore = transaction.objectStore("User");
+		store = transaction.objectStore("aktuell");
+		request = store.get(1);	//eingeloggten User
+	
+		request.onsuccess = function(event) {
+			if (request.result){
+				user = request.result.user;	//username des eingeloggten User
+				document.getElementById('Mitglieder').getElementsByTagName('a')[0].innerHTML = user;	//trage Namen ein
+			}
+		}
+		request.onerror = function(event) {	
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		}
+	}
+}
+
 function einfügen(store, Werte){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {	
@@ -14,8 +41,6 @@ function einfügen(store, Werte){
 			.add(Werte);
 		
 		request.onsuccess = function(event) {
-			data = request.result;
-			return data.id
 //			alert("Der "+store+" Datensatz wurde hinzugefügt.");
 		};
 		request.onerror = function(event) {
@@ -24,7 +49,7 @@ function einfügen(store, Werte){
 	}
 }
 
-function dbAendern(store, Id, schluessel, Wert){	//schluessel bleib noch undefined
+function dbAendern(Id, Wert){	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
 		console.log("error: ");
@@ -33,21 +58,22 @@ function dbAendern(store, Id, schluessel, Wert){	//schluessel bleib noch undefin
 
 	request.onsuccess = function(event){
 		db = request.result;
-		objectStore = db.transaction([store], "readwrite").objectStore(store);
+		objectStore = db.transaction(['User'], "readwrite").objectStore('User');
 
 		objectStoreRequest = objectStore.get(Id);	//nehme Datensatz
 		
 		objectStoreRequest.onsuccess = function() {
 			var data = objectStoreRequest.result;
-			gr = data.schluessel
-			liste = gr.push(Wert);
-			data.schluessel = liste	//ändere den Wert
+			gr = data.Gruppen;
+			liste = [Wert]
+			for(x in gr){
+				liste.push(gr[x])
+			}
 			
-			var updateTitleRequest = objectStore.put(data);	//trage Werte ein
-			
-			console.log("The transaction that originated this request is " + updateTitleRequest.transaction);
+			data.Gruppen = liste	//ändere den Wert
+			updateTitleRequest = objectStore.put(data);	//trage Werte ein
 			updateTitleRequest.onsuccess = function() {
-				alert("geändert");
+//				alert("geändert");
 			};
 		};
 	}
@@ -57,29 +83,47 @@ function erstellGruppe(){
 	name= document.getElementById('name').value;
 	
 	Gruppe= []
-	Mitglieder= document.getElementById('mitglieder').getElementsByTagName('li');
+	Mitglieder= document.getElementById('Mitglieder').getElementsByTagName('a');
 	for(x=0; x <Mitglieder.length; x++){
 		Gruppe.push(Mitglieder[x].innerHTML);
 	}
-	
-	GID = einfügen("Gruppe",	{name: name, Mitglieder: Gruppe}); //Gruppe erstellen
 	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {	
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
-	request.onsuccess = function(event){//id identifizieren
-		
-		Db = request.result;	
-		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
+	request.onsuccess = function(event){
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt.
+		store = Db.transaction(["Gruppe"], "readwrite").objectStore("Gruppe")
+		request = store.add({name: name, Mitglieder: Gruppe});
 		
 		request.onsuccess = function(event) {
-			for(x=0; x <Gruppe.length; x++){
-				dbAendern('User', Gruppe[x], Gruppen, GID)
+			request = store.count();
+			request.onsuccess = function() {
+				id = request.result;
+				for(x=0; x <Gruppe.length; x++){
+					user= Gruppe[x]
+					dbAendern(user, id)
+				}
 			}
+		};
+		request.onerror = function(event) {
+			alert("Der "+"Gruppe"+" Datensatz wurde NICHT hinzugefügt.");
 		}
 	}
+	
+//	request.onsuccess = function(event){//id identifizieren
+//		
+//		Db = request.result;	
+//		objectStore = Db.transaction(["User"], "readwrite").objectStore("User");
+//		
+//		request.onsuccess = function(event) {
+//			for(x=0; x <Gruppe.length; x++){
+//				dbAendern('User', Gruppe[x], Gruppen, GID)
+//			}
+//		}
+//	}
 }
 
 function erstellTermin(){
@@ -99,12 +143,13 @@ function erstellTermin(){
 	eDatum.setHours(eHour)
 	eDatum.setMinutes(eMin)
 	
+	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {	
 		console.log("error: ");
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
-	request.onsuccess = function(event){//id identifizieren
+	request.onsuccess = function(event){
 		Db = request.result;	
 		objectStore = Db.transaction(["aktuell"], "readwrite").objectStore("aktuell");
 		request = objectStore.get(1)
@@ -112,8 +157,7 @@ function erstellTermin(){
 		request.onsuccess = function(event) {
 			if (request.result){
 				user = request.result.user
-				einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
-				
+				ID = einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
 //				alert("Termin erfolgreich erstellt")
 			}
 		}
@@ -142,6 +186,7 @@ function link(element){
 function linkout(element){
 	element.style.color= "black";
 }
+
 //nav
 function Gruppen(event) {
 	var x = document.getElementById('a' +event.id);
