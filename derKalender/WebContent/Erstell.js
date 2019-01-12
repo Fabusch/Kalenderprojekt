@@ -73,7 +73,6 @@ function dbAendern(Id, Wert){
 			updateTitleRequest = objectStore.put(data);	//trage Werte ein
 			updateTitleRequest.onsuccess = function() {
 //				alert("geändert");
-				window.location.href='Profilübersicht.html';
 			};
 		};
 	}
@@ -106,6 +105,7 @@ function erstellGruppe(){
 					user= Gruppe[x]
 					dbAendern(user, id)
 				}
+				alert("Gruppe "+name+" wurde erstellt");
 			}
 		};
 		request.onerror = function(event) {
@@ -279,13 +279,35 @@ function Kalender(GID){
 function Person(){
 	object = document.getElementById("Person");
 	name = object.value;
-	liste = document.getElementById("Mitglieder");
-	LinkGruppe = document.createElement("a");
-	LinkGruppe.innerHTML = name
-	liste.appendChild(LinkGruppe);
-	
-	br = document.createElement("br");
-	liste.appendChild(br);
+	if(name=="") {
+		window.location.href = "Profilübersicht.html";}
+	else{
+		var request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+		request.onerror = function(event) {
+			console.log("error: ");
+			alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+		};
+		request.onsuccess = function(event){
+			Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+			transaction = Db.transaction(["User"], "readwrite");
+			objectStore = transaction.objectStore("User")
+			request = objectStore.get(name);	//Fühge User hinzu
+			
+			request.onsuccess = function(event) {
+				if (request.result){
+					liste = document.getElementById("Mitglieder");
+					LinkGruppe = document.createElement("a");
+					LinkGruppe.innerHTML = name
+					liste.appendChild(LinkGruppe);
+					
+					br = document.createElement("br");
+					liste.appendChild(br);
+				}
+				else
+					alert(name +" ist nicht der Bernutzername einer unserer User")
+			}
+		}
+	}	
 }
 
 
