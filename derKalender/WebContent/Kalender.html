@@ -20,10 +20,9 @@
 					<div>							
 						<a href="Profilübersicht.html" onmouseover="link(this)" onmouseout="linkout(this)">Pofil Übersicht</a><br>
 						<a href="#" onclick="setGruppe(NaN)" onmouseover="link(this)" onmouseout="linkout(this)">mein Kalender</a><br>
-						<a href="#" onclick="wechsle_Gruppe()">Wechsle Eigener Kalender/Gruppenkalender</a><br>
 						<input type="button" value="Termin erstellen" onclick="window.location.href='TerminErstellung.html'" /><br>
-						<br>
 						<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
+						<br>
 						<select id = "todelete"></select><br>
 						<input type="button" value="Termin Löschen" onclick="deleteTermin()" href="#" /><br>
 					</div>
@@ -35,7 +34,7 @@
 					<hr>
 					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="setGruppe(NaN)" href="#">mein Kalender</a><br>
 					<br>
-					<a id="Gruppen" onclick="Gruppen(this)" >
+					<a id="Gruppen" onmouseover="link(this)" onmouseout="linkout(this)" onclick="Gruppen(this)" >
 						<p>Gruppen Anzeigen ></p>
 					</a>
 					<div id="aGruppen" style="display: none">
@@ -57,7 +56,7 @@
 					</div>
 				</section>
 				<section class=kasten>
-					<header id="Background" onclick="hide(this)">
+					<header id="Background" onmouseover="link(this)" onmouseout="linkout(this)" onclick="hide(this)">
 						<h1>Kalender Hintergrund</h1>
 					</header>
 					<hr>
