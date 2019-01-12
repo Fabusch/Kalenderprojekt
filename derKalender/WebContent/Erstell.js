@@ -276,6 +276,16 @@ function Kalender(GID){
 }
 
 
-function Person(object){
+function Person(){
+	object = document.getElementById("Person");
+	name = object.value;
+	liste = document.getElementById("Mitglieder");
+	LinkGruppe = document.createElement("a");
+	LinkGruppe.innerHTML = name
+	liste.appendChild(LinkGruppe);
 	
+	br = document.createElement("br");
+	liste.appendChild(br);
 }
+
+
