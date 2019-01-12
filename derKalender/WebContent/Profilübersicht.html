@@ -37,12 +37,14 @@
 					<hr>
 					<a onmouseover="link(this)" onmouseout="linkout(this)" onclick="Kalender(0)">mein Kalender</a><br>
 					<br>
-					<a id="Gruppen" onclick="Gruppen(this)" >
+					<a id="Gruppen" onmouseover="link(this)" onmouseout="linkout(this)" onclick="Gruppen(this)" >
 						<p>Gruppen Anzeigen ></p>
 					</a>
 					<div id="aGruppen" style="display: none">
 						<a>hier stehen nachher alle Gruppen</a><br>
 					</div>
+					<br><br>
+					<input type="button" value="Gruppe erstellen" onclick="window.location.href='GruppenErstellung.html'" /><br>
 					
 				</section>
 				
