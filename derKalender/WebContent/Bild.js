@@ -1,7 +1,7 @@
 var Nutzer;
 var GID;
-const Bild =[	{ username: "Max75", picture: ""}
-			];
+//const Bild =[	{ username: "Max75", picture: ""}
+//			];
 
 function loadall(){
 	var request = window.indexedDB.open("Accountdaten",1);
@@ -58,7 +58,7 @@ function getpicture(){
 	var file = document.getElementById('input').files[0];
 	var reader  = new FileReader();
 	var obj;
-    // it's onload event and you forgot (parameters)
+    // read input
     reader.onload = function(e)  {
         var image = document.createElement("img");
         // the result image data
@@ -67,7 +67,6 @@ function getpicture(){
 		addpicture(obj);
 		document.getElementById("profilbild").src = image.src;
      }
-     // you have to declare the file loading
 	 reader.readAsDataURL(file);
 }
 
@@ -81,7 +80,7 @@ function addpicture(obj) {
 		// Open a transaction to the database
 		var db = event.target.result;
 		var transaction = db.transaction(["Bild"], "readwrite");
-		// Put the blob into the dabase
+		// Put the img into the dabase
 		var request = transaction.objectStore("Bild").delete(window.Nutzer);
 		var request =transaction.objectStore("Bild").add({username: window.Nutzer, picture: obj});
 		request.onerror = function(event){

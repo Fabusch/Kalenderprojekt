@@ -118,7 +118,8 @@ function addGruppen(object){
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
 	};
 	request.onsuccess = function(event){
-		Db = request.result;
+		Db = request.result;	// Wenn die Datenbank vorhanden ist wird das hinzugefügt
+		
 		transaction = Db.transaction(["aktuell","User", "Gruppe"], "readwrite");
 		Users = transaction.objectStore("User");
 		Gruppe = transaction.objectStore("Gruppe");
@@ -131,18 +132,8 @@ function addGruppen(object){
 				request.onsuccess = function(event) {
 					if (request.result){
 						x = request.result.Gruppen
-						for(i=0; i<x.length; i++){	
-
-							LinkGruppe = document.createElement("a");	//link erstellen
-							object.appendChild(LinkGruppe);
-							
-							br = document.createElement("br");
-							object.appendChild(br);
-						}
 						for(i=0; i<x.length; i++){
-							g=x[i]
-							element = object.getElementsByTagName("a")[i]
-							addGruppe(g,element); //link eitragen
+							addGruppe(object, Gruppe,x[i]); //link erstellen und einfügen 
 						}
 					}else alert("fehler3");
 				}
@@ -156,30 +147,24 @@ function addGruppen(object){
 		}
 	}
 }
-
-function addGruppe(id,object){
-	//alert('ok')
-	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
-	request.onerror = function(event) {
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-	};
-	request.onsuccess = function(event){
-		Db = request.result;
-		transaction = Db.transaction(["Gruppe"], "readwrite");
-		Gruppe = transaction.objectStore("Gruppe");
-		request = Gruppe.get(id);	//Gruppen Datensatz
+function addGruppe(object, Grupp, i){
+	//alert(i)
+	var request = Grupp.get(i);	//Gruppen Datensatz
 	
-		request.onsuccess = function(event) {
-			if (request.result){
-				User = request.result	//username des eingeloggten User
-				name= request.result.name;	//Name der Gruppe
-				
-				object.innerHTML = name;
-				object.addEventListener('click', function(){	Kalender(id);	});
-			}
-		}
+	request.onsuccess = function(event) {
+		name= request.result.name;	//Name der Gruppe
 		
+		LinkGruppe = document.createElement("a");
+		LinkGruppe.innerHTML = name;
+		
+		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
+		LinkGruppe.addEventListener('mouseover', function(){	link(this);	});
+		LinkGruppe.addEventListener('mouseout', function(){	linkout(this);	});
+		
+		object.appendChild(LinkGruppe);
+		
+		br = document.createElement("br");
+		object.appendChild(br);
 	}
 }
 
@@ -206,7 +191,7 @@ function Kalender(GID){
 }
 
 Profil()
-//addGruppen()
+//addGruppen(document.getElementById("aGruppen"))
 function Profil(){
 	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
 	request.onerror = function(event) {

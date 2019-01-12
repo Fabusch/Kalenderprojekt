@@ -48,6 +48,7 @@ function einfügen(store, Werte){
 		}
 	}
 }
+
 function dbAendern(Id, Wert){	
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
@@ -178,7 +179,7 @@ function link(element){
 function linkout(element){
 	element.style.color= "black";
 }
- 
+
 //nav
 function Gruppen(event) {
 	var x = document.getElementById('a' +event.id);
@@ -203,9 +204,12 @@ function hide(event) {
 
 function addGruppen(object){
 	links = object.getElementsByTagName('a');
-	if(links.length != 0){			//links löschen
-			links[0].remove();
-	}
+	brs = object.getElementsByTagName('br');		
+	do{				//links löschen
+		links[0].remove();
+		brs[0].remove();
+	}while(0 != links.length);
+	
 	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
 	request.onerror = function(event) {
 		console.log("error: ");
@@ -242,15 +246,19 @@ function addGruppen(object){
 	}
 }
 function addGruppe(object, Grupp, i){
-	alert(i)
-	request = Grupp.get(i);	//Gruppen Datensatz
+	//alert(i)
+	var request = Grupp.get(i);	//Gruppen Datensatz
 	
 	request.onsuccess = function(event) {
 		name= request.result.name;	//Name der Gruppe
 		
 		LinkGruppe = document.createElement("a");
 		LinkGruppe.innerHTML = name;
+		
 		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
+		LinkGruppe.addEventListener('mouseover', function(){	link(this);	});
+		LinkGruppe.addEventListener('mouseout', function(){	linkout(this);	});
+		
 		object.appendChild(LinkGruppe);
 		
 		br = document.createElement("br");
