@@ -116,38 +116,30 @@ function erstellGruppe(){
 function erstellTermin(){
 	name= document.getElementById('terminname').value;
 	
-	aDatum= new Date( document.getElementById('Datum').value);
+	Gruppe= []
+	Mitglieder= document.getElementById('Mitglieder').getElementsByTagName('a');	//Teilnehmer
+	for(x=0; x <Mitglieder.length; x++){
+		Gruppe.push(Mitglieder[x].innerHTML);
+	}
+	
+	aDatum= new Date( document.getElementById('Datum').value); // Zeitpunkt Start
 	aTime = ""+document.getElementById('uhrzeit').value
 	aHour = parseInt(aTime[0]+aTime[1])
 	aMin = parseInt(aTime[3]+aTime[4])
 	aDatum.setHours(aHour)
 	aDatum.setMinutes(aMin)
 	
-	eDatum= new Date(document.getElementById('EndDatum').value);
+	eDatum= new Date(document.getElementById('EndDatum').value);// Zeitpunkt Ende
 	eTime = ""+document.getElementById('Enduhrzeit').value
 	eHour = parseInt(eTime[0]+eTime[1])
 	eMin = parseInt(eTime[3]+eTime[4])
 	eDatum.setHours(eHour)
 	eDatum.setMinutes(eMin)
 	
-	
-	var request = window.indexedDB.open("Accountdaten",1);
-	request.onerror = function(event) {	
-		console.log("error: ");
-		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
-	};
-	request.onsuccess = function(event){
-		Db = request.result;	
-		objectStore = Db.transaction(["aktuell"], "readwrite").objectStore("aktuell");
-		request = objectStore.get(1)
-		
-		request.onsuccess = function(event) {
-			if (request.result){
-				user = request.result.user
-				ID = einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
-//				alert("Termin erfolgreich erstellt")
-			}
-		}
+	for(x in Gruppe){
+		user=Gruppe[x]
+		ID = einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
+//		alert("Termin erfolgreich erstellt")
 	}	
 }
 
