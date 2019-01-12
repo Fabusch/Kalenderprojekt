@@ -95,7 +95,6 @@ function Gruppen(event) {
 		event.innerHTML= "Gruppen Anzeigen >"
 	}
 }
-
 function hide(event) {
 	var x = document.getElementById('a'+event.id);
 	if (x.style.display === "none") {
@@ -132,16 +131,18 @@ function addGruppen(object){
 				request.onsuccess = function(event) {
 					if (request.result){
 						x = request.result.Gruppen
-						for(i=0; i<x.length; i++){	//link erstellen
+						for(i=0; i<x.length; i++){	
 
-							LinkGruppe = document.createElement("a");
+							LinkGruppe = document.createElement("a");	//link erstellen
 							object.appendChild(LinkGruppe);
 							
 							br = document.createElement("br");
 							object.appendChild(br);
 						}
 						for(i=0; i<x.length; i++){
-							addGruppe(Gruppe,x[i],object.getElementsByTagName("a")[i]); //link eitragen
+							g=x[i]
+							element = object.getElementsByTagName("a")[i]
+							addGruppe(g,element); //link eitragen
 						}
 					}else alert("fehler3");
 				}
@@ -155,28 +156,29 @@ function addGruppen(object){
 		}
 	}
 }
-function wait(ms){
-	start = new Date();
-	now = null;
-	do { d2 = new Date(); }
-	while(now-start < ms);
-}
-function sleep(miliseconds) {
-	   var currentTime = new Date().getTime();
 
-	   while (currentTime + miliseconds >= new Date().getTime()) {
-	   }
-}
-
-function addGruppe(Grupp, i,object){
-	alert('ok')
-	request = Grupp.get(i);	//Gruppen Datensatz
+function addGruppe(id,object){
+	//alert('ok')
+	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
+	request.onerror = function(event) {
+		console.log("error: ");
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess = function(event){
+		Db = request.result;
+		transaction = Db.transaction(["Gruppe"], "readwrite");
+		Gruppe = transaction.objectStore("Gruppe");
+		request = Gruppe.get(id);	//Gruppen Datensatz
 	
-	request.onsuccess = function(event) {
-		name= request.result.name;	//Name der Gruppe
-		
-		object.innerHTML = name;
-		object.addEventListener('click', function(){	Kalender(i);	});
+		request.onsuccess = function(event) {
+			if (request.result){
+				User = request.result	//username des eingeloggten User
+				name= request.result.name;	//Name der Gruppe
+				
+				object.innerHTML = name;
+				object.addEventListener('click', function(){	Kalender(id);	});
+			}
+		}
 		
 	}
 }
