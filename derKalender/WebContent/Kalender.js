@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 var GID;	//diese Gruppe soll angezeigt werden
 var Nutzer; //dieser User hat den Kalender aufgerfen
 Group_Personal = true;
@@ -111,7 +111,7 @@ function addGruppe(object, Grupp, i){
 		LinkGruppe = document.createElement("a");
 		LinkGruppe.innerHTML = name;
 		
-		LinkGruppe.addEventListener('click', function(){	Kalender(i);	});
+		LinkGruppe.addEventListener('click', function(){	setGruppe(i);	});
 		LinkGruppe.addEventListener('mouseover', function(){	link(this);	});
 		LinkGruppe.addEventListener('mouseout', function(){	linkout(this);	});
 		
@@ -148,6 +148,7 @@ function GruppeKalender(){
 					Gruppenmitglieder = request.result.Mitglieder;	//username der Gruppenmitglieder
 					
 					Kalender();
+
 					if(ansicht == 2){
 						Group_Personal=false;
 						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
@@ -867,7 +868,7 @@ function weekofyear(aDate){
 	}
 }
 
-Group_Personal = true;
+
 
 function add_termine(){
 	var request = window.indexedDB.open("Accountdaten",1);
