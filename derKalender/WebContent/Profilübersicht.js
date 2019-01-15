@@ -191,7 +191,6 @@ function Kalender(GID){
 }
 
 Profil()
-//addGruppen(document.getElementById("aGruppen"))
 function Profil(){
 	request = window.indexedDB.open("Accountdaten",1);	//öffne indexedDB
 	request.onerror = function(event) {
@@ -207,6 +206,7 @@ function Profil(){
 		request = store.get(1);	//eingeloggten User
 	
 		request.onsuccess = function(event) {
+			window.Nutzer = request.result.username;
 			if (request.result){
 				request = objectStore.get(request.result.user);	//username des eingeloggten User
 				request.onsuccess = function(event) {
@@ -237,4 +237,81 @@ function logout(){
 			window.location.href='Login.html';
 		};
 	}
+}
+
+function usertermine(){
+	var request = window.indexedDB.open("Accountdaten",1);
+	var termine = []
+	//var teilnehmer = []
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		var db = event.target.result;
+		var transaction = db.transaction(['Termin'], "readonly");
+		var objectStore = transaction.objectStore('Termin');
+	        objectStore.openCursor().onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) {
+					if(cursor.value.username == window.Nutzer)
+					{	
+						console.log(cursor.value.TID);
+						termine.push(cursor.value);
+					}
+					cursor.continue();
+				}
+				else{
+					console.log("hhha")
+				    sorttermine(termine);
+				}
+		   };	
+	};
+}
+
+function swap(array,j){
+	var help1 = array[j];
+	var help2 = array[j + 1];
+	array[j] = help2;
+	array[j + 1] = help1;
+	return array;
+}
+
+function sorttermine(appointments){
+	var tosort = appointments;
+	//bubblesort for sorting ineffective but easy
+	for (var i = 0; i < tosort.length; i++) {
+		for(var j=0; j < tosort.length - 1; j++){
+			if (tosort[j].start.getTime() <  tosort[j+1].start.getTime()){
+				tosort = swap(tosort,j)
+			}
+		}
+	}
+	if(tosort.length<=3){
+		profilkalender(tosort);
+	}
+	if(appointments.length>3){
+		tosort = tosort.slice(tosort.length-3);
+		profilkalender(tosort);
+	}
+}
+function profilkalender(todisplay){
+	var i = 0;
+	todisplay.forEach(function(termin){
+		var Kalender = document.getElementById("kalender").firstElementChild;
+		var rows = Array.from(Kalender.rows);
+		rows = rows.slice(1);
+		var cells = Array.from(rows[i].cells);
+		cells[0].innerHTML = termin.name;
+		cells[1].innerHTML = termin.start.getDate()+'.'+(termin.start.getMonth()+1)+'.'+termin.start.getFullYear();
+		var stundennull= ''
+		var minutennull = ''
+		if(termin.start.getHours()<10){
+			stundennull = '0';
+		}
+		if(termin.start.getMinutes()<10){
+			minutennull = '0';
+		}
+		cells[2].innerHTML = stundennull+termin.start.getHours()+':'+minutennull+termin.start.getMinutes()+' Uhr';
+		i = i+1;
+	})
 }

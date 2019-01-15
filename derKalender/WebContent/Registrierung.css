@@ -62,7 +62,7 @@ header {
 	margin: auto;
 	display: block;
 	position: relative;
-	z-index: 5;                /* Hier gegebenenenfalls das Erstellte KalenderIcon platzieren statt Conan.
+	z-index: 5;
 }
 
 div {

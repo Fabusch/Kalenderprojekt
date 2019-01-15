@@ -1,6 +1,7 @@
 ﻿
 var GID;	//diese Gruppe soll angezeigt werden
 var Nutzer; //dieser User hat den Kalender aufgerfen
+Group_Personal = true;
 
 function aktuell(){
 	var request = window.indexedDB.open("Accountdaten",1);
@@ -148,6 +149,7 @@ function GruppeKalender(){
 					
 					Kalender();
 					if(ansicht == 2){
+						Group_Personal=false;
 						tabelle = document.getElementById('kalender').getElementsByTagName('table')[0];
 						
 						for (var p=0; p<Gruppenmitglieder.length;p++) {		//Eine Spallte für jedes Gruppenmitglied
@@ -407,6 +409,7 @@ function linkout(element){
 }
 
 function Kalender(){
+	Group_Personal=true;
 	tabellen = document.getElementById('kalender').getElementsByTagName('table');
 	if(tabellen.length != 0){			//Tabellen löschen
 		do{
@@ -867,9 +870,6 @@ function weekofyear(aDate){
 Group_Personal = true;
 
 function add_termine(){
-	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
- 	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
@@ -881,18 +881,14 @@ function add_termine(){
 		objectStore.openCursor().onsuccess = function(event) {
 		  var cursor = event.target.result;
 		  if(cursor) {
-			addtooltiptermin(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID);
-			addtoselect(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.GID,cursor.value.TID);
+			addtooltiptermin(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username);
+			addtoselect(cursor.value.start,cursor.value.ende,cursor.value.name,cursor.value.username,cursor.value.TID);
 			cursor.continue();
 		  } 
 		};
 	};
 }
 function userischild(kind){
-	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-	 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-	 
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
@@ -946,20 +942,106 @@ function month_to_number(month){
 	}
 	return 0;
 }
-function addtooltiptermin(start,ende,name,username,GID){
-	if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
-		if(ansicht==1){
-			addtooltip_week(start,ende,name);
+function isingroup(username,resolve){
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		db = event.target.result;
+		var transaction = db.transaction(['Gruppe'], "readwrite");
+		var objectStore = transaction.objectStore('Gruppe');
+		var request = objectStore.get(window.GID);
+		request.onsuccess= function(){
+			if(request.result)
+				if(request.result.Mitglieder.includes(username)){
+				return resolve(true);
+			}
+			return resolve(false);
+		};
+		request.onerror = function(){
+			return resolve(false);
 		}
-		else if(ansicht==2){
-			addtooltip_month(start,ende,name);
+	}
+
+}
+function addtooltiptermin(start,ende,name,username){
+	var p = new Promise(function(resolve,reject){
+		func = isingroup(username,resolve);
+	})
+	p.then(function(ingroup){
+		if(ingroup && ansicht == 2 && window.Group_Personal == false){
+			addtooltip_group(start,ende,name,username);
 		}
-		else if(ansicht == 3){
-			addtooltip_year(start,ende,name);
+		else if( username == window.Nutzer||userischild(username)){
+			if(ansicht==1){
+				addtooltip_week(start,ende,name);
+			}
+			else if(ansicht==2){
+					addtooltip_month(start,ende,name);
+			}
+			else if(ansicht == 3){
+				addtooltip_year(start,ende,name);
+			}
+		}
+	})
+}
+function usernametoname(username,resolve){
+	var request = window.indexedDB.open("Accountdaten",1);
+	request.onerror = function(event) {
+		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
+	};
+	request.onsuccess= function(event){
+		db = event.target.result;
+		var transaction = db.transaction(['User'], "readwrite");
+		var objectStore = transaction.objectStore('User');
+		var request = objectStore.get(username);
+		request.onsuccess= function(){
+			if(request.result){
+				return resolve(request.result.name);
+			}
+			else{
+				return resolve('');
+			}
+		};
+		request.onerror = function(){
+			return resolve('');
 		}
 	}
 }
+function addtooltip_group(start,ende,name,username){
 
+	var Kalender = document.getElementById('kalender').childNodes[3];
+	kOverHead = document.getElementById('kOverHead');
+
+	var year = kOverHead.childNodes[1].childNodes[0].data;
+	var month = month_to_number(Kalender.caption.innerHTML);
+	var Wochen = Array.from(Kalender.rows);
+	Wochen = Wochen.slice(1);
+	Wochen.forEach(function(Tag){
+		var day = Tag.cells[0].innerHTML;
+		var aDate = new Date(year,month,day,0,0)
+		//get user row
+		var p = new Promise(function(resolve,reject){
+			func = usernametoname(username,resolve);
+		})
+		p.then(function(result){
+			var i = 0;
+			for(i;i<Kalender.rows[0].cells.length;i++){
+				if(result == Kalender.rows[0].cells[i].innerHTML){
+					break;
+				}
+			}
+			var Now=Tag.cells[i];
+			start=new Date(start.getFullYear(),start.getMonth(),start.getDate(),0,0);
+			ende=new Date(ende.getFullYear(),ende.getMonth(),ende.getDate(),23,59);
+			if(isinrange(start,ende,aDate)){
+				Now.innerHTML=name;
+			}
+		})
+
+	})
+}
 function addtooltip_week(start,ende,name){
 	var Kalender = Array.from(document.getElementById('kalender').childNodes[3].rows);
 	var Woche = Array.from(Kalender[1].cells).slice(1);
@@ -1037,8 +1119,9 @@ function addtooltip_year(start,ende,name){
 }
 
 function isinrange(start,ende,aDate){
-	if ((aDate.getTime() >= start.getTime()) && (aDate.getTime() <= ende.getTime()))
+	if ((aDate.getTime() >= start.getTime()) && (aDate.getTime() <= ende.getTime())){
 		return true;
+	}
 	else{
 		return false;
 	}
@@ -1066,8 +1149,8 @@ function addtooltip(text,cell){
 		}
 	}
 }
-function addtoselect(start,ende,name,username,GID,TD){
-	if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == false && GID == window.GID)||(window.Group_Personal == true && userischild(username))){
+function addtoselect(start,ende,name,username,TD){
+	if((window.Group_Personal == true && username == window.Nutzer)||(window.Group_Personal == true && userischild(username))){
 		var select = document.getElementById("todelete");
 		var option = document.createElement("option");
 		option.innerHTML=name+'\n\r';
@@ -1081,9 +1164,6 @@ function addtoselect(start,ende,name,username,GID,TD){
 function deleteTermin(){
 	var select = document.getElementById("todelete");
 	var TD = select.value.split('|').pop();
-	window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
- 	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
 		alert("Ihr Browser muss die Datenbank Index unterstützen um die Applikation nutzen zu können");
@@ -1103,5 +1183,4 @@ function deleteTermin(){
 }
 function wechsle_Gruppe(){
 	window.Group_Personal = !window.Group_Personal;
-	Kalender();
 }

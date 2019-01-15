@@ -156,7 +156,6 @@ function erstellTermin(){
 		alert ("Es wurde kein Name eingegeben.")
 }
 
-
 function logout(){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onerror = function(event) {
