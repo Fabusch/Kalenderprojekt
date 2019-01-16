@@ -110,6 +110,8 @@ function erstellGruppe(){
 						user= Gruppe[x]
 						dbAendern(user, id)
 					}
+					text= document.getElementsByTagName('font')[0];
+					text.innerHTML="Gruppe "+name+" wurde erstellt"
 //					alert("Gruppe "+name+" wurde erstellt");
 				}
 			};
@@ -147,8 +149,11 @@ function erstellTermin(){
 			for(x in Gruppe){
 				user=Gruppe[x]
 				ID = einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
-//				alert("Termin erfolgreich erstellt")
 			}
+
+			text= document.getElementsByTagName('font')[0];
+			text.innerHTML="Termin "+name+" wurde erstellt"
+//			alert("Termin erfolgreich erstellt")
 		}
 		else
 			alert ("Bitte trage Datum und Uhrzeit beim Start und End Zeitpunkt ein")
