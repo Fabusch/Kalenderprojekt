@@ -4,10 +4,6 @@ function db(){
 	var request = window.indexedDB.open("Accountdaten",1);
 	request.onupgradeneeded = function(event){
 		var Db = event.target.result;
-		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
-		ObjectStore.add({id:1, user:NaN, Gruppe: NaN });
-		
-		var Db = event.target.result;
 		var ObjectStore = Db.createObjectStore("User", {keyPath: "username"});
 		for (var u in User){
 			ObjectStore.add(User[u]);
@@ -27,6 +23,10 @@ function db(){
 		for (var b in Bild){
 			ObjectStore.add(Bild[b]);
 		}
+		var Db = event.target.result;
+		ObjectStore = Db.createObjectStore("aktuell", {keyPath: "id"});
+		ObjectStore.add({id:1, user:NaN, Gruppe: NaN });
+		
 	};
 	request.onerror = function(event) {	
 		console.log("error: ");
