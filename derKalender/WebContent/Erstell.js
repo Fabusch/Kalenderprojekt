@@ -111,12 +111,12 @@ function erstellGruppe(){
 						dbAendern(user, id)
 					}
 					text= document.getElementsByTagName('font')[0];
-					text.innerHTML="Gruppe "+name+" wurde erstellt"
+					text.innerHTML="Gruppe " +'&quot'+name+'&quot'+ " wurde erstellt"
 //					alert("Gruppe "+name+" wurde erstellt");
 				}
 			};
 			request.onerror = function(event) {
-				alert("Der "+"Gruppe"+" Datensatz wurde NICHT hinzugefügt.");
+				alert("Der Gruppen Datensatz wurde NICHT hinzugefügt.");
 			}
 		}
 	}
@@ -152,7 +152,7 @@ function erstellTermin(){
 			}
 
 			text= document.getElementsByTagName('font')[0];
-			text.innerHTML="Termin "+name+" wurde erstellt"
+			text.innerHTML="Termin "+ 	'&quot'+name+'&quot'+ " wurde erstellt" ;
 //			alert("Termin erfolgreich erstellt")
 		}
 		else
