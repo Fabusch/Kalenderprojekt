@@ -110,7 +110,7 @@ function erstellGruppe(){
 						user= Gruppe[x]
 						dbAendern(user, id)
 					}
-					alert("Gruppe "+name+" wurde erstellt");
+//					alert("Gruppe "+name+" wurde erstellt");
 				}
 			};
 			request.onerror = function(event) {
