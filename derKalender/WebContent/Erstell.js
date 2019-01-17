@@ -106,12 +106,12 @@ function erstellGruppe(){
 				request = store.count();
 				request.onsuccess = function() {
 					id = request.result;
+					text= document.getElementsByTagName('font')[0];
+					text.innerHTML="Gruppe " +'&quot'+name+'&quot'+ " wurde erstellt"
 					for(x=0; x <Gruppe.length; x++){
 						user= Gruppe[x]
 						dbAendern(user, id)
 					}
-					text= document.getElementsByTagName('font')[0];
-					text.innerHTML="Gruppe " +'&quot'+name+'&quot'+ " wurde erstellt"
 //					alert("Gruppe "+name+" wurde erstellt");
 				}
 			};
@@ -146,13 +146,14 @@ function erstellTermin(){
 		eDatum.setMinutes(eMin)
 	
 		if( !(""+aDatum =="Invalid Date" && ""+eDatum =="Invalid Date")){
+
+			text= document.getElementsByTagName('font')[0];
+			text.innerHTML="Termin "+ 	'&quot'+name+'&quot'+ " wurde erstellt" ;
 			for(x in Gruppe){
 				user=Gruppe[x]
 				ID = einfügen("Termin",	{name: name, username: user, start: aDatum, ende: eDatum });
 			}
 
-			text= document.getElementsByTagName('font')[0];
-			text.innerHTML="Termin "+ 	'&quot'+name+'&quot'+ " wurde erstellt" ;
 //			alert("Termin erfolgreich erstellt")
 		}
 		else
